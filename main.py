@@ -1,10 +1,14 @@
 """
-scrape-demo-2_1_5.py
+scrape-demo-2_9_9.py
 
-A modified version of scrape demo 2.1. demo 2.1.5 sorts the list.
+A modified version of scrape demo 2.1.5. Version 2.9.9 extracts
+the product titles as well and stores them in a list.
+Version 3 will store the prices and titles in a dictionary.
 
 Created by Charles Bos on 2014-11-26
 """
+
+# Note: not yet working.
 
 from bs4 import BeautifulSoup
 import requests
@@ -14,24 +18,41 @@ url = "http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792649&N
 response = requests.get(url)
 
 htmlString = str(BeautifulSoup(response.content))
+tempA = htmlString[:]
+tempB = htmlString[:]
 
-priceStart = htmlString.find('£') + 1
+priceStart = tempA.find('£') + 1
 priceEnd = priceStart + 4
-priceTerminus = htmlString.rfind('£')
-priceExtract = htmlString[priceStart:priceEnd]
+priceExtract = tempA[priceStart:priceEnd]
+priceTerminus = tempA.rfind('£') + 1
 priceList = [priceExtract]
-
 
 if priceStart == -1 : print("No prices here. Sorry.")
 else :
     while priceStart < priceTerminus :
-        htmlString = str(htmlString[priceEnd:])
-        priceStart = htmlString.find('£') + 1
+        tempA = str(tempA[priceEnd:])
+        priceStart = tempA.find('£') + 1
         priceEnd = priceStart + 4
-        priceTerminus = htmlString.rfind('£')
-        priceExtract = htmlString[priceStart:priceEnd]
+        priceExtract = tempA[priceStart:priceEnd]
+        priceTerminus = tempA.rfind('£') + 1
         priceList.extend([priceExtract])
 
-priceListSorted = sorted(priceList)
+titleStart = tempB.find('<span data-title="true">') + 24
+titleEnd = tempB.find('</span></a></h2>')
+titleExtract = tempB[titleStart:titleEnd]
+titleTerminus = len(priceList)
+titleList = [titleExtract]
 
-print(priceListSorted)
+if titleStart == -1 : print("No titles here. Sorry.")
+else :
+    while titleTerminus > 1 :
+        tempB = str(tempB[titleEnd + 1:])
+        titleStart = tempB.find('<span data-title="true">')
+        titleEnd = tempB.find('</span></a></h2>')
+        titleExtract = tempB[titleStart + 24:titleEnd]
+        titleTerminus = titleTerminus - 1
+        titleList.extend([titleExtract])
+        print('worked')
+
+print(priceList)
+print(titleList)
