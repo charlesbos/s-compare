@@ -1,10 +1,9 @@
 """
-scrape-demo-2_1.py
+scrape-demo-2_1_5.py
 
-A modified version of scrape-demo-2 - scrape demo 2.1
-grabs bottled water prices from the Tesco groceries page, and adds them to a list.
+A modified version of scrape demo 2.1. demo 2.1.5 sorts the list.
 
-Created by Charles Bos
+Created by Charles Bos on 2014-11-26
 """
 
 from bs4 import BeautifulSoup
@@ -16,8 +15,8 @@ response = requests.get(url)
 
 htmlString = str(BeautifulSoup(response.content))
 
-priceStart = htmlString.find('£')
-priceEnd = priceStart + 5
+priceStart = htmlString.find('£') + 1
+priceEnd = priceStart + 4
 priceTerminus = htmlString.rfind('£')
 priceExtract = htmlString[priceStart:priceEnd]
 priceList = [priceExtract]
@@ -27,10 +26,12 @@ if priceStart == -1 : print("No prices here. Sorry.")
 else :
     while priceStart < priceTerminus :
         htmlString = str(htmlString[priceEnd:])
-        priceStart = htmlString.find('£')
-        priceEnd = priceStart + 5
+        priceStart = htmlString.find('£') + 1
+        priceEnd = priceStart + 4
         priceTerminus = htmlString.rfind('£')
         priceExtract = htmlString[priceStart:priceEnd]
         priceList.extend([priceExtract])
 
-print(priceList)
+priceListSorted = sorted(priceList)
+
+print(priceListSorted)
