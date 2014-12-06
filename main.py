@@ -1,9 +1,9 @@
 """
-scrape-demo-3_0_0.py
+scrape-demo-3_0_1.py
 
-Version 3.0.0 is much improved. See CHANGELOG on Onedrive for a full list of changes.
+See CHANGELOG on Onedrive for a full list of changes.
 
-Created by Charles Bos
+Created by Charles Bos on 2014-01-02
 """
 
 from bs4 import BeautifulSoup
@@ -16,36 +16,45 @@ response = requests.get(url)
 
 htmlString = str(BeautifulSoup(response.content))
 
+# Extract prices
 priceStart = htmlString.find('<span class="linePrice">£') + 25
-priceEnd = priceStart + 4
-priceExtract = htmlString[priceStart:priceEnd]
-priceList = [priceExtract]
 
-if priceStart == -1 : print("No prices here. Sorry.")
+if priceStart == -1 :
+    print("No prices here. Sorry.")
+    quit()
 else :
+    priceEnd = priceStart + 4
+    priceExtract = htmlString[priceStart:priceEnd]
+    priceList = [priceExtract]
+    
     while priceStart != 24 :
         priceStart = htmlString.find('<span class="linePrice">£', priceEnd) + 25
         priceEnd = priceStart + 4
         priceExtract = htmlString[priceStart:priceEnd]
         priceList.extend([priceExtract])
 
-priceList = priceList[:-1]
+    priceList = priceList[:-1]
 
+# Extract titles
 titleStart = htmlString.find('<span data-title="true">') + 24
-titleEnd = htmlString.find('</span>')
-titleExtract = htmlString[titleStart:titleEnd]
-titleList = [titleExtract]
 
-if titleStart == -1 : print("No titles here. Sorry.")
+if titleStart == -1 :
+    print("No titles here. Sorry.")
+    quit()
 else :
+    titleEnd = htmlString.find('</span>')
+    titleExtract = htmlString[titleStart:titleEnd]
+    titleList = [titleExtract]
+
     while titleStart != 23 :
         titleStart = htmlString.find('<span data-title="true">', titleEnd) + 24
         titleEnd = htmlString.find('</span></a></h2>', titleStart)
         titleExtract = htmlString[titleStart:titleEnd]
         titleList.extend([titleExtract])
 
-titleList = titleList[1:-1]
+    titleList = titleList[1:-1]
 
+# Turn the two lists into a dictionary and print it line by line
 pricesComparison = ({titleList[0] : priceList[0]})
 
 priceListLength = len(priceList)
