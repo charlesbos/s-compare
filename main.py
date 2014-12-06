@@ -1,58 +1,77 @@
 """
-scrape-demo-2_9_9.py
+scrape-demo-3_0_0.py
 
-A modified version of scrape demo 2.1.5. Version 2.9.9 extracts
-the product titles as well and stores them in a list.
-Version 3 will store the prices and titles in a dictionary.
+Version 3.0.0 is much improved. See CHANGELOG on Onedrive for a full list of changes.
 
-Created by Charles Bos on 2014-11-26
+Created by Charles Bos
 """
-
-# Note: not yet working.
 
 from bs4 import BeautifulSoup
 import requests
+from operator import itemgetter
 
 url = "http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792649&Ne=4294793660"
 
 response = requests.get(url)
 
 htmlString = str(BeautifulSoup(response.content))
-tempA = htmlString[:]
-tempB = htmlString[:]
 
-priceStart = tempA.find('£') + 1
+priceStart = htmlString.find('<span class="linePrice">£') + 25
 priceEnd = priceStart + 4
-priceExtract = tempA[priceStart:priceEnd]
-priceTerminus = tempA.rfind('£') + 1
+priceExtract = htmlString[priceStart:priceEnd]
 priceList = [priceExtract]
 
 if priceStart == -1 : print("No prices here. Sorry.")
 else :
-    while priceStart < priceTerminus :
-        tempA = str(tempA[priceEnd:])
-        priceStart = tempA.find('£') + 1
+    while priceStart != 24 :
+        priceStart = htmlString.find('<span class="linePrice">£', priceEnd) + 25
         priceEnd = priceStart + 4
-        priceExtract = tempA[priceStart:priceEnd]
-        priceTerminus = tempA.rfind('£') + 1
+        priceExtract = htmlString[priceStart:priceEnd]
         priceList.extend([priceExtract])
 
-titleStart = tempB.find('<span data-title="true">') + 24
-titleEnd = tempB.find('</span></a></h2>')
-titleExtract = tempB[titleStart:titleEnd]
-titleTerminus = len(priceList)
+priceList = priceList[:-1]
+
+titleStart = htmlString.find('<span data-title="true">') + 24
+titleEnd = htmlString.find('</span>')
+titleExtract = htmlString[titleStart:titleEnd]
 titleList = [titleExtract]
 
 if titleStart == -1 : print("No titles here. Sorry.")
 else :
-    while titleTerminus > 1 :
-        tempB = str(tempB[titleEnd + 1:])
-        titleStart = tempB.find('<span data-title="true">')
-        titleEnd = tempB.find('</span></a></h2>')
-        titleExtract = tempB[titleStart + 24:titleEnd]
-        titleTerminus = titleTerminus - 1
+    while titleStart != 23 :
+        titleStart = htmlString.find('<span data-title="true">', titleEnd) + 24
+        titleEnd = htmlString.find('</span></a></h2>', titleStart)
+        titleExtract = htmlString[titleStart:titleEnd]
         titleList.extend([titleExtract])
-        print('worked')
 
-print(priceList)
-print(titleList)
+titleList = titleList[1:-1]
+
+pricesComparison = ({titleList[0] : priceList[0]})
+
+priceListLength = len(priceList)
+titleListLength = len(titleList)
+
+counter = 1
+
+if priceListLength != titleListLength :
+    print("Error. Lengths of prices and item titles do not match.")
+else:
+    while counter != priceListLength :
+        pricesComparison.update({titleList[counter] : priceList[counter]})
+        counter = counter + 1
+
+    pricesComparisonSorted = sorted(pricesComparison.items(), key=itemgetter(1))
+
+    counter = 0
+
+    while counter != priceListLength :
+        print(pricesComparisonSorted[counter])
+        counter = counter + 1
+
+
+                            
+
+
+                    
+
+
