@@ -1,0 +1,49 @@
+VERSION: 1.0.0
+CHANGES: Downloads html from a given URL, extracts the links and then prints them.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-14
+
+VERSION: 2.0.0
+CHANGES: A re-write of version 1.0.0. This version downloads html for the first page of Tesco’s price listing for bottled water. Prices are extracted and then printed.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-26
+
+VERSION: 2.1.0
+CHANGES: Improvement on 2.0.0. With this version, the prices are added to a list and the list is then printed.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-26
+
+VERSION: 2.1.5
+CHANGES: Improvement on 2.1.0. This version prints a sorted version of the list.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-26
+
+VERSION: 2.9.9
+CHANGES: A non-functional re-write of version 2.1.5. The goal of this program was to extract the item titles and well as prices and add them to a separate list.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-26
+
+VERSION: 3.0.0
+CHANGES: A re-write of version 2.9.9. This version extracts the prices and item titles and stores them in two lists. The lists are used to create a dictionary, the dictionary is sorted by price then each entry of the dictionary is printed. The following bug is corrected: versions 2.0.0-2.9.9 extracted all prices but not all of these were relevant. This version only extracts the line price.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-11-28
+
+VERSION: 3.0.1
+CHANGES: Very minor improvement on 3.0.0. A few lines of code have been reordered so errors involving missing data will be addressed from the very first find operation.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-02
+
+VERSION: 3.9.0
+CHANGES: Significant re-write. The 3.0.1 code has been turned into modules: one for Tesco and one for Sainsbury's. More can be added as we go along. The main.py file will import code from the modules and execute it. The code to grab the html has also been outsourced to a module: fetcher.py as it's not possible to have it in main (due to dependency issues) and I don't want to copy the fetch code into the shop modules as that would be rather messy. 
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-05
+
+
