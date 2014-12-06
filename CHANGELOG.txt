@@ -52,4 +52,10 @@ CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-06
 
+VERSION: 3.9.2
+CHANGES: Bump to 3.9.2 to add .txt extension to the license file
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-06
+
 
