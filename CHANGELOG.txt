@@ -46,4 +46,10 @@ CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-05
 
+VERSION: 3.9.1
+CHANGES: Bump to 3.9.1 to replace word doc changelog with this text file
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-06
+
 
