@@ -1,35 +1,30 @@
 """
-A very small demo program to kick off the coding process for this project.
-It downloads the html for a given url and the parses that into a string we
-can work with. Then it extracts links that behin with www. and prints them.
-As some links can be very, very long, I've truncated them to a manageable
-length. It's a bit crude but at least it's a start.
+scrape-demo-2.py
 
-Created by Charles Bos on 2014/11/13
+A modified version of the original demo - this one
+grabs bottled water prices from the Tesco groceries page and print them.
+
+Created by Charles Bos
 """
 
 from bs4 import BeautifulSoup
 import requests
 
-print("Note: An entered URL must begin with http:// or https://")
-print("Note: If a URL cannot be found, the program will hang and then crash")
-url = input("\nPlease enter a URL: ")
+url = "http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792649&Ne=4294793660"
 
 response = requests.get(url)
 
 htmlString = str(BeautifulSoup(response.content))
 
-findLinks = htmlString.find('www.')
-findLinkEnds = htmlString.find('"',findLinks)
-linkExtract = htmlString[findLinks:findLinkEnds]
-linkFormat = linkExtract.partition(' ')
+priceStart = htmlString.find('£')
+priceEnd = priceStart + 5
+priceExtract = htmlString[priceStart:priceEnd]
 
-if findLinks == -1 : print("No links here. Sorry.")
+if priceStart == -1 : print("No prices here. Sorry.")
 else :
-    while htmlString[findLinkEnds] != htmlString[-1] :
-        print(str(linkFormat[:1]).replace(',', ' ').replace('"', '').replace("'", '').strip('()')[:150],'\n')
-        htmlString = str(htmlString[findLinkEnds:])
-        findLinks = htmlString.find('www.')
-        findLinkEnds = htmlString.find('"',findLinks)
-        linkExtract = htmlString[findLinks:findLinkEnds]
-        linkFormat = linkExtract.partition(' ')
+    while htmlString[priceEnd] != htmlString[-1] :
+        print(priceExtract)
+        htmlString = str(htmlString[priceEnd:])
+        priceStart = htmlString.find('£')
+        priceEnd = priceStart + 5
+        priceExtract = htmlString[priceStart:priceEnd]
