@@ -1,8 +1,8 @@
 """
-scrape-demo-2.py
+scrape-demo-2_1.py
 
-A modified version of the original demo - this one
-grabs bottled water prices from the Tesco groceries page and print them.
+A modified version of scrape-demo-2 - scrape demo 2.1
+grabs bottled water prices from the Tesco groceries page, and adds them to a list.
 
 Created by Charles Bos
 """
@@ -18,13 +18,19 @@ htmlString = str(BeautifulSoup(response.content))
 
 priceStart = htmlString.find('£')
 priceEnd = priceStart + 5
+priceTerminus = htmlString.rfind('£')
 priceExtract = htmlString[priceStart:priceEnd]
+priceList = [priceExtract]
+
 
 if priceStart == -1 : print("No prices here. Sorry.")
 else :
-    while htmlString[priceEnd] != htmlString[-1] :
-        print(priceExtract)
+    while priceStart < priceTerminus :
         htmlString = str(htmlString[priceEnd:])
         priceStart = htmlString.find('£')
         priceEnd = priceStart + 5
+        priceTerminus = htmlString.rfind('£')
         priceExtract = htmlString[priceStart:priceEnd]
+        priceList.extend([priceExtract])
+
+print(priceList)
