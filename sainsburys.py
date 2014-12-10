@@ -76,18 +76,10 @@ def sainsburysData() :
     titleList = sorted(titleList)
 
     # Turn the two lists into a dictionary and return it
-    pricesComparison = ({titleList[0] : priceList[0]})
-
-    priceListLength = len(priceList)
-    titleListLength = len(titleList)
-
-    counter = 0
-
-    if priceListLength != titleListLength :
+    if len(priceList) != len(titleList) :
         print("Error. Lengths of prices and item titles do not match.")
     else :
         pricesComparison = dict(zip(titleList, priceList))
-
         return sorted(pricesComparison.items(), key=itemgetter(1))
 
 
