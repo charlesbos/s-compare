@@ -15,6 +15,6 @@ print("The choices are: Tesco (t) and Sainsburys (s)")
 chooseShop = input("[t/s]: ")
 
 if chooseShop == 't' :
-    tescoData()
+    print(tescoData())
 if chooseShop == 's' :
     print(sainsburysData())

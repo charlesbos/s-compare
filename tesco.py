@@ -54,28 +54,12 @@ def tescoData() :
 
         titleList = titleList[1:-1]
 
-    # Turn the two lists into a dictionary and print it line by line
-    pricesComparison = ({titleList[0] : priceList[0]})
-
-    priceListLength = len(priceList)
-    titleListLength = len(titleList)
-
-    counter = 1
-
-    if priceListLength != titleListLength :
+    # Turn the two lists into a dictionary and return it
+    if len(priceList) != len(titleList) :
         print("Error. Lengths of prices and item titles do not match.")
-    else:
-        while counter != priceListLength :
-            pricesComparison.update({titleList[counter] : priceList[counter]})
-            counter = counter + 1
-
-        pricesComparisonSorted = sorted(pricesComparison.items(), key=itemgetter(1))
-
-        counter = 0
-
-        while counter != priceListLength :
-            print(pricesComparisonSorted[counter])
-            counter = counter + 1
+    else :
+        pricesComparison = dict(zip(titleList, priceList))
+        return sorted(pricesComparison.items(), key=itemgetter(1))
 
 
                             
