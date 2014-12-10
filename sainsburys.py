@@ -41,42 +41,54 @@ def sainsburysData() :
     if titleStart == -1 :
         print("No titles here. Sorry.")
     else :
-        titleEnd = htmlString.find('<img alt=')
-        titleInitialExtract = htmlString[titleStart:titleEnd]
-        titleFinalExtract = titleInitialExtract.partition(" ")[0][:-3]
-        titleList = [titleFinalExtract]
+        titleEnd = htmlString.find('<img alt=', titleStart) + 9
+        titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+        titleList = [titleExtract]
 
-        while titleStart != 66 :
-            titleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', titleEnd) + 67
-            titleEnd = htmlString.find('<img alt=', titleStart)
-            titleInitialExtract = htmlString[titleStart:titleEnd]
-            titleFinalExtract = titleInitialExtract.partition(" ")[0][:-3]
-            titleList.extend([titleFinalExtract])
+        while titleStart != 75 :
+            titleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', titleEnd) + 76
+            titleEnd = htmlString.find('<img alt=', titleStart) + 9
+            titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+            titleList.extend([titleExtract])
 
-        titleList = titleList[1:]
+        titleList = titleList[:-1] 
 
-    # Turn the two lists into a dictionary and print it line by line
+    # Extract promotion titles
+    proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''') + 57
+
+    if proTitleStart == -1 :
+        print("No titles here. Sorry.")
+    else:
+        proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
+        proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+        proTitleList = [proTitleExtract]
+
+        while proTitleStart != 65 :
+            proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd) + 66
+            proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
+            proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+            proTitleList.extend([proTitleExtract])
+
+        proTitleList = proTitleList[:-1]
+
+    # Merge the lists
+    titleList = titleList + proTitleList
+    titleList = sorted(titleList)
+
+    # Turn the two lists into a dictionary and return it
     pricesComparison = ({titleList[0] : priceList[0]})
 
     priceListLength = len(priceList)
     titleListLength = len(titleList)
 
-    counter = 1
+    counter = 0
 
     if priceListLength != titleListLength :
         print("Error. Lengths of prices and item titles do not match.")
-    else:
-        while counter != priceListLength :
-            pricesComparison.update({titleList[counter] : priceList[counter]})
-            counter = counter + 1
+    else :
+        pricesComparison = dict(zip(titleList, priceList))
 
-        pricesComparisonSorted = sorted(pricesComparison.items(), key=itemgetter(1))
-
-        counter = 0
-
-        while counter != priceListLength :
-            print(pricesComparisonSorted[counter])
-            counter = counter + 1
+        return sorted(pricesComparison.items(), key=itemgetter(1))
 
 
                             

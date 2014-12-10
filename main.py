@@ -17,4 +17,4 @@ chooseShop = input("[t/s]: ")
 if chooseShop == 't' :
     tescoData()
 if chooseShop == 's' :
-    sainsburysData()
+    print(sainsburysData())
