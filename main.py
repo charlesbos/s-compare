@@ -9,12 +9,10 @@ Created by Charles Bos on 2014-12-05
 from tesco import tescoData
 from sainsburys import sainsburysData
 
-print("Please choose a shop.")
-print("The choices are: Tesco (t) and Sainsburys (s)")
+tescoPrices = tescoData()
+sainsburysPrices = sainsburysData()
 
-chooseShop = input("[t/s]: ")
+print("The cheapest water from Tesco:", tescoPrices[0])
+print("The cheapest water from Sainsbury's:", sainsburysPrices[0])
 
-if chooseShop == 't' :
-    print(tescoData())
-if chooseShop == 's' :
-    print(sainsburysData())
+print("\nThe cheapest water overall:", min([tescoPrices[0], sainsburysPrices[0]]))
