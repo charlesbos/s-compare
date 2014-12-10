@@ -58,4 +58,8 @@ CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-06
 
-
+VERSION: 3.9.3
+CHANGES: Important fixes for the Tesco and Sainsbury's modules. Scripts for starting the program in Windows and Unix platforms also added.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-10
