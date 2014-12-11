@@ -9,13 +9,14 @@ Created by Charles Bos
 from operator import itemgetter
 from fetcher import htmlFetch
 
-def sainsburysData() :
+def sainsburysData(url) :
     '''
     Extract Sainsburys prices and item titles
-    No arguments accepted
+    One argument accepted, a url which can be passed to the htmlFetch function
+    from the fetcher module.
     '''
 
-    htmlString = htmlFetch("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0")
+    htmlString = htmlFetch(url)
     
     # Extract prices
     priceStart = htmlString.find('<p class="pricePerUnit">') + 24

@@ -9,13 +9,14 @@ Created by Charles Bos
 from operator import itemgetter
 from fetcher import htmlFetch
 
-def tescoData() :
+def tescoData(url) :
     '''
     Extract Tesco line prices and item titles
-    No arguments accepted
+    One argument accepted, a url which can be passed to the htmlFetch function
+    from the fetcher module.
     '''
 
-    htmlString = htmlFetch("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660")
+    htmlString = htmlFetch(url)
     
     # Extract prices
     priceStart = htmlString.find('<span class="linePrice">£') + 24

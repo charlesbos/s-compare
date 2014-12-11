@@ -9,8 +9,8 @@ Created by Charles Bos on 2014-12-05
 from tesco import tescoData
 from sainsburys import sainsburysData
 
-tescoPrices = tescoData()
-sainsburysPrices = sainsburysData()
+tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660")
+sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0")
 
 print("The cheapest water from Tesco:", tescoPrices[0])
 print("The cheapest water from Sainsbury's:", sainsburysPrices[0])
