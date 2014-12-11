@@ -17,5 +17,4 @@ def htmlFetch(url) :
     One argument accepted, the url.
     '''
     response = requests.get(url)
-    htmlString = str(BeautifulSoup(response.content))
-    return htmlString
+    return str(BeautifulSoup(response.content))
