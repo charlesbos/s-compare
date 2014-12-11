@@ -7,8 +7,6 @@ url and then returns that data.
 Created by: Charles Bos
 Contributors: Charles Bos
 """
-
-from operator import itemgetter
 from fetcher import htmlFetch
 
 def sainsburysData(url) :
@@ -85,8 +83,7 @@ def sainsburysData(url) :
     if len(priceList) != len(titleList) :
         print("Error. Lengths of prices and item titles do not match.")
     else :
-        pricesComparison = dict(zip(titleList, priceList))
-        return sorted(pricesComparison.items(), key=itemgetter(1))
+        return dict(zip(titleList, priceList))
 
 
                             
