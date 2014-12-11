@@ -1,9 +1,11 @@
 """
 tesco.py
 
-Tesco module from the Team S price comparison software
+This modules extracts prices and item titles from a valid Tesco store page
+url and then returns that data.
 
-Created by Charles Bos
+Created by: Charles Bos
+Contributors: Charles Bos
 """
 
 from operator import itemgetter

@@ -1,9 +1,11 @@
 """
 main.py
 
-See CHANGELOG - now added to git
+This file imports the various modules for each shop, calls the functions and
+then outputs the data returned by them.
 
-Created by Charles Bos on 2014-12-05
+Created by: Charles Bos
+Contributors: Charles Bos
 """
 
 from tesco import tescoData
