@@ -27,7 +27,7 @@ def cheapestFrom() :
     No arguments taken.
     '''
     if tescoPrices[cheapestItem] != None : return "Tesco"
-    if lowestPriceDic[cheapestItem] != None : return "Sainsbury's"
+    if sainsburysPrices[cheapestItem] != None : return "Sainsbury's"
 
 # Call functions from the shop modules to extract item titles and prices
 tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660")
