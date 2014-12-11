@@ -63,3 +63,9 @@ CHANGES: Important fixes for the Tesco and Sainsbury's modules. Scripts for star
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-10
+
+VERSION: 3.9.4
+CHANGES: Code cleanup and improved price sorting.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-11
