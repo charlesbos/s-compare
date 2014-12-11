@@ -75,8 +75,11 @@ def sainsburysData(url) :
         proTitleList = proTitleList[:-1]
 
     # Merge the lists
-    titleList = titleList + proTitleList
-    titleList = sorted(titleList)
+    try :
+        titleList = titleList + proTitleList
+        titleList = sorted(titleList)
+    except NameError :
+        pass
 
     # Turn the two lists into a dictionary and return it
     if len(priceList) != len(titleList) :
