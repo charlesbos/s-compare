@@ -69,3 +69,10 @@ CHANGES: Code cleanup and improved price sorting.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-11
+
+VERSION: 3.9.5
+CHANGES: Renamed starting scripts and made sure that users know from which shop the cheapest item has come from.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-11
+
