@@ -9,7 +9,6 @@ Contributors: Charles Bos
 """
 from tesco import tescoData
 from sainsburys import sainsburysData
-from operator import itemgetter
 
 def lowestPrices(priceList) :
     '''

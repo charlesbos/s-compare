@@ -7,7 +7,6 @@ BeautifulSoup and then returns the html as a string.
 Created by: Charles Bos
 Contributors: Charles Bos
 """
-
 from bs4 import BeautifulSoup
 import requests
 
