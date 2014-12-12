@@ -19,19 +19,19 @@ def sainsburysData(url) :
     htmlString = htmlFetch(url)
     
     # Extract prices
-    priceStart = htmlString.find('<p class="pricePerUnit">') + 24
+    priceStart = htmlString.find('<p class="pricePerMeasure">') + 27
 
     if priceStart == -1 :
         print("No prices here. Sorry.")
     else :
-        priceEnd = priceStart + 8
-        priceExtract = htmlString[priceStart + 2:priceEnd - 1]
+        priceEnd = priceStart + 5
+        priceExtract = '(' + htmlString[priceStart:priceEnd] + '/100ml)'
         priceList = [priceExtract]
         
-        while priceStart != 23 :
-            priceStart = htmlString.find('<p class="pricePerUnit">', priceEnd) + 24
-            priceEnd = priceStart + 8
-            priceExtract = htmlString[priceStart + 2:priceEnd - 1]
+        while priceStart != 26 :
+            priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
+            priceEnd = priceStart + 5
+            priceExtract = '(' + htmlString[priceStart:priceEnd] + '/100ml)'
             priceList.extend([priceExtract])
 
         priceList = priceList[:-1]
