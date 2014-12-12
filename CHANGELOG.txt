@@ -76,3 +76,8 @@ CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-11
 
+VERSION: 3.9.6
+CHANGES: Tesco and Sainsbury's modules now fetch prices per 100ml instead of standard line prices. This allows for true price comparison. A couple of minor errors corrected as well.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-12
