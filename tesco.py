@@ -41,7 +41,6 @@ def tescoData(url) :
 
     if titleStart == -1 :
         print("No titles here. Sorry.")
-        quit()
     else :
         titleEnd = htmlString.find('</span>')
         titleExtract = htmlString[titleStart:titleEnd]
