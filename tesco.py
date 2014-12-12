@@ -19,18 +19,18 @@ def tescoData(url) :
     htmlString = htmlFetch(url)
     
     # Extract prices
-    priceStart = htmlString.find('<span class="linePrice">£') + 24
+    priceStart = htmlString.find('<span class="linePriceAbbr">') + 28
 
     if priceStart == -1 :
         print("No prices here. Sorry.")
     else :
-        priceEnd = priceStart + 5
+        priceEnd = priceStart + 13
         priceExtract = htmlString[priceStart:priceEnd]
         priceList = [priceExtract]
         
-        while priceStart != 23 :
-            priceStart = htmlString.find('<span class="linePrice">£', priceEnd) + 24
-            priceEnd = priceStart + 5
+        while priceStart != 27 :
+            priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd) + 28
+            priceEnd = priceStart + 13
             priceExtract = htmlString[priceStart:priceEnd]
             priceList.extend([priceExtract])
 
