@@ -81,3 +81,9 @@ CHANGES: Tesco and Sainsbury's modules now fetch prices per 100ml instead of sta
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-12
+
+VERSION: 4.0.0
+CHANGES: A full table of prices from all shops, sorted by price, is now output to a file called OUTPUT.txt
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-12
