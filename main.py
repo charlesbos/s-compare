@@ -75,8 +75,6 @@ while counter < length :
     print('{:55s}'.format(cheapestSainsburys[counter][0]), '{:15s}'.format(cheapestSainsburys[counter][1]), file = file)
     counter += 1
 
-print("\n== The cheapest water overall ==", file = file)
-
 file.close()
 
 # Output message to inform user that program has finished working
