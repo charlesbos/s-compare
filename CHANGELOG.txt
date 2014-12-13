@@ -87,3 +87,9 @@ CHANGES: A full table of prices from all shops, sorted by price, is now output t
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-12
+
+VERSION: 4.1.0
+CHANGES: Big improvements to the processing and output code, it has been much simplified. Dictionaries are no longer being as they were not the most suitable way of storing of our data. Also taken code out of functions when it's only being called once. Removed the brackets that were being placed around our prices. The output of lowest prices per shop has also been improved - they're now in neatly formatted tables just the main table.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2014-12-13
