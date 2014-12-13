@@ -25,13 +25,13 @@ def sainsburysData(url) :
         print("No prices here. Sorry.")
     else :
         priceEnd = priceStart + 5
-        priceExtract = '(' + htmlString[priceStart:priceEnd] + '/100ml)'
+        priceExtract = htmlString[priceStart:priceEnd] + '/100ml'
         priceList = [priceExtract]
         
         while priceStart != 26 :
             priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
             priceEnd = priceStart + 5
-            priceExtract = '(' + htmlString[priceStart:priceEnd] + '/100ml)'
+            priceExtract = htmlString[priceStart:priceEnd] + '/100ml'
             priceList.extend([priceExtract])
 
         priceList = priceList[:-1]
@@ -79,11 +79,18 @@ def sainsburysData(url) :
     except NameError :
         pass
 
-    # Turn the two lists into a dictionary and return it
+    # Merge the two lists into one list of tuples and return it
     if len(priceList) != len(titleList) :
         print("Error. Lengths of prices and item titles do not match.")
     else :
-        return dict(zip(titleList, priceList))
+        sainsList = []
+        counter = 0
+
+        while counter < len(priceList) :
+            sainsList.append((titleList[counter], priceList[counter], "Sainsbury's"))
+            counter += 1
+
+        return sainsList
 
 
                             

@@ -25,13 +25,13 @@ def tescoData(url) :
         print("No prices here. Sorry.")
     else :
         priceEnd = priceStart + 13
-        priceExtract = htmlString[priceStart:priceEnd]
+        priceExtract = htmlString[priceStart:priceEnd].strip('()')
         priceList = [priceExtract]
         
         while priceStart != 27 :
             priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd) + 28
             priceEnd = priceStart + 13
-            priceExtract = htmlString[priceStart:priceEnd]
+            priceExtract = htmlString[priceStart:priceEnd].strip('()')
             priceList.extend([priceExtract])
 
         priceList = priceList[:-1]
@@ -54,11 +54,18 @@ def tescoData(url) :
 
         titleList = titleList[1:-1]
 
-    # Turn the two lists into a dictionary and return it
+    # Merge the two lists into one list of tuples and return it
     if len(priceList) != len(titleList) :
         print("Error. Lengths of prices and item titles do not match.")
     else :
-        return dict(zip(titleList, priceList))
+        tescoList = []
+        counter = 0
+
+        while counter < len(priceList) :
+            tescoList.append((titleList[counter], priceList[counter], "Tesco"))
+            counter += 1
+
+        return tescoList
 
 
                             
