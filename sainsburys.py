@@ -70,7 +70,7 @@ def sainsburysData(url) :
             proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
             proTitleList.extend([proTitleExtract])
 
-        proTitleList = proTitleList[:-1]
+        proTitleList = proTitleList[1:-1]
 
     # Merge the lists
     try :
