@@ -37,45 +37,56 @@ tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.a
 sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0")
 
 # Write sorted table of prices to a file called OUTPUT.txt
-file = open('OUTPUT.txt', 'w')
+prices = []
 
-prices = sainsburysPrices + tescoPrices
-sortedPrices = sorted(prices, key=itemgetter(1,0))
+if tescoPrices != 'null' : prices += tescoPrices
+else : print("Operation for Tesco failed. No results for Tesco will be displayed.")
+if sainsburysPrices != 'null' : prices += sainsburysPrices
+else : print("Operation for Sainsbury's failed. No results for Sainsbury's will be displayed.")
 
-length = len(sortedPrices)
-counter = 0
+if prices != [] :
+    file = open('OUTPUT.txt', 'w')
+    
+    sortedPrices = sorted(prices, key=itemgetter(1,0))
 
-while counter < length :
-    print('{:55s}'.format(sortedPrices[counter][0]), '{:15s}'.format(sortedPrices[counter][1]), sortedPrices[counter][2],  file = file)
-    counter += 1
+    length = len(sortedPrices)
+    counter = 0
 
-file.close()
+    while counter < length :
+        print('{:55s}'.format(sortedPrices[counter][0]), '{:15s}'.format(sortedPrices[counter][1]), sortedPrices[counter][2],  file = file)
+        counter += 1
 
-# Append cheapest water for each individual shop to the ouput file
-file = open('OUTPUT.txt', 'a')
+    file.close()
 
-cheapestTesco = lowestPrices(tescoPrices)
-cheapestSainsburys = lowestPrices(sainsburysPrices)
+    # Append cheapest water for each individual shop to the ouput file
+    file = open('OUTPUT.txt', 'a')
+    
+    if tescoPrices != 'null' :
+        cheapestTesco = lowestPrices(tescoPrices)
 
-print("\n== The cheapest water from Tesco ==", file = file)
+        print("\n== The cheapest water from Tesco ==", file = file)
 
-counter = 0
-length = len(cheapestTesco)
+        counter = 0
+        length = len(cheapestTesco)
 
-while counter < length :
-    print('{:55s}'.format(cheapestTesco[counter][0]), '{:15s}'.format(cheapestTesco[counter][1]), file = file)
-    counter += 1
+        while counter < length :
+            print('{:55s}'.format(cheapestTesco[counter][0]), '{:15s}'.format(cheapestTesco[counter][1]), file = file)
+            counter += 1
+            
+    if sainsburysPrices != 'null' :
+        cheapestSainsburys = lowestPrices(sainsburysPrices)
 
-print("\n== The cheapest water from Sainsbury's ==", file = file)
+        print("\n== The cheapest water from Sainsbury's ==", file = file)
 
-counter = 0
-length = len(cheapestSainsburys)
+        counter = 0
+        length = len(cheapestSainsburys)
 
-while counter < length :
-    print('{:55s}'.format(cheapestSainsburys[counter][0]), '{:15s}'.format(cheapestSainsburys[counter][1]), file = file)
-    counter += 1
+        while counter < length :
+            print('{:55s}'.format(cheapestSainsburys[counter][0]), '{:15s}'.format(cheapestSainsburys[counter][1]), file = file)
+            counter += 1
 
-file.close()
+    file.close()
 
-# Output message to inform user that program has finished working
-print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
+    # Output message to inform user that program has finished working
+    print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
+else : print("\nAll operations failed. No data to display.")

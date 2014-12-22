@@ -72,7 +72,12 @@ def tescoData(url) :
                 tescoList.append((titleList[counter], priceList[counter], "Tesco"))
                 counter += 1
 
-            return tescoList
+            if tescoList == [] :
+                print("TescoError: unspecified extraction error.")
+                return 'null'
+            else :
+                print("Operation for Tesco completed successfully.")
+                return tescoList
 
 
                             

@@ -95,8 +95,13 @@ def sainsburysData(url) :
             while counter < len(priceList) :
                 sainsList.append((titleList[counter], priceList[counter], "Sainsbury's"))
                 counter += 1
-
-            return sainsList
+                
+            if sainsList == [] :
+                print("SainsburysError: unspecified extraction error.")
+                return 'null'
+            else :
+                print("Operation for Sainsbury's completed successfully.")
+                return sainsList
 
 
                             
