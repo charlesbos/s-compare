@@ -15,5 +15,8 @@ def htmlFetch(url) :
     Returns a string of html which the other modules can use
     One argument accepted, the url.
     '''
-    response = requests.get(url)
-    return str(BeautifulSoup(response.content))
+    try :
+        response = requests.get(url)
+        return str(BeautifulSoup(response.content))
+    except Exception as e :
+        return 'null'
