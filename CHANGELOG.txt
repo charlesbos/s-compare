@@ -99,3 +99,9 @@ CHANGES: Overhauled the program's error handling, improved error messages, fixed
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2014-12-22
+
+VERSION: 4.2.1
+CHANGES: Minor bugfix release. Fixed handling of unavailable Tesco products.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-03
