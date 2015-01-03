@@ -4,8 +4,6 @@ main.py
 This file imports the various modules for each shop, calls the functions and
 then outputs the data returned by them.
 
-We built this program! We built this program on Py-thon 3!
-
 Created by: Charles Bos
 Contributors: Charles Bos
 """
@@ -31,6 +29,28 @@ def lowestPrices(prices) :
         counter += 1
        
     return minPrices
+
+def cheapPerShop(shopPrices, shopTitle) :
+    '''
+    A function to append the cheapest items per shop to the output file.
+    Two arguments are taken. The first is the list of tuples containing the
+    item titles and prices. The second is the title of the shop.
+    '''
+    file = open('OUTPUT.txt', 'a')
+
+    if shopPrices != 'null' :
+        cheapest = lowestPrices(shopPrices)
+
+        print("\n== The cheapest product from", shopTitle,"==", file = file)
+
+        counter = 0
+        length = len(cheapest)
+
+        while counter < length :
+            print('{:55s}'.format(cheapest[counter][0]), '{:15s}'.format(cheapest[counter][1]), file = file)
+            counter += 1
+            
+    file.close()
 
 # Call functions from the shop modules to extract item titles and prices
 tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660", "/100ml")
@@ -58,34 +78,9 @@ if prices != [] :
 
     file.close()
 
-    # Append cheapest water for each individual shop to the ouput file
-    file = open('OUTPUT.txt', 'a')
-    
-    if tescoPrices != 'null' :
-        cheapestTesco = lowestPrices(tescoPrices)
-
-        print("\n== The cheapest product from Tesco ==", file = file)
-
-        counter = 0
-        length = len(cheapestTesco)
-
-        while counter < length :
-            print('{:55s}'.format(cheapestTesco[counter][0]), '{:15s}'.format(cheapestTesco[counter][1]), file = file)
-            counter += 1
-            
-    if sainsburysPrices != 'null' :
-        cheapestSainsburys = lowestPrices(sainsburysPrices)
-
-        print("\n== The cheapest product from Sainsbury's ==", file = file)
-
-        counter = 0
-        length = len(cheapestSainsburys)
-
-        while counter < length :
-            print('{:55s}'.format(cheapestSainsburys[counter][0]), '{:15s}'.format(cheapestSainsburys[counter][1]), file = file)
-            counter += 1
-
-    file.close()
+    # Append cheapest product for each individual shop to the ouput file
+    cheapPerShop(tescoPrices, 'Tesco')
+    cheapPerShop(sainsburysPrices, "Sainsbury's")
 
     # Output message to inform user that program has finished working
     print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
