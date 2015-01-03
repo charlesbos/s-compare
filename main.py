@@ -10,6 +10,7 @@ Contributors: Charles Bos
 from tesco import tescoData
 from sainsburys import sainsburysData
 from operator import itemgetter
+import os
 
 def lowestPrices(prices) :
     '''
@@ -30,25 +31,23 @@ def lowestPrices(prices) :
        
     return minPrices
 
-def cheapPerShop(shopPrices, shopTitle) :
+def writeTable(prices, tableHeader) :
     '''
-    A function to append the cheapest items per shop to the output file.
-    Two arguments are taken. The first is the list of tuples containing the
-    item titles and prices. The second is the title of the shop.
+    A function to write a price list to a neatly formatted table in the
+    output file. Two arguments are taken, the price list and the header for the
+    table.
     '''
     file = open('OUTPUT.txt', 'a')
 
-    if shopPrices != 'null' :
-        cheapest = lowestPrices(shopPrices)
+    prices = sorted(prices, key=itemgetter(1,0))
 
-        print("\n== The cheapest product from", shopTitle,"==", file = file)
+    print(tableHeader, file = file)
 
-        counter = 0
-        length = len(cheapest)
+    counter = 0
 
-        while counter < length :
-            print('{:55s}'.format(cheapest[counter][0]), '{:15s}'.format(cheapest[counter][1]), file = file)
-            counter += 1
+    while counter < len(prices) :
+        print('{:55s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
+        counter += 1
             
     file.close()
 
@@ -56,32 +55,28 @@ def cheapPerShop(shopPrices, shopTitle) :
 tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660", "/100ml")
 sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0", '''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', "/100ml")
 
-# Write sorted table of prices to a file called OUTPUT.txt
-prices = []
+# Create aggregate lists
+allPrices = []
+cheapest = []
 
-if tescoPrices != 'null' : prices += tescoPrices
+if tescoPrices != 'null' :
+    allPrices += tescoPrices
+    cheapest += lowestPrices(tescoPrices)
 else : print("Operation for Tesco failed. No results for Tesco will be displayed.")
-if sainsburysPrices != 'null' : prices += sainsburysPrices
+if sainsburysPrices != 'null' :
+    allPrices += sainsburysPrices
+    cheapest += lowestPrices(sainsburysPrices)
 else : print("Operation for Sainsbury's failed. No results for Sainsbury's will be displayed.")
 
-if prices != [] :
-    file = open('OUTPUT.txt', 'w')
-    
-    sortedPrices = sorted(prices, key=itemgetter(1,0))
+# Delete old ouput file if it exists
+try :
+    os.remove('OUTPUT.txt')
+except IOError :
+    pass
 
-    length = len(sortedPrices)
-    counter = 0
+# Write tables
+writeTable(allPrices, "== Prices from all shops ==")
+writeTable(cheapest, "\n== Lowest prices from each shop ==")
 
-    while counter < length :
-        print('{:55s}'.format(sortedPrices[counter][0]), '{:15s}'.format(sortedPrices[counter][1]), sortedPrices[counter][2],  file = file)
-        counter += 1
-
-    file.close()
-
-    # Append cheapest product for each individual shop to the ouput file
-    cheapPerShop(tescoPrices, 'Tesco')
-    cheapPerShop(sainsburysPrices, "Sainsbury's")
-
-    # Output message to inform user that program has finished working
-    print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
-else : print("\nAll operations failed. No data to display.")
+# Output message to inform user that program has finished working
+print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
