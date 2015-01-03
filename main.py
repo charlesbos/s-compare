@@ -33,8 +33,8 @@ def lowestPrices(prices) :
     return minPrices
 
 # Call functions from the shop modules to extract item titles and prices
-tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660")
-sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0")
+tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660", "/100ml")
+sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0", '''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', "/100ml")
 
 # Write sorted table of prices to a file called OUTPUT.txt
 prices = []
@@ -64,7 +64,7 @@ if prices != [] :
     if tescoPrices != 'null' :
         cheapestTesco = lowestPrices(tescoPrices)
 
-        print("\n== The cheapest water from Tesco ==", file = file)
+        print("\n== The cheapest product from Tesco ==", file = file)
 
         counter = 0
         length = len(cheapestTesco)
@@ -76,7 +76,7 @@ if prices != [] :
     if sainsburysPrices != 'null' :
         cheapestSainsburys = lowestPrices(sainsburysPrices)
 
-        print("\n== The cheapest water from Sainsbury's ==", file = file)
+        print("\n== The cheapest product from Sainsbury's ==", file = file)
 
         counter = 0
         length = len(cheapestSainsburys)

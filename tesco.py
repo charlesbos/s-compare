@@ -9,10 +9,11 @@ Contributors: Charles Bos
 """
 from fetcher import htmlFetch
 
-def tescoData(url) :
+def tescoData(url, unit) :
     '''
     Extract Tesco line prices and item titles
-    One argument accepted, a url which can be passed to the htmlFetch function
+    Two arguments are accepted. The first is a url which can be passed to the htmlFetch function.
+    The second is a unit to append to the extracted prices.
     from the fetcher module.
     '''
 
@@ -29,14 +30,14 @@ def tescoData(url) :
             print("TescoError: failed to extract prices.")
             return 'null'
         else :
-            priceEnd = priceStart + 13
-            priceExtract = htmlString[priceStart:priceEnd].strip('()')
+            priceEnd = priceStart + 6
+            priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
             priceList = [priceExtract]
             
             while priceStart != 27 :
                 priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd) + 28
-                priceEnd = priceStart + 13
-                priceExtract = htmlString[priceStart:priceEnd].strip('()')
+                priceEnd = priceStart + 6
+                priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]

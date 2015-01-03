@@ -9,11 +9,13 @@ Contributors: Charles Bos
 """
 from fetcher import htmlFetch
 
-def sainsburysData(url) :
+def sainsburysData(url, titletag, unit) :
     '''
     Extract Sainsburys prices and item titles
-    One argument accepted, a url which can be passed to the htmlFetch function
-    from the fetcher module.
+    Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
+    The second is a unit to append to the extracted prices.
+    from the fetcher module. The third is the fragment of html that marks the beginning
+    of an item title.
     '''
 
     htmlString = htmlFetch(url)
@@ -30,19 +32,19 @@ def sainsburysData(url) :
             return 'null'
         else :
             priceEnd = priceStart + 5
-            priceExtract = htmlString[priceStart:priceEnd] + '/100ml'
+            priceExtract = htmlString[priceStart:priceEnd] + unit
             priceList = [priceExtract]
             
             while priceStart != 26 :
                 priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
                 priceEnd = priceStart + 5
-                priceExtract = htmlString[priceStart:priceEnd] + '/100ml'
+                priceExtract = htmlString[priceStart:priceEnd] + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
 
         # Extract titles
-        titleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''') + 67
+        titleStart = htmlString.find(titletag) + 67
 
         if titleStart == -1 :
             print("SainsburysError: failed to extract item titles.")
@@ -53,7 +55,7 @@ def sainsburysData(url) :
             titleList = [titleExtract]
 
             while titleStart != 75 :
-                titleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', titleEnd) + 76
+                titleStart = htmlString.find(titletag, titleEnd) + 76
                 titleEnd = htmlString.find('<img alt=', titleStart) + 9
                 titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
                 titleList.extend([titleExtract])
