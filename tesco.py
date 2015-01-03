@@ -60,6 +60,16 @@ def tescoData(url) :
 
             titleList = titleList[1:-1]
 
+        # Remove unavailable products
+        counter = 0
+
+        while (counter + 1) < 19 :
+            start = htmlString.find(titleList[counter])
+            end = htmlString.find(titleList[counter + 1])
+            if htmlString.find('Sorry, this product is currently not available.', start, end) != -1 :
+                del titleList[counter]
+            counter += 1
+
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("TescoError: lengths of prices and item titles do not match.")
