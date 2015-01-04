@@ -61,7 +61,7 @@ def tescoData(url, unit) :
         # Remove unavailable products
         counter = 0
 
-        while (counter + 1) < 19 :
+        while (counter + 1) < len(titleList) :
             start = htmlString.find(titleList[counter])
             end = htmlString.find(titleList[counter + 1])
             if htmlString.find('Sorry, this product is currently not available.', start, end) != -1 :
