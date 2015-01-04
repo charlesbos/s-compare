@@ -111,3 +111,9 @@ CHANGES: Groundwork laid for software to compare prices of all items. Code simpl
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-04
+
+VERSION: 5.0.0
+CHANGES: Software now has the capacity to compare prices for any product accoding to the user's preference. A new function (called dataPull) has been added which allows us to process multiple urls in one go. The urls themselves are stored in a number of text files, categorised by product. The dataPull function will read the urls from the file supplied to it. It will then supply those urls to the relevant shop function.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-04
