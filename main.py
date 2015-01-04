@@ -44,15 +44,89 @@ def writeTable(prices, tableHeader) :
         counter = 0
 
         while counter < len(prices) :
-            print('{:55s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
+            print('{:85s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
             counter += 1
     else : print("No results obtained. Cannot create table.", file = file)
             
     file.close()
 
-# Call functions from the shop modules to extract item titles and prices
-tescoPrices = tescoData("http://www.tesco.com/groceries/product/browse/default.aspx?N=4294792641&Ne=4294793660", "/100ml")
-sainsburysPrices = sainsburysData("http://www.sainsburys.co.uk/shop/gb/groceries/drinks/still-water#langId=44&storeId=10151&catalogId=10122&categoryId=12351&parent_category_rn=12192&top_category=12192&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0", '''<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/''', "/100ml")
+def dataPull(file, shopFunc, titletag, unit) :
+    '''
+    A function to dynamically call the shop module functions multiple times (for different urls)
+    according to the product chosen by the user.
+    Four arguments are taken. The first is the path to the file from which to extract the urls. The
+    second is the name of the shop function to call. The third is the html string which the shop function
+    uses to search for titles (strictly speaking, this is only needed for the sainsburys module). The fourth
+    is the unit to attach to the prices.
+    '''
+    file = open(file, 'r')
+
+    urls = str(file.read()).split('\n')
+
+    counter = 0
+    prices = []
+
+    while counter < len(urls) :
+        temp = shopFunc(urls[counter], titletag, unit)
+        if temp != 'null' : prices += temp
+        counter += 1
+
+    return prices
+            
+# Choose product for comparison and then call modules for data extraction
+unselect = 1
+
+while unselect == 1 :
+    try :
+        proType = input("\nWould you like to compare prices for food or drink? [f/d]: ")
+        if (proType != 'f') and (proType != 'd') : int('null')
+        unselect = 0
+    except ValueError :
+        print("\nInvalid choice.")
+
+if proType == 'd' :
+    print("\nEnter 1 to compare prices for still water.")
+    print("Enter 2 to compare prices for sparkling water.")
+
+    unselect = 1
+
+    while unselect == 1 :
+        try :
+            product = int(input("\nChoose a product to compare: "))
+            if (1 <= product <= 2) is False : int('null')
+            unselect = 0
+        except ValueError :
+            print("\nInvalid choice.")
+
+    if product == 1 :
+        tescoPrices = dataPull('URL_STORE/TESCO/STILL_WATER.txt', tescoData, 'null', "/100ml")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/STILL_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/', "/100ml")
+
+    if product == 2 :
+        tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml")
+
+if proType == 'f' :
+    print("\nEnter 1 to compare prices for white bread.")
+    print("Enter 2 to compare prices for brown bread.")
+
+    unselect = 1
+
+    while unselect == 1 :
+        try :
+            product = int(input("\nChoose a product to compare: "))
+            if (1 <= product <= 2) is False : int('null')
+            unselect = 0
+        except ValueError :
+            print("\nInvalid choice.")
+
+    if product == 1 :
+        tescoPrices = dataPull('URL_STORE/TESCO/WHITE_BREAD.txt', tescoData, 'null', "/100g")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/WHITE_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/white-bread/', "/100g")
+
+    if product == 2 :
+        tescoPrices = dataPull('URL_STORE/TESCO/BROWN_BREAD.txt', tescoData, 'null', "/100g")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BROWN_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/wholemeal-brown-bread/', "/100g")
 
 # Create aggregate lists
 allPrices = []
@@ -74,8 +148,8 @@ except IOError :
     pass
 
 # Write tables
-writeTable(allPrices, "== Prices from all shops ==")
-writeTable(cheapest, "\n== Lowest prices from each shop ==")
+writeTable(cheapest, "== Lowest prices from each shop ==")
+writeTable(allPrices, "\n== Prices from all shops ==")
 
 # Output message to inform user that program has finished working
 print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
