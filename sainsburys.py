@@ -86,13 +86,17 @@ def sainsburysData(url, titletag, unit) :
         # Remove extra prices
         counter = 0
 
-        while (counter + 1) < len(priceList) :
+        while (counter + 1) < len(titleList) :
             start = htmlString.find(titleList[counter])
-            end = htmlString.find(titleList[counter - 1])
+            end = htmlString.find(titleList[counter + 1])
             if htmlString.find('lighter_option', start, end) != -1 :
-                del priceList[counter]
+                del priceList[counter + 1]
             if htmlString.find('lunchbox_favourites', start, end) != -1 :
-                del priceList[counter]
+                del priceList[counter + 1]
+            if htmlString.find('new_year_new_you', start, end) != -1 :
+                del priceList[counter + 1]
+            if htmlString.find('great_for_breakfast', start, end) != -1 :
+                del priceList[counter + 1]
             counter += 1
 
         # Merge the two lists into one list of tuples and return it
