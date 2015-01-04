@@ -83,6 +83,18 @@ def sainsburysData(url, titletag, unit) :
         except NameError :
             pass
 
+        # Remove extra prices
+        counter = 0
+
+        while (counter + 1) < len(priceList) :
+            start = htmlString.find(titleList[counter])
+            end = htmlString.find(titleList[counter - 1])
+            if htmlString.find('lighter_option', start, end) != -1 :
+                del priceList[counter]
+            if htmlString.find('lunchbox_favourites', start, end) != -1 :
+                del priceList[counter]
+            counter += 1
+
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("SainsburysError: lengths of prices and item titles do not match.")
