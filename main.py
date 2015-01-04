@@ -3,9 +3,6 @@ main.py
 
 This file imports the various modules for each shop, calls the functions and
 then outputs the data returned by them.
-
-Created by: Charles Bos
-Contributors: Charles Bos
 """
 from tesco import tescoData
 from sainsburys import sainsburysData

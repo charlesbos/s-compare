@@ -3,9 +3,6 @@ tesco.py
 
 This modules extracts prices and item titles from a valid Tesco store page
 url and then returns that data.
-
-Created by: Charles Bos
-Contributors: Charles Bos
 """
 from fetcher import htmlFetch
 

@@ -3,9 +3,6 @@ fetcher.py
 
 This module downloads html for a given url, applies soup to the html using
 BeautifulSoup and then returns the html as a string.
-
-Created by: Charles Bos
-Contributors: Charles Bos
 """
 from bs4 import BeautifulSoup
 import requests

@@ -3,9 +3,6 @@ sainsburys.py
 
 This modules extracts prices and item titles from a valid Sainsburys store page
 url and then returns that data.
-
-Created by: Charles Bos
-Contributors: Charles Bos
 """
 from fetcher import htmlFetch
 
