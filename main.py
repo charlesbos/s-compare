@@ -39,12 +39,14 @@ def writeTable(prices, tableHeader) :
     prices = sorted(prices, key=itemgetter(1,0))
 
     print(tableHeader, file = file)
+    
+    if prices != [] :
+        counter = 0
 
-    counter = 0
-
-    while counter < len(prices) :
-        print('{:55s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
-        counter += 1
+        while counter < len(prices) :
+            print('{:55s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
+            counter += 1
+    else : print("No results obtained. Cannot create table.", file = file)
             
     file.close()
 
