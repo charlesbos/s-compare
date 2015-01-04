@@ -132,11 +132,11 @@ if proType == 'f' :
 allPrices = []
 cheapest = []
 
-if tescoPrices != 'null' :
+if tescoPrices != [] :
     allPrices += tescoPrices
     cheapest += lowestPrices(tescoPrices)
 else : print("Operation for Tesco failed. No results for Tesco will be displayed.")
-if sainsburysPrices != 'null' :
+if sainsburysPrices != [] :
     allPrices += sainsburysPrices
     cheapest += lowestPrices(sainsburysPrices)
 else : print("Operation for Sainsbury's failed. No results for Sainsbury's will be displayed.")

@@ -117,3 +117,9 @@ CHANGES: Software now has the capacity to compare prices for any product accodin
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-04
+
+VERSION: 5.0.1
+CHANGES: Minor fix to ensure that the error handling framwork still works with the new program structure.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-04
