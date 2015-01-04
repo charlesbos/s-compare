@@ -105,3 +105,9 @@ CHANGES: Minor bugfix release. Fixed handling of unavailable Tesco products.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-03
+
+VERSION: 4.3.0
+CHANGES: Groundwork laid for software to compare prices of all items. Code simplification. Minor fixes.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-04
