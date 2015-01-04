@@ -38,15 +38,19 @@ def writeTable(prices, tableHeader) :
 
     prices = sorted(prices, key=itemgetter(1,0))
 
-    print(tableHeader, file = file)
+    print(str(tableHeader).center(113, ' '), file = file)
+    print('-' * 113, file = file)
     
     if prices != [] :
         counter = 0
 
         while counter < len(prices) :
             print('{:85s}'.format(prices[counter][0]), '{:15s}'.format(prices[counter][1]), prices[counter][2], file = file)
+            print('-' * 113, file = file)
             counter += 1
     else : print("No results obtained. Cannot create table.", file = file)
+
+    print('\n', file = file)
             
     file.close()
 
@@ -149,7 +153,7 @@ except IOError :
 
 # Write tables
 writeTable(cheapest, "== Lowest prices from each shop ==")
-writeTable(allPrices, "\n== Prices from all shops ==")
+writeTable(allPrices, "== Prices from all shops ==")
 
 # Output message to inform user that program has finished working
 print("\nProcessing completed! Please see the file 'OUTPUT.txt'.")
