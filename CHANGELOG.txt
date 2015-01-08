@@ -123,3 +123,9 @@ CHANGES: Minor fix to ensure that the error handling framwork still works with t
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-04
+
+VERSION: 5.1.0
+CHANGES: Table formatting improved. Prices per 75cl instead of 100ml are now convereted (Tesco issue only). Startup message added. Strings of %amp; removed from titles (Sainsbury's only). Important for Sainsburys module with regards to removing unrelated prices.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-08
