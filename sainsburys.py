@@ -30,13 +30,17 @@ def sainsburysData(url, titletag, unit) :
         else :
             priceEnd = priceStart + 5
             priceExtract = htmlString[priceStart:priceEnd] + unit
-            priceList = [priceExtract]
+            mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceEnd)
+            if mercCheck == -1 :
+                priceList = [priceExtract]
             
             while priceStart != 26 :
                 priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
                 priceEnd = priceStart + 5
                 priceExtract = htmlString[priceStart:priceEnd] + unit
-                priceList.extend([priceExtract])
+                mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceEnd)
+                if mercCheck == -1 :
+                    priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
 
@@ -82,22 +86,6 @@ def sainsburysData(url, titletag, unit) :
             titleList = sorted(titleList)
         except NameError :
             pass
-
-        # Remove extra prices
-        counter = 0
-
-        while (counter + 1) < len(titleList) :
-            start = htmlString.find(titleList[counter])
-            end = htmlString.find(titleList[counter + 1])
-            if htmlString.find('lighter_option', start, end) != -1 :
-                del priceList[counter + 1]
-            if htmlString.find('lunchbox_favourites', start, end) != -1 :
-                del priceList[counter + 1]
-            if htmlString.find('new_year_new_you', start, end) != -1 :
-                del priceList[counter + 1]
-            if htmlString.find('great_for_breakfast', start, end) != -1 :
-                del priceList[counter + 1]
-            counter += 1
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
