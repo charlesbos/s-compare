@@ -48,13 +48,13 @@ def sainsburysData(url, titletag, unit) :
             return 'null'
         else :
             titleEnd = htmlString.find('<img alt=', titleStart) + 9
-            titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+            titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
             titleList = [titleExtract]
 
             while titleStart != 75 :
                 titleStart = htmlString.find(titletag, titleEnd) + 76
                 titleEnd = htmlString.find('<img alt=', titleStart) + 9
-                titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+                titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
                 titleList.extend([titleExtract])
 
             titleList = titleList[:-1] 
@@ -65,13 +65,13 @@ def sainsburysData(url, titletag, unit) :
         if proTitleStart == -1 : pass
         else:
             proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
-            proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+            proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
             proTitleList = [proTitleExtract]
 
             while proTitleStart != 65 :
                 proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd) + 66
                 proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
-                proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ')
+                proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
                 proTitleList.extend([proTitleExtract])
 
             proTitleList = proTitleList[1:-1]
