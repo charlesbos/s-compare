@@ -33,9 +33,9 @@ def tescoData(url, titletag, unit) :
             priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
-                temp = float(priceExtract[1:5])
+                temp = float(htmlString[priceStart:priceEnd].strip('()')[1:])
                 temp = (temp / 30) * 4
-                priceExtract = '£' + str(temp)[:4] + unit
+                priceExtract = '£' + str(round(temp, 2)) + unit
             priceList = [priceExtract]
             
             while priceStart != 27 :
@@ -44,9 +44,9 @@ def tescoData(url, titletag, unit) :
                 priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
                 measureCheck = htmlString[priceEnd:priceEnd + 5]
                 if measureCheck == '/75cl' :
-                    temp = float(priceExtract[1:5])
+                    temp = float(htmlString[priceStart:priceEnd].strip('()')[1:])
                     temp = (temp / 30) * 4
-                    priceExtract = '£' + str(temp)[:4] + unit
+                    priceExtract = '£' + str(round(temp, 2)) + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
