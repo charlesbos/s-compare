@@ -129,3 +129,9 @@ CHANGES: Table formatting improved. Prices per 75cl instead of 100ml are now con
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-08
+
+VERSION: 5.1.1
+CHANGES: Fixed another unit issue with Tesco, this time for litres.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-08
