@@ -76,6 +76,10 @@ def dataPull(file, shopFunc, titletag, unit) :
         counter += 1
 
     return prices
+
+# Print startup message
+print('''This program compares prices for common groceries across a number of different
+UK retailers.''')
             
 # Choose product for comparison and then call modules for data extraction
 unselect = 1
