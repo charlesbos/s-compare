@@ -135,3 +135,10 @@ CHANGES: Fixed another unit issue with Tesco, this time for litres.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-08
+
+
+VERSION: 5.2.0
+CHANGES: Support for Waitrose has been added!
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-09
