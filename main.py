@@ -6,6 +6,7 @@ then outputs the data returned by them.
 """
 from tesco import tescoData
 from sainsburys import sainsburysData
+from waitrose import waitroseData
 from operator import itemgetter
 import os
 
@@ -109,10 +110,12 @@ if proType == 'd' :
     if product == 1 :
         tescoPrices = dataPull('URL_STORE/TESCO/STILL_WATER.txt', tescoData, 'null', "/100ml")
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/STILL_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/', "/100ml")
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/STILL_WATER.txt', waitroseData, 'null', "/100ml")
 
     if product == 2 :
         tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml")
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml")
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/SPARKLING_WATER.txt', waitroseData, 'null', "/100ml")
 
 if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
@@ -131,10 +134,12 @@ if proType == 'f' :
     if product == 1 :
         tescoPrices = dataPull('URL_STORE/TESCO/WHITE_BREAD.txt', tescoData, 'null', "/100g")
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/WHITE_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/white-bread/', "/100g")
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/WHITE_BREAD.txt', waitroseData, 'null', "/100g")
 
     if product == 2 :
         tescoPrices = dataPull('URL_STORE/TESCO/BROWN_BREAD.txt', tescoData, 'null', "/100g")
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BROWN_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/wholemeal-brown-bread/', "/100g")
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/BROWN_BREAD.txt', waitroseData, 'null', "/100g")
 
 # Create aggregate lists
 allPrices = []
@@ -148,6 +153,10 @@ if sainsburysPrices != [] :
     allPrices += sainsburysPrices
     cheapest += lowestPrices(sainsburysPrices)
 else : print("Operation for Sainsbury's failed. No results for Sainsbury's will be displayed.")
+if waitrosePrices != [] :
+    allPrices += waitrosePrices
+    cheapest += lowestPrices(waitrosePrices)
+else : print("Operation for Waitrose failed. No results for Waitrose will be displayed.")
 
 # Delete old ouput file if it exists
 try :
