@@ -15,7 +15,7 @@ def lowestPrices(prices) :
     This function extracts the minimum prices from a list of tuples. Then it returns a list of tuples
     which contain just those tuples with the minimum values.
 
-    One argument is argument, the list of tuples from which to extract the minimum values.
+    One argument is accepted, the list of tuples from which to extract the minimum values.
     '''
     prices = sorted(prices, key=itemgetter(1,0))
 
@@ -148,15 +148,15 @@ cheapest = []
 if tescoPrices != [] :
     allPrices += tescoPrices
     cheapest += lowestPrices(tescoPrices)
-else : print("Operation for Tesco failed. No results for Tesco will be displayed.")
+else : print("All operations for Tesco failed. No results for Tesco will be displayed.")
 if sainsburysPrices != [] :
     allPrices += sainsburysPrices
     cheapest += lowestPrices(sainsburysPrices)
-else : print("Operation for Sainsbury's failed. No results for Sainsbury's will be displayed.")
+else : print("All operations for Sainsbury's failed. No results for Sainsbury's will be displayed.")
 if waitrosePrices != [] :
     allPrices += waitrosePrices
     cheapest += lowestPrices(waitrosePrices)
-else : print("Operation for Waitrose failed. No results for Waitrose will be displayed.")
+else : print("All operations for Waitrose failed. No results for Waitrose will be displayed.")
 
 # Delete old ouput file if it exists
 try :
