@@ -61,7 +61,9 @@ def waitroseData(url, titletag, unit) :
             return 'null'
         else :
             titleEnd = htmlString.find('","id":')
-            titleExtract = htmlString[titleStart:titleEnd]
+            addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
+            addMeasureEnd = htmlString.find('",', addMeasureStart)
+            titleExtract = htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]
             priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
             if priceExistCheck == -1 :
                 titleList = [titleExtract]
@@ -69,7 +71,9 @@ def waitroseData(url, titletag, unit) :
             while titleStart != 23 :
                 titleStart = htmlString.find('''productX.push('{"name":"''', titleEnd) + 24
                 titleEnd = htmlString.find('","id":', titleStart)
-                titleExtract = htmlString[titleStart:titleEnd]
+                addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
+                addMeasureEnd = htmlString.find('",', addMeasureStart)
+                titleExtract = htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]
                 priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
                 if priceExistCheck == -1 :
                     titleList.extend([titleExtract])
