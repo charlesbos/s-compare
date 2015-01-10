@@ -36,11 +36,7 @@ def waitroseData(url, titletag, unit) :
                     priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd]) / 100), 2))) + unit
                 except ValueError :
                     pass
-            else :
-                try :
-                    priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
-                except ValueError :
-                    pass
+            else : priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
             priceList = [priceExtract]
             
             while priceStart != 25 :
@@ -52,11 +48,7 @@ def waitroseData(url, titletag, unit) :
                         priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd]) / 100), 2))) + unit
                     except ValueError :
                         pass
-                else :
-                    try :
-                        priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
-                    except ValueError :
-                        pass
+                else : priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
