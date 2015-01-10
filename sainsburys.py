@@ -8,7 +8,7 @@ from fetcher import htmlFetch
 
 def sainsburysData(url, titletag, unit) :
     '''
-    Extract Sainsburys prices and item titles
+    Extract Sainsburys prices per measure and item titles.
     Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
     The second is a unit to append to the extracted prices.
     from the fetcher module. The third is the fragment of html that marks the beginning
