@@ -63,7 +63,7 @@ def waitroseData(url, titletag, unit) :
             titleEnd = htmlString.find('","id":')
             addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
             addMeasureEnd = htmlString.find('",', addMeasureStart)
-            titleExtract = htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]
+            titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('&amp;', '&').replace('&#039;', "'")
             priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
             if priceExistCheck == -1 :
                 titleList = [titleExtract]
@@ -73,7 +73,7 @@ def waitroseData(url, titletag, unit) :
                 titleEnd = htmlString.find('","id":', titleStart)
                 addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
                 addMeasureEnd = htmlString.find('",', addMeasureStart)
-                titleExtract = htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]
+                titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('&amp;', '&').replace('&#039;', "'")
                 priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
                 if priceExistCheck == -1 :
                     titleList.extend([titleExtract])
