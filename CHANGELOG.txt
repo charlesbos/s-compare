@@ -141,3 +141,9 @@ CHANGES: Support for Waitrose has been added!
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-09
+
+VERSION: 5.2.1
+CHANGES: Fixed some issues with Waitrose product titles. Changed handling of Waitrose prices extraction slightly. Fixed a few typos and errors in documentation.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-10
