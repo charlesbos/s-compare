@@ -147,3 +147,9 @@ CHANGES: Fixed some issues with Waitrose product titles. Changed handling of Wai
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-10
+
+VERSION: 5.2.2
+CHANGES: Minor fix for some Tesco item titles.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-11
