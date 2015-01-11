@@ -67,13 +67,13 @@ def tescoData(url, titletag, unit) :
             return 'null'
         else :
             titleEnd = htmlString.find('</span>')
-            titleExtract = htmlString[titleStart:titleEnd]
+            titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
             titleList = [titleExtract]
 
             while titleStart != 23 :
                 titleStart = htmlString.find('<span data-title="true">', titleEnd) + 24
                 titleEnd = htmlString.find('</span></a></h2>', titleStart)
-                titleExtract = htmlString[titleStart:titleEnd]
+                titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
                 titleList.extend([titleExtract])
 
             titleList = titleList[1:-1]
