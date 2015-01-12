@@ -1,4 +1,4 @@
-﻿VERSION: 1.0.0
+VERSION: 1.0.0
 CHANGES: Downloads html from a given URL, extracts the links and then prints them.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
@@ -153,3 +153,9 @@ CHANGES: Minor fix for some Tesco item titles.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-11
+
+VERSION: 5.2.3
+CHANGES: Minor fix for the removal of unavailable Tesco products.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-12
