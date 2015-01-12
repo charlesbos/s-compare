@@ -68,25 +68,19 @@ def tescoData(url, titletag, unit) :
         else :
             titleEnd = htmlString.find('</span>')
             titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
-            titleList = [titleExtract]
+            itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 200)
+            if itemExistCheck == -1 :
+                titleList = [titleExtract]
 
             while titleStart != 23 :
                 titleStart = htmlString.find('<span data-title="true">', titleEnd) + 24
                 titleEnd = htmlString.find('</span></a></h2>', titleStart)
                 titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
-                titleList.extend([titleExtract])
+                itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 200)
+                if itemExistCheck == -1 :
+                    titleList.extend([titleExtract])
 
             titleList = titleList[1:-1]
-
-        # Remove unavailable products
-        counter = 0
-
-        while (counter + 1) < len(titleList) :
-            start = htmlString.find(titleList[counter])
-            end = htmlString.find(titleList[counter + 1])
-            if htmlString.find('Sorry, this product is currently not available.', start, end) != -1 :
-                del titleList[counter]
-            counter += 1
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
