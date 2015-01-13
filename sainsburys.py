@@ -30,7 +30,7 @@ def sainsburysData(url, titletag, unit) :
         else :
             priceEnd = priceStart + 5
             priceExtract = htmlString[priceStart:priceEnd] + unit
-            mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceEnd)
+            mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceStart)
             if mercCheck == -1 :
                 priceList = [priceExtract]
             
@@ -38,7 +38,7 @@ def sainsburysData(url, titletag, unit) :
                 priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
                 priceEnd = priceStart + 5
                 priceExtract = htmlString[priceStart:priceEnd] + unit
-                mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceEnd)
+                mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceStart)
                 if mercCheck == -1 :
                     priceList.extend([priceExtract])
 
