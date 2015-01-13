@@ -66,7 +66,7 @@ def sainsburysData(url, titletag, unit) :
         # Extract promotion titles
         proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''') + 57
 
-        if proTitleStart == -1 : pass
+        if proTitleStart == 56 : pass
         else:
             proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
             proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
