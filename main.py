@@ -55,7 +55,7 @@ def writeTable(prices, tableHeader) :
             
     file.close()
 
-def dataPull(file, shopFunc, titletag, unit) :
+def dataPull(filePath, shopFunc, titletag, unit) :
     '''
     A function to dynamically call the shop module functions multiple times (for different urls)
     according to the product chosen by the user.
@@ -64,7 +64,7 @@ def dataPull(file, shopFunc, titletag, unit) :
     uses to search for titles (strictly speaking, this is only needed for the sainsburys module). The fourth
     is the unit to attach to the prices.
     '''
-    file = open(file, 'r')
+    file = open(filePath, 'r')
 
     urls = str(file.read()).split('\n')
 
