@@ -159,3 +159,9 @@ CHANGES: Minor fix for the removal of unavailable Tesco products.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-12
+
+VERSION: 5.2.4
+CHANGES: Removed Sainsburys url which no longer contains any products. A handful of other minor fixes.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-15
