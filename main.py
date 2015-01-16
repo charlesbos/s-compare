@@ -7,7 +7,6 @@ then outputs the data returned by them.
 from tesco import tescoData
 from sainsburys import sainsburysData
 from waitrose import waitroseData
-from operator import itemgetter
 import os
 
 def lowestPrices(prices) :
@@ -17,7 +16,7 @@ def lowestPrices(prices) :
 
     One argument is accepted, the list of tuples from which to extract the minimum values.
     '''
-    prices = sorted(prices, key=itemgetter(1,0))
+    prices = sortPrices(prices)
 
     minPrices = [(prices[0])]
 
@@ -37,7 +36,7 @@ def writeTable(prices, tableHeader) :
     '''
     file = open('OUTPUT.txt', 'a')
 
-    prices = sorted(prices, key=itemgetter(1,0))
+    prices = sortPrices(prices)
 
     print(str(tableHeader).center(120, ' '), file = file)
     print('-' * 120, file = file)
@@ -77,6 +76,39 @@ def dataPull(filePath, shopFunc, titletag, unit) :
         counter += 1
 
     return prices
+
+def sortPrices(prices) :
+    '''
+    A function to correctly sort the lists of tuples by price. Using the sorted function does not
+    always work correctly because our prices are strings, not floats.
+    One argument is accepted, the list of prices to be sorted.
+    '''
+    pointA = 0
+    pointB = 1
+
+    counter = -1
+
+    if prices != 'null' :
+        while counter <= (len(prices) ** 2) :
+            tupA = prices[pointA]
+            tupB = prices[pointB]
+            priceStringA = tupA[1]
+            priceStringB = tupB[1]
+            numEndA = priceStringA.find('/')
+            numEndB = priceStringB.find('/')
+            if float(priceStringA[1:numEndA]) > float(priceStringB[1:numEndB]) :
+                prices[pointA] = tupB
+                prices[pointB] = tupA               
+            if pointB == (len(prices) - 1) :
+                pointA = 0
+                pointB = 1
+            else:
+                pointA += 1
+                pointB += 1        
+            counter += 1
+
+    return prices
+    
 
 # Print startup message
 print('''This program compares prices for common groceries across a number of different
