@@ -96,13 +96,14 @@ while unselect == 1 :
 if proType == 'd' :
     print("\nEnter 1 to compare prices for still water.")
     print("Enter 2 to compare prices for sparkling water.")
+    print("Enter 3 to compare prices for everyday tea.")
 
     unselect = 1
 
     while unselect == 1 :
         try :
             product = int(input("\nChoose a product to compare: "))
-            if (1 <= product <= 2) is False : int('null')
+            if (1 <= product <= 3) is False : int('null')
             unselect = 0
         except ValueError :
             print("\nInvalid choice.")
@@ -116,6 +117,11 @@ if proType == 'd' :
         tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml")
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml")
         waitrosePrices = dataPull('URL_STORE/WAITROSE/SPARKLING_WATER.txt', waitroseData, 'null', "/100ml")
+
+    if product == 3 :
+        tescoPrices = dataPull('URL_STORE/TESCO/EVERYDAY_TEA.txt', tescoData, 'null', "/100g")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EVERYDAY_TEA.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g")
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/EVERYDAY_TEA.txt', waitroseData, 'null', "/100g")
 
 if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
