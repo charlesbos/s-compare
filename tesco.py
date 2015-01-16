@@ -29,7 +29,7 @@ def tescoData(url, titletag, unit) :
             print("TescoError: failed to extract prices.")
             return 'null'
         else :
-            priceEnd = priceStart + 6
+            priceEnd = htmlString.find('/', priceStart)
             priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
@@ -42,7 +42,7 @@ def tescoData(url, titletag, unit) :
             
             while priceStart != 27 :
                 priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd) + 28
-                priceEnd = priceStart + 6
+                priceEnd = htmlString.find('/', priceStart)
                 priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
                 measureCheck = htmlString[priceEnd:priceEnd + 5]
                 if measureCheck == '/75cl' :
