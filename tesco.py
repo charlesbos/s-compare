@@ -33,11 +33,11 @@ def tescoData(url, titletag, unit) :
             priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
-                temp = (float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4
-                priceExtract = '£' + str(round(temp, 2)) + unit
-            if measureCheck == '/l)</' :
-                temp = float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10
-                priceExtract = '£' + str(round(temp, 2)) + unit
+                temp = str('{:.2f}'.format(((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4)))
+                priceExtract = '£' + temp + unit
+            if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
+                temp = str('{:.2f}'.format((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10)))
+                priceExtract = '£' + temp + unit
             priceList = [priceExtract]
             
             while priceStart != 27 :
@@ -46,11 +46,11 @@ def tescoData(url, titletag, unit) :
                 priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
                 measureCheck = htmlString[priceEnd:priceEnd + 5]
                 if measureCheck == '/75cl' :
-                    temp = (float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4
-                    priceExtract = '£' + str(round(temp, 2)) + unit
-                if measureCheck == '/l)</' :
-                    temp = float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10
-                    priceExtract = '£' + str(round(temp, 2)) + unit
+                    temp = str('{:.2f}'.format(((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4)))
+                    priceExtract = '£' + temp + unit
+                if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
+                    temp = str('{:.2f}'.format((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10)))
+                    priceExtract = '£' + temp + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
