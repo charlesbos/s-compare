@@ -165,3 +165,9 @@ CHANGES: Removed Sainsburys url which no longer contains any products. A handful
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-15
+
+VERSION: 5.3.0
+CHANGES: Added everyday tea. Improved price extraction. Ensured that prices per kilo are converted (Tesco). Ensured that prices are right justified in table. Ensured that prices are sorted as floats, not as strings.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-01-16
