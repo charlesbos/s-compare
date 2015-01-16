@@ -33,10 +33,10 @@ def waitroseData(url, titletag, unit) :
             measureCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
             if measureCheck == -1 :
                 try :
-                    priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd]) / 100), 2))) + unit
+                    priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd]) / 100), 2)) + unit
                 except ValueError :
                     pass
-            else : priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
+            else : priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd][1:]) / 100), 2)) + unit
             priceList = [priceExtract]
             
             while priceStart != 25 :
@@ -45,10 +45,10 @@ def waitroseData(url, titletag, unit) :
                 measureCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
                 if measureCheck == -1 :
                     try :
-                        priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd]) / 100), 2))) + unit
+                        priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd]) / 100), 2)) + unit
                     except ValueError :
                         pass
-                else : priceExtract = '£' + str('{:.2f}'.format(round((float(htmlString[priceStart:priceEnd][1:]) / 100), 2))) + unit
+                else : priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd][1:]) / 100), 2)) + unit
                 priceList.extend([priceExtract])
 
             priceList = priceList[:-1]
