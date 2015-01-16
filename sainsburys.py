@@ -28,7 +28,7 @@ def sainsburysData(url, titletag, unit) :
             print("SainsburysError: failed to extract prices.")
             return 'null'
         else :
-            priceEnd = priceStart + 5
+            priceEnd = htmlString.find('<', priceStart)
             priceExtract = htmlString[priceStart:priceEnd] + unit
             mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceStart)
             if mercCheck == -1 :
@@ -36,7 +36,7 @@ def sainsburysData(url, titletag, unit) :
             
             while priceStart != 26 :
                 priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
-                priceEnd = priceStart + 5
+                priceEnd = htmlString.find('<', priceStart)
                 priceExtract = htmlString[priceStart:priceEnd] + unit
                 mercCheck = htmlString.find('/wcsstore7.06.4.33/SainsburysStorefrontAssetStore/wcassets/merchandising_associations/', priceStart - 1000, priceStart)
                 if mercCheck == -1 :
