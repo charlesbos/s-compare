@@ -158,7 +158,7 @@ if proType == 'd' :
         
     if product == 4 :
         tescoPrices = dataPull('URL_STORE/TESCO/Cereal_&_Cereal_Bars.txt', tescoData, 'null', "/100g")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/Cereal_&_Cereal_Bars.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/food-cupboard/all-cereals', "/100g")
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/Cereal_&_Cereal_Bars.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/all-cereals', "/100g")
         waitrosePrices = dataPull('URL_STORE/WAITROSE/Cereal_&_Cereal_Bars.txt', waitroseData, 'null', "/100g")
 
 if proType == 'f' :
