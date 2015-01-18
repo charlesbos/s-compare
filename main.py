@@ -66,6 +66,7 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     file = open(filePath, 'r')
 
     urls = str(file.read()).split('\n')
+    urls = [x for x in urls if x != '']
 
     counter = 0
     prices = []
