@@ -104,7 +104,6 @@ def sainsburysData(url, titletag, unit, scroll) :
                 print("SainsburysError: unspecified extraction error.")
                 return 'null'
             else :
-                print("Operation for Sainsbury's completed successfully.")
                 return sainsList
 
 

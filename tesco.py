@@ -93,7 +93,6 @@ def tescoData(url, titletag, unit, scroll) :
                 print("TescoError: unspecified extraction error.")
                 return 'null'
             else :
-                print("Operation for Tesco completed successfully.")
                 return tescoList
 
 

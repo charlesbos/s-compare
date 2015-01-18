@@ -92,7 +92,6 @@ def waitroseData(url, titletag, unit, scroll) :
                 print("WaitroseError: unspecified extraction error.")
                 return 'null'
             else :
-                print("Operation for Waitrose completed successfully.")
                 return waitroseList
 
 
