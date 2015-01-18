@@ -64,7 +64,9 @@ def waitroseData(url, titletag, unit, scroll) :
             addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
             addMeasureEnd = htmlString.find('</div>', addMeasureStart)
             titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
-            titleList = [titleExtract]
+            priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 1550)
+            if priceExistCheck == -1 :
+                titleList = [titleExtract]
 
             while titleStart != 9 :
                 titleStart = htmlString.find('<div alt="', titleEnd) + 10
@@ -72,7 +74,9 @@ def waitroseData(url, titletag, unit, scroll) :
                 addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
                 addMeasureEnd = htmlString.find('</div>', addMeasureStart)
                 titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
-                titleList.extend([titleExtract])
+                priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 1550)
+                if priceExistCheck == -1 :
+                    titleList.extend([titleExtract])
 
             titleList = titleList[:-1]
 
