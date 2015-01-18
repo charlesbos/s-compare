@@ -88,7 +88,7 @@ def sortPrices(prices) :
 
     counter = -1
 
-    if prices != 'null' :
+    if (prices != 'null') and (prices != []) :
         while counter <= (len(prices) ** 2) :
             tupA = prices[pointA]
             tupB = prices[pointB]
