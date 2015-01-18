@@ -54,14 +54,14 @@ def writeTable(prices, tableHeader) :
             
     file.close()
 
-def dataPull(filePath, shopFunc, titletag, unit) :
+def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     '''
     A function to dynamically call the shop module functions multiple times (for different urls)
     according to the product chosen by the user.
     Four arguments are taken. The first is the path to the file from which to extract the urls. The
     second is the name of the shop function to call. The third is the html string which the shop function
-    uses to search for titles (strictly speaking, this is only needed for the sainsburys module). The fourth
-    is the unit to attach to the prices.
+    uses to search for titles (Sainsburys only). The fourth is the unit to attach to the prices. The
+    fifth is the number of times the page needs to be scrolled (Waitrose only).
     '''
     file = open(filePath, 'r')
 
@@ -71,7 +71,7 @@ def dataPull(filePath, shopFunc, titletag, unit) :
     prices = []
 
     while counter < len(urls) :
-        temp = shopFunc(urls[counter], titletag, unit)
+        temp = shopFunc(urls[counter], titletag, unit, scroll)
         if temp != 'null' : prices += temp
         counter += 1
 
@@ -142,24 +142,24 @@ if proType == 'd' :
             print("\nInvalid choice.")
 
     if product == 1 :
-        tescoPrices = dataPull('URL_STORE/TESCO/STILL_WATER.txt', tescoData, 'null', "/100ml")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/STILL_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/', "/100ml")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/STILL_WATER.txt', waitroseData, 'null', "/100ml")
+        tescoPrices = dataPull('URL_STORE/TESCO/STILL_WATER.txt', tescoData, 'null', "/100ml", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/STILL_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/', "/100ml", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/STILL_WATER.txt', waitroseData, 'null', "/100ml", 4)
 
     if product == 2 :
-        tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/SPARKLING_WATER.txt', waitroseData, 'null', "/100ml")
+        tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/SPARKLING_WATER.txt', waitroseData, 'null', "/100ml", 2)
 
     if product == 3 :
-        tescoPrices = dataPull('URL_STORE/TESCO/EVERYDAY_TEA.txt', tescoData, 'null', "/100g")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EVERYDAY_TEA.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/EVERYDAY_TEA.txt', waitroseData, 'null', "/100g")
+        tescoPrices = dataPull('URL_STORE/TESCO/EVERYDAY_TEA.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EVERYDAY_TEA.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/EVERYDAY_TEA.txt', waitroseData, 'null', "/100g", 3)
         
     if product == 4 :
-        tescoPrices = dataPull('URL_STORE/TESCO/Cereal_&_Cereal_Bars.txt', tescoData, 'null', "/100g")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/Cereal_&_Cereal_Bars.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/all-cereals', "/100g")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/Cereal_&_Cereal_Bars.txt', waitroseData, 'null', "/100g")
+        tescoPrices = dataPull('URL_STORE/TESCO/Cereal_&_Cereal_Bars.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/Cereal_&_Cereal_Bars.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/all-cereals', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/Cereal_&_Cereal_Bars.txt', waitroseData, 'null', "/100g", 15)
 
 if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
@@ -176,14 +176,14 @@ if proType == 'f' :
             print("\nInvalid choice.")
 
     if product == 1 :
-        tescoPrices = dataPull('URL_STORE/TESCO/WHITE_BREAD.txt', tescoData, 'null', "/100g")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/WHITE_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/white-bread/', "/100g")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/WHITE_BREAD.txt', waitroseData, 'null', "/100g")
+        tescoPrices = dataPull('URL_STORE/TESCO/WHITE_BREAD.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/WHITE_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/white-bread/', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/WHITE_BREAD.txt', waitroseData, 'null', "/100g", 2)
 
     if product == 2 :
-        tescoPrices = dataPull('URL_STORE/TESCO/BROWN_BREAD.txt', tescoData, 'null', "/100g")
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BROWN_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/wholemeal-brown-bread/', "/100g")
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/BROWN_BREAD.txt', waitroseData, 'null', "/100g")
+        tescoPrices = dataPull('URL_STORE/TESCO/BROWN_BREAD.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BROWN_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/wholemeal-brown-bread/', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/BROWN_BREAD.txt', waitroseData, 'null', "/100g", 2)
 
 # Create aggregate lists
 allPrices = []

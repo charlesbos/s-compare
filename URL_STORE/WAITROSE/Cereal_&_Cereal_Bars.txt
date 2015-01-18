@@ -1,15 +1,1 @@
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/1
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/2
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/3
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/4
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/5
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/6
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/7
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/8
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/9
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/10
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/11
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/12
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/13
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/14
-http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals/page/15
+http://www.waitrose.com/shop/Browse/Groceries/Food_Cupboard/Breakfast_Cereals

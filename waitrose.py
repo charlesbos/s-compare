@@ -4,19 +4,19 @@ waitrose.py
 This modules extracts prices and item titles from a valid Waitrose store page
 url and then returns that data.
 """
-from fetcher import htmlFetch
+from fetcher import waitroseFetch
 
-def waitroseData(url, titletag, unit) :
+def waitroseData(url, titletag, unit, scroll) :
     '''
     Extract Waitrose prices per measure and item titles.
     Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
     The second is a unit to append to the extracted prices.
-    from the fetcher module. The third is the fragment of html that marks the beginning
-    of an item title. Note that the titletag argument is not used in this function
-    at all and is specified for compatibility reasons only.
+    from the fetcher module. The third is not used in this function
+    at all and is specified for compatibility reasons only. The fourth is the number of times that
+    the page needs to be scrolled in order for the html to be generated.
     '''
 
-    htmlString = htmlFetch(url)
+    htmlString = waitroseFetch(url, scroll)
 
     if htmlString == 'null' :
         print("WaitroseError: failed to retrieve webpage.")
@@ -54,29 +54,25 @@ def waitroseData(url, titletag, unit) :
             priceList = priceList[:-1]
 
         # Extract titles
-        titleStart = htmlString.find('''productX.push('{"name":"''') + 24
+        titleStart = htmlString.find('<div alt="') + 10
 
         if titleStart == -1 :
             print("WaitroseError: failed to extract item titles.")
             return 'null'
         else :
-            titleEnd = htmlString.find('","id":')
-            addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
-            addMeasureEnd = htmlString.find('",', addMeasureStart)
-            titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('&amp;', '&').replace('&#039;', "'")
-            priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
-            if priceExistCheck == -1 :
-                titleList = [titleExtract]
+            titleEnd = htmlString.find('"', titleStart)
+            addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
+            addMeasureEnd = htmlString.find('</div>', addMeasureStart)
+            titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
+            titleList = [titleExtract]
 
-            while titleStart != 23 :
-                titleStart = htmlString.find('''productX.push('{"name":"''', titleEnd) + 24
-                titleEnd = htmlString.find('","id":', titleStart)
-                addMeasureStart = htmlString.find('"weight":"', titleEnd) + 10
-                addMeasureEnd = htmlString.find('",', addMeasureStart)
-                titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('&amp;', '&').replace('&#039;', "'")
-                priceExistCheck = htmlString.find('"price_per_unit":"",', titleEnd, titleEnd + 400)
-                if priceExistCheck == -1 :
-                    titleList.extend([titleExtract])
+            while titleStart != 9 :
+                titleStart = htmlString.find('<div alt="', titleEnd) + 10
+                titleEnd = htmlString.find('"', titleStart)
+                addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
+                addMeasureEnd = htmlString.find('</div>', addMeasureStart)
+                titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
+                titleList.extend([titleExtract])
 
             titleList = titleList[:-1]
 

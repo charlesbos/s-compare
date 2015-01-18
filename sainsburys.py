@@ -4,18 +4,19 @@ sainsburys.py
 This modules extracts prices and item titles from a valid Sainsburys store page
 url and then returns that data.
 """
-from fetcher import htmlFetch
+from fetcher import simpleFetch
 
-def sainsburysData(url, titletag, unit) :
+def sainsburysData(url, titletag, unit, scroll) :
     '''
     Extract Sainsburys prices per measure and item titles.
     Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
     The second is a unit to append to the extracted prices.
     from the fetcher module. The third is the fragment of html that marks the beginning
-    of an item title.
+    of an item title. The fourth is not needed by this function and is specified
+    for compatibility reasons only.
     '''
 
-    htmlString = htmlFetch(url)
+    htmlString = simpleFetch(url)
 
     if htmlString == 'null' :
         print("SainsburysError: failed to retrieve webpage.")

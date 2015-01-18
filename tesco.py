@@ -4,19 +4,18 @@ tesco.py
 This modules extracts prices and item titles from a valid Tesco store page
 url and then returns that data.
 """
-from fetcher import htmlFetch
+from fetcher import simpleFetch
 
-def tescoData(url, titletag, unit) :
+def tescoData(url, titletag, unit, scroll) :
     '''
     Extract Tesco prices per measure and item titles.
     Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
     The second is a unit to append to the extracted prices.
-    from the fetcher module. The third is the fragment of html that marks the beginning
-    of an item title. Note that the titletag argument is not used in this function
-    at all and is specified for compatibility reasons only.
+    from the fetcher module. The third and fourth are not used in this function
+    at all and are specified for compatibility reasons only.
     '''
 
-    htmlString = htmlFetch(url)
+    htmlString = simpleFetch(url)
 
     if htmlString == 'null' :
         print("TescoError: failed to retrieve webpage.")
