@@ -23,88 +23,53 @@ def sainsburysData(url, titletag, unit, scroll) :
         return 'null'
     else :
         # Extract prices
-        priceStart = htmlString.find('<p class="pricePerMeasure">') + 27
-
-        if priceStart == -1 :
-            print("SainsburysError: failed to extract prices.")
-            return 'null'
-        else :
-            priceEnd = htmlString.find('<', priceStart)
-            priceExtract = htmlString[priceStart:priceEnd] + unit
+        priceList = []
+        priceStart = htmlString.find('<p class="pricePerMeasure">')
+        priceEnd = htmlString.find('<abbr', priceStart)
+        
+        while (0 <= priceStart <= len(htmlString)) is True :
+            priceExtract = htmlString[priceStart + 27:priceEnd] + unit
             mercCheck = htmlString.find('merchandising_associations', priceStart - 1000, priceStart)
             if mercCheck == -1 :
-                priceList = [priceExtract]
-            
-            while priceStart != 26 :
-                priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd) + 27
-                priceEnd = htmlString.find('<', priceStart)
-                priceExtract = htmlString[priceStart:priceEnd] + unit
-                mercCheck = htmlString.find('merchandising_associations', priceStart - 1000, priceStart)
-                if mercCheck == -1 :
-                    priceList.extend([priceExtract])
-
-            priceList = priceList[:-1]
+                priceList += [priceExtract]
+            priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd)
+            priceEnd = htmlString.find('<abbr', priceStart)
 
         # Extract titles
-        titleStart = htmlString.find(titletag) + 67
+        titleList = []
+        titleStart = htmlString.find(titletag)
+        titleEnd = htmlString.find('<img alt=', titleStart)
 
-        if titleStart == -1 :
-            print("SainsburysError: failed to extract item titles.")
-            return 'null'
-        else :
-            titleEnd = htmlString.find('<img alt=', titleStart) + 9
-            titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            titleList = [titleExtract]
+        while (0 <= titleStart <= len(htmlString)) is True :
+            titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
+            titleList += [titleExtract]
+            titleStart = htmlString.find(titletag, titleEnd)
+            titleEnd = htmlString.find('<img alt=', titleStart)
 
-            while titleStart != 75 :
-                titleStart = htmlString.find(titletag, titleEnd) + 76
-                titleEnd = htmlString.find('<img alt=', titleStart) + 9
-                titleExtract = htmlString[titleStart:titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-                titleList.extend([titleExtract])
-
-            titleList = titleList[:-1] 
+        titleList = [x for x in titleList if x != '']
 
         # Extract promotion titles
-        proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''') + 57
+        proTitleList = []
+        proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''')
+        proTitleEnd = htmlString.find('<img alt=', proTitleStart)
 
-        if proTitleStart == 56 : pass
-        else:
-            proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
-            proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            proTitleList = [proTitleExtract]
+        while (0 <= proTitleStart <= len(htmlString)) is True :
+            proTitleExtract = htmlString[proTitleStart + 57:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
+            proTitleList += [proTitleExtract]
+            proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd)
+            proTitleEnd = htmlString.find('<img alt=', proTitleStart)
 
-            while proTitleStart != 65 :
-                proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd) + 66
-                proTitleEnd = htmlString.find('<img alt=', proTitleStart) + 9
-                proTitleExtract = htmlString[proTitleStart:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-                proTitleList.extend([proTitleExtract])
+        proTitleList = [x for x in proTitleList if x != '']
 
-            proTitleList = proTitleList[1:-1]
-
-        # Merge the lists
-        try :
-            titleList = titleList + proTitleList
-            titleList = sorted(titleList)
-        except NameError :
-            pass
+        # Merge titles and promotion titles
+        titleList = sorted(titleList + proTitleList)
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("SainsburysError: lengths of prices and item titles do not match.")
             return 'null'
         else :
-            sainsList = []
-            counter = 0
-
-            while counter < len(priceList) :
-                sainsList.append((titleList[counter], priceList[counter], "Sainsbury's"))
-                counter += 1
-                
-            if sainsList == [] :
-                print("SainsburysError: unspecified extraction error.")
-                return 'null'
-            else :
-                return sainsList
+            return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]
 
 
                             
