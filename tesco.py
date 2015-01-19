@@ -59,7 +59,7 @@ def tescoData(url, titletag, unit, scroll) :
             print("TescoError: lengths of prices and item titles do not match.")
             return 'null'
         else :
-            return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceStart))]
+            return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]
 
 
                             
