@@ -40,6 +40,11 @@ def waitroseFetch(url, scroll) :
 
         browser.quit()
 
+        # Uncomment for debugging purposes
+        # file = open('Waitrose_Html.txt', 'w')
+        # print(htmlString, file = file)
+        # file.close()
+
         return str(htmlString)
     except Exception as e :
         return 'null'
