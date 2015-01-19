@@ -32,15 +32,11 @@ def waitroseFetch(url, scroll) :
     try :
         browser = webdriver.PhantomJS()
         browser.get(url)
-        htmlString = BeautifulSoup(browser.page_source)
 
-        counter = 0
-
-        while counter < scroll :
+        for x in range(scroll) :
             htmlString = BeautifulSoup(browser.page_source)
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(0.6)
-            counter += 1
 
         browser.quit()
 
