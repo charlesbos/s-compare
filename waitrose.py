@@ -23,81 +23,46 @@ def waitroseData(url, titletag, unit, scroll) :
         return 'null'
     else :
         # Extract prices
-        priceStart = htmlString.find('<span class="fine-print">(') + 26
-
-        if priceStart == -1 :
-            print("WaitroseError: failed to extract prices.")
-            return 'null'
-        else :
-            priceEnd = htmlString.find('p', priceStart)
-            measureCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
-            if measureCheck == -1 :
+        priceList = []
+        priceStart = htmlString.find('<span class="fine-print">(')
+        priceEnd = htmlString.find('p per', priceStart)
+        
+        while (0 <= priceStart <= len(htmlString)) is True :
+            litreCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
+            if litreCheck == -1 :
                 try :
-                    priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd]) / 100), 2)) + unit
+                    priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 100), 2)) + unit
                 except ValueError :
-                    pass
+                    priceEnd = priceEnd = htmlString.find(' per', priceStart)
+                    priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
             else : priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd][1:]) / 100), 2)) + unit
-            priceList = [priceExtract]
-            
-            while priceStart != 25 :
-                priceStart = htmlString.find('<span class="fine-print">(', priceEnd) + 26
-                priceEnd = htmlString.find('p', priceStart)
-                measureCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
-                if measureCheck == -1 :
-                    try :
-                        priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd]) / 100), 2)) + unit
-                    except ValueError :
-                        pass
-                else : priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd][1:]) / 100), 2)) + unit
-                priceList.extend([priceExtract])
-
-            priceList = priceList[:-1]
+            priceList += [priceExtract]
+            priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
+            priceEnd = htmlString.find('p per', priceStart)
 
         # Extract titles
-        titleStart = htmlString.find('<div alt="') + 10
+        titleList = []
+        titleStart = htmlString.find('<div alt="')
+        titleEnd = htmlString.find('" ', titleStart)
 
-        if titleStart == -1 :
-            print("WaitroseError: failed to extract item titles.")
-            return 'null'
-        else :
-            titleEnd = htmlString.find('"', titleStart)
+        while (0 <= titleStart <= len(htmlString)) is True :
             addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
             addMeasureEnd = htmlString.find('</div>', addMeasureStart)
-            titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
+            titleExtract = str(htmlString[titleStart + 10:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
             priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 1550)
             if priceExistCheck == -1 :
-                titleList = [titleExtract]
+                titleList += [titleExtract]
+            titleStart = htmlString.find('<div alt="', titleEnd)
+            titleEnd = htmlString.find('" ', titleStart)
 
-            while titleStart != 9 :
-                titleStart = htmlString.find('<div alt="', titleEnd) + 10
-                titleEnd = htmlString.find('"', titleStart)
-                addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
-                addMeasureEnd = htmlString.find('</div>', addMeasureStart)
-                titleExtract = str(htmlString[titleStart:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
-                priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 1550)
-                if priceExistCheck == -1 :
-                    titleList.extend([titleExtract])
-
-            titleList = titleList[:-1]
+        titleList = [x for x in titleList if x != '']
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("WaitroseError: lengths of prices and item titles do not match.")
             return 'null'
         else :
-            waitroseList = []
-            counter = 0
-
-            while counter < len(priceList) :
-                waitroseList.append((titleList[counter], priceList[counter], "Waitrose"))
-                counter += 1
-
-            if waitroseList == [] :
-                print("WaitroseError: unspecified extraction error.")
-                return 'null'
-            else :
-                return waitroseList
-
+            return [list(x) for x in zip(titleList, priceList, ["Waitrose"] * len(priceList))]
 
                             
 
