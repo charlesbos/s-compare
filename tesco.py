@@ -22,78 +22,44 @@ def tescoData(url, titletag, unit, scroll) :
         return 'null'
     else :
         # Extract prices
-        priceStart = htmlString.find('<span class="linePriceAbbr">') + 28
-
-        if priceStart == -1 :
-            print("TescoError: failed to extract prices.")
-            return 'null'
-        else :
-            priceEnd = htmlString.find('/', priceStart)
-            priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
+        priceList = []
+        priceStart = htmlString.find('<span class="linePriceAbbr">')
+        priceEnd = htmlString.find('/', priceStart)
+        
+        while (0 <= priceStart <= len(htmlString)) is True :
+            priceExtract = htmlString[priceStart + 28:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
-                temp = str('{:.2f}'.format(((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4)))
+                temp = str('{:.2f}'.format(((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 30) * 4)))
                 priceExtract = '£' + temp + unit
             if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
-                temp = str('{:.2f}'.format((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10)))
+                temp = str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 10)))
                 priceExtract = '£' + temp + unit
-            priceList = [priceExtract]
-            
-            while priceStart != 27 :
-                priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd) + 28
-                priceEnd = htmlString.find('/', priceStart)
-                priceExtract = htmlString[priceStart:priceEnd].strip('()') + unit
-                measureCheck = htmlString[priceEnd:priceEnd + 5]
-                if measureCheck == '/75cl' :
-                    temp = str('{:.2f}'.format(((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 30) * 4)))
-                    priceExtract = '£' + temp + unit
-                if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
-                    temp = str('{:.2f}'.format((float(htmlString[priceStart:priceEnd].strip('()')[1:]) / 10)))
-                    priceExtract = '£' + temp + unit
-                priceList.extend([priceExtract])
-
-            priceList = priceList[:-1]
+            priceList += [priceExtract]
+            priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd)
+            priceEnd = htmlString.find('/', priceStart)
 
         # Extract titles
+        titleList = []
         titleStart = htmlString.find('<span data-title="true">') + 24
+        titleEnd = htmlString.find('</span>')
 
-        if titleStart == -1 :
-            print("TescoError: failed to extract item titles.")
-            return 'null'
-        else :
-            titleEnd = htmlString.find('</span>')
-            titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
+        while (0 <= titleStart <= len(htmlString)) is True :
+            titleExtract = htmlString[titleStart + 24:titleEnd].partition('&gt;')[0]
             itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 200)
             if itemExistCheck == -1 :
-                titleList = [titleExtract]
+                titleList.extend([titleExtract])
+            titleStart = htmlString.find('<span data-title="true">', titleEnd)
+            titleEnd = htmlString.find('</span></a></h2>', titleStart)
 
-            while titleStart != 23 :
-                titleStart = htmlString.find('<span data-title="true">', titleEnd) + 24
-                titleEnd = htmlString.find('</span></a></h2>', titleStart)
-                titleExtract = htmlString[titleStart:titleEnd].partition('&gt;')[0]
-                itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 200)
-                if itemExistCheck == -1 :
-                    titleList.extend([titleExtract])
-
-            titleList = titleList[1:-1]
+        titleList = [x for x in titleList if x != '']
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("TescoError: lengths of prices and item titles do not match.")
             return 'null'
         else :
-            tescoList = []
-            counter = 0
-
-            while counter < len(priceList) :
-                tescoList.append((titleList[counter], priceList[counter], "Tesco"))
-                counter += 1
-
-            if tescoList == [] :
-                print("TescoError: unspecified extraction error.")
-                return 'null'
-            else :
-                return tescoList
+            return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(htmlString))]
 
 
                             
