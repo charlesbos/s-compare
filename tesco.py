@@ -30,11 +30,9 @@ def tescoData(url, titletag, unit, scroll) :
             priceExtract = htmlString[priceStart + 28:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
-                temp = str('{:.2f}'.format(((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 30) * 4)))
-                priceExtract = '£' + temp + unit
+                priceExtract = '£' + str('{:.2f}'.format(((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 30) * 4))) + unit
             if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
-                temp = str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 10)))
-                priceExtract = '£' + temp + unit
+                priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 10))) + unit
             priceList += [priceExtract]
             priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd)
             priceEnd = htmlString.find('/', priceStart)
