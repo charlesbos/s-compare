@@ -17,16 +17,7 @@ def lowestPrices(prices) :
     One argument is accepted, the list of tuples from which to extract the minimum values.
     '''
     prices = sortPrices(prices)
-
-    minPrices = [(prices[0])]
-
-    counter = 1
-
-    while counter < len(prices) :
-        if prices[counter][1] == minPrices[0][1] : minPrices.append((prices[counter]))
-        counter += 1
-       
-    return minPrices
+    return [list(x) for x in prices if x[1] == prices[0][1]]
 
 def writeTable(prices, tableHeader) :
     '''
