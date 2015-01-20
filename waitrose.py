@@ -36,9 +36,13 @@ def waitroseData(url, titletag, unit, scroll) :
                 except ValueError :
                     priceEnd = priceEnd = htmlString.find(' per', priceStart)
                     priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
-            else : 
-                priceEnd = priceEnd = htmlString.find(' per', priceStart)
-                priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
+            else :
+                try :
+                    priceEnd = priceEnd = htmlString.find('p per', priceStart)
+                    priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 10), 2)) + unit
+                except ValueError :
+                    priceEnd = priceEnd = htmlString.find(' per', priceStart)
+                    priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
             priceList += [priceExtract]
             priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
             priceEnd = htmlString.find('p per', priceStart)
