@@ -62,12 +62,12 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         proTitleList = [x for x in proTitleList if x != '']
 
+        # Merge titles and promotion titles
+        titleList = sorted(titleList + proTitleList)
+
         # Uncomment for debugging purposes
         # print(len(priceList))
         # print(len(titleList))
-
-        # Merge titles and promotion titles
-        titleList = sorted(titleList + proTitleList)
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
