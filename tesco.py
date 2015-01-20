@@ -54,6 +54,10 @@ def tescoData(url, titletag, unit, scroll) :
 
         titleList = [x for x in titleList if x != '']
 
+        # Uncomment for debugging purposes
+        # print(len(priceList))
+        # print(len(titleList))
+
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
             print("TescoError: lengths of prices and item titles do not match.")
