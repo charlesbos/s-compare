@@ -25,22 +25,18 @@ def writeTable(prices, tableHeader) :
     output file. Two arguments are taken, the price list and the header for the
     table.
     '''
-    file = open('OUTPUT.txt', 'a')
-
     prices = sortPrices(prices)
-
+    
+    file = open('OUTPUT.txt', 'a')
     print(str(tableHeader).center(120, ' '), file = file)
     print('-' * 120, file = file)
     
     if prices != [] :
-        counter = 0
-
-        while counter < len(prices) :
-            print('{:85s}'.format(prices[counter][0]), prices[counter][1].rjust(15, ' '), ' ' * 6, prices[counter][2], file = file)
+        for x in range(len(prices)) :
+            print('{:85s}'.format(prices[x][0]), prices[x][1].rjust(15, ' '), ' ' * 6, prices[x][2], file = file)
             print('-' * 120, file = file)
-            counter += 1
     else : print("No results obtained. Cannot create table.", file = file)
-
+    
     print('\n', file = file)
             
     file.close()
