@@ -50,18 +50,14 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     uses to search for titles (Sainsburys only). The fourth is the unit to attach to the prices. The
     fifth is the number of times the page needs to be scrolled (Waitrose only).
     '''
+    prices = []
     file = open(filePath, 'r')
-
     urls = str(file.read()).split('\n')
     urls = [x for x in urls if x != '']
 
-    counter = 0
-    prices = []
-
-    while counter < len(urls) :
-        temp = shopFunc(urls[counter], titletag, unit, scroll)
+    for x in range(len(urls)) :
+        temp = shopFunc(urls[x], titletag, unit, scroll)
         if temp != 'null' : prices += temp
-        counter += 1
 
     return prices
 
