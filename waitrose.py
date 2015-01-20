@@ -28,14 +28,17 @@ def waitroseData(url, titletag, unit, scroll) :
         priceEnd = htmlString.find('p per', priceStart)
         
         while (0 <= priceStart <= len(htmlString)) is True :
-            litreCheck = htmlString.find('per litre', priceEnd, priceEnd + 10)
-            if litreCheck == -1 :
+            litreCheck = htmlString.find('per litre', priceStart, priceStart + 100)
+            kiloCheck = htmlString.find('per kg', priceStart, priceStart + 100)
+            if (litreCheck == -1) and (kiloCheck == -1) :
                 try :
                     priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 100), 2)) + unit
                 except ValueError :
                     priceEnd = priceEnd = htmlString.find(' per', priceStart)
                     priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
-            else : priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart:priceEnd][1:]) / 100), 2)) + unit
+            else : 
+                priceEnd = priceEnd = htmlString.find(' per', priceStart)
+                priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
             priceList += [priceExtract]
             priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
             priceEnd = htmlString.find('p per', priceStart)
