@@ -29,8 +29,9 @@ def sainsburysData(url, titletag, unit, scroll) :
         
         while (0 <= priceStart <= len(htmlString)) is True :
             priceExtract = htmlString[priceStart + 27:priceEnd] + unit
-            mercCheck = htmlString.find('merchandising_associations', priceStart - 1000, priceStart)
-            if mercCheck == -1 :
+            mercCheckA = htmlString.find('merchandising_associations', priceStart - 1000, priceStart)
+            mercCheckB = htmlString.find('<div class="crossSell">', priceStart - 1000, priceStart)  
+            if (mercCheckA == -1) and (mercCheckB == -1) :
                 priceList += [priceExtract]
             priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd)
             priceEnd = htmlString.find('<abbr', priceStart)
