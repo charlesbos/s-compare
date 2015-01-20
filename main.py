@@ -67,29 +67,21 @@ def sortPrices(prices) :
     always work correctly because our prices are strings, not floats.
     One argument is accepted, the list of prices to be sorted.
     '''
-    pointA = 0
-    pointB = 1
-
-    counter = -1
+    x = 0
+    y = 1
 
     if (prices != 'null') and (prices != []) :
-        while counter <= (len(prices) ** 2) :
-            tupA = prices[pointA]
-            tupB = prices[pointB]
-            priceStringA = tupA[1]
-            priceStringB = tupB[1]
-            numEndA = priceStringA.find('/')
-            numEndB = priceStringB.find('/')
-            if float(priceStringA[1:numEndA]) > float(priceStringB[1:numEndB]) :
-                prices[pointA] = tupB
-                prices[pointB] = tupA               
-            if pointB == (len(prices) - 1) :
-                pointA = 0
-                pointB = 1
-            else:
-                pointA += 1
-                pointB += 1        
-            counter += 1
+        for x in range(len(prices)) :
+            for y in range(len(prices) -1, x, -1) :
+                tupA = prices[x]
+                tupB = prices[y]
+                priceA = tupA[1]
+                priceB = tupB[1]
+                endA = priceA.find('/')
+                endB = priceB.find('/')
+                if float(priceA[1:endA]) > float(priceB[1:endB]) :
+                    prices[x] = tupB
+                    prices[y] = tupA        
 
     return prices
     
