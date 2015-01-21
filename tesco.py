@@ -46,7 +46,7 @@ def tescoData(url, titletag, unit, scroll) :
             titleExtract = htmlString[titleStart + 24:titleEnd].partition('&gt;')[0]
             itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 500)
             if itemExistCheck == -1 :
-                titleList.extend([titleExtract])
+                titleList += [titleExtract]
             titleStart = htmlString.find('<span data-title="true">', titleEnd)
             titleEnd = htmlString.find('</span></a></h2>', titleStart)
 
