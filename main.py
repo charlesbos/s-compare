@@ -138,7 +138,7 @@ if proType == 'd' :
     if product == 4 :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/MILK.txt', tescoData, 'null', "/100ml", 'null')
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/MILK.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/dairy-eggs-chilled/fresh-milk-eggs', "/100ml", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/MILK.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/fresh-milk', "/100ml", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/MILK.txt', waitroseData, 'null', "/100ml", 3)
 
 if proType == 'f' :
