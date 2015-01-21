@@ -148,13 +148,14 @@ if proType == 'f' :
     print("Enter 4 to compare prices for eggs.")
     print("Enter 5 to compare prices for crisps.")
     print("Enter 6 to compare prices for butter.")
+    print("Enter 7 to compare prices for Ice cream tubs.")
 	
     unselect = 1
 
     while unselect == 1 :
         try :
             product = int(input("\nChoose a product to compare: "))
-            if (1 <= product <= 6) is False : int('null')
+            if (1 <= product <= 7) is False : int('null')
             unselect = 0
         except ValueError :
             print("\nInvalid choice.")
@@ -194,6 +195,12 @@ if proType == 'f' :
         tescoPrices = dataPull('URL_STORE/TESCO/BUTTER.txt', tescoData, 'null', "/100g", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/butter', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 2)
+        
+    if product == 7 :
+        print("\nProcessing...")
+        tescoPrices = dataPull('URL_STORE/TESCO/TESCO ICE-CREAM-TUBS.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SAINSBURYS ICE-CREAM-TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/butter', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/WAITROSE ICE-CREAM-TUBS.txt', waitroseData, 'null', "/100g", 2)    
 
 
 # Create aggregate lists
