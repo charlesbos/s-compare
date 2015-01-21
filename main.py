@@ -105,13 +105,14 @@ if proType == 'd' :
     print("\nEnter 1 to compare prices for still water.")
     print("Enter 2 to compare prices for sparkling water.")
     print("Enter 3 to compare prices for everyday tea.")
+	print("Enter 4 to compare prices for milk.")
 
     unselect = 1
 
     while unselect == 1 :
         try :
             product = int(input("\nChoose a product to compare: "))
-            if (1 <= product <= 3) is False : int('null')
+            if (1 <= product <= 4) is False : int('null')
             unselect = 0
         except ValueError :
             print("\nInvalid choice.")
@@ -133,6 +134,12 @@ if proType == 'd' :
         tescoPrices = dataPull('URL_STORE/TESCO/EVERYDAY_TEA.txt', tescoData, 'null', "/100g", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EVERYDAY_TEA.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/EVERYDAY_TEA.txt', waitroseData, 'null', "/100g", 3)
+		
+	if product == 4 :
+        print("\nProcessing...")
+        tescoPrices = dataPull('URL_STORE/TESCO/MILK.txt', tescoData, 'null', "/100ml", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/MILK.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/dairy-eggs-chilled/fresh-milk-eggs', "/100ml", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/MILK.txt', waitroseData, 'null', "/100ml", 3)
 
 if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
@@ -147,7 +154,7 @@ if proType == 'f' :
     while unselect == 1 :
         try :
             product = int(input("\nChoose a product to compare: "))
-            if (1 <= product <= 3) is False : int('null')
+            if (1 <= product <= 6) is False : int('null')
             unselect = 0
         except ValueError :
             print("\nInvalid choice.")
@@ -173,19 +180,19 @@ if proType == 'f' :
 		if product == 4 :
 		print("\nProcessing...")
 		tescoPrices = dataPull('URL_STORE/TESCO/EGGS.txt', tescoData, 'null', "/100g", 'null')
-		sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EGGS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+		sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EGGS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/dairy-eggs-chilled/fresh-milk-eggs', "/100g", 'null')
 		waitrosePrices = dataPull('URL_STORE/WAITROSE/EGGS.txt', waitroseData, 'null', "/100g", 3)
 
 	if product == 5 :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/CRISPS.txt', tescoData, 'null', "/100g", 'null')
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CRISPS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CRISPS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/food-cupboard/crisps-nuts-snacking-fruit', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/CRISPS.txt', waitroseData, 'null', "/100g", 3)
 
 	if product == 6 :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/BUTTER.txt', tescoData, 'null', "/100g", 'null')
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/dairy-eggs-chilled/butter-spreads-baking', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 3)
 
 
