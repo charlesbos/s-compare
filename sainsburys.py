@@ -62,7 +62,7 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         # Uncomment for debugging purposes
         # print(len(priceList))
-        # print(len(titleList))
+        # print(len(titleList), '\n')
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
