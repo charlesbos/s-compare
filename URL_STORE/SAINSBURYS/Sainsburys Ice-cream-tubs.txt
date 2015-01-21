@@ -1,3 +1,0 @@
-+http://www.sainsburys.co.uk/shop/gb/groceries/frozen/ice-cream-tubs#langId=44&storeId=10151&catalogId=10122&categoryId=12289&parent_category_rn=12172&top_category=12172&pageSize=30&orderBy=FAVOURITES_FIRST&searchTerm=&beginIndex=0
-+http://www.sainsburys.co.uk/webapp/wcs/stores/servlet/CategoryDisplay?pageSize=30&searchTerm=&catalogId=10122&orderBy=FAVOURITES_FIRST&top_category=12172&parent_category_rn=12172&listId=&categoryId=12289&langId=44&beginIndex=30&storeId=10151&promotionId=
-+http://www.sainsburys.co.uk/webapp/wcs/stores/servlet/CategoryDisplay?pageSize=30&searchTerm=&catalogId=10122&orderBy=FAVOURITES_FIRST&top_category=12172&parent_category_rn=12172&listId=&categoryId=12289&langId=44&beginIndex=60&storeId=10151&promotionId=
