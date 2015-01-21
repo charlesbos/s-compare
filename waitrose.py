@@ -25,7 +25,7 @@ def waitroseData(url, titletag, unit, scroll) :
         # Extract prices
         priceList = []
         priceStart = htmlString.find('<span class="fine-print">(')
-        priceEnd = htmlString.find('p per', priceStart)
+        priceEnd = htmlString.find('p ', priceStart)
         
         while (0 <= priceStart <= len(htmlString)) is True :
             litreCheck = htmlString.find('per litre', priceStart, priceStart + 100)
@@ -38,14 +38,14 @@ def waitroseData(url, titletag, unit, scroll) :
                     priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
             else :
                 try :
-                    priceEnd = priceEnd = htmlString.find('p per', priceStart)
+                    priceEnd = priceEnd = htmlString.find('p ', priceStart)
                     priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 10), 2)) + unit
                 except ValueError :
                     priceEnd = priceEnd = htmlString.find(' per', priceStart)
                     priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
             priceList += [priceExtract]
             priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
-            priceEnd = htmlString.find('p per', priceStart)
+            priceEnd = htmlString.find('p ', priceStart)
 
         # Extract titles
         titleList = []
