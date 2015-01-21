@@ -61,7 +61,7 @@ def waitroseData(url, titletag, unit, scroll) :
             addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
             addMeasureEnd = htmlString.find('</div>', addMeasureStart)
             titleExtract = str(htmlString[titleStart + 10:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
-            priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 1550)
+            priceExistCheck = htmlString.find('<span class="fine-print"> </span>', titleStart, titleStart + 2000)
             if priceExistCheck == -1 :
                 titleList += [titleExtract]
             titleStart = htmlString.find('<div alt="', titleEnd)
