@@ -138,7 +138,10 @@ if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
     print("Enter 2 to compare prices for brown bread.")
     print("Enter 3 to compare prices for cereal bars.")
-
+	print("Enter 4 to compare prices for eggs.")
+	print("Enter 5 to compare prices for crisps.")
+	print("Enter 6 to compare prices for butter.")
+	
     unselect = 1
 
     while unselect == 1 :
@@ -166,6 +169,25 @@ if proType == 'f' :
         tescoPrices = dataPull('URL_STORE/TESCO/CEREAL_BARS.txt', tescoData, 'null', "/100g", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CEREAL_BARS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/breakfast-cereal-bars-breakfast-biscuits', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/CEREAL_BARS.txt', waitroseData, 'null', "/100g", 3)
+		
+		if product == 4 :
+		print("\nProcessing...")
+		tescoPrices = dataPull('URL_STORE/TESCO/EGGS.txt', tescoData, 'null', "/100g", 'null')
+		sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EGGS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+		waitrosePrices = dataPull('URL_STORE/WAITROSE/EGGS.txt', waitroseData, 'null', "/100g", 3)
+
+	if product == 5 :
+        print("\nProcessing...")
+        tescoPrices = dataPull('URL_STORE/TESCO/CRISPS.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CRISPS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/CRISPS.txt', waitroseData, 'null', "/100g", 3)
+
+	if product == 6 :
+        print("\nProcessing...")
+        tescoPrices = dataPull('URL_STORE/TESCO/BUTTER.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 3)
+
 
 # Create aggregate lists
 allPrices = []
