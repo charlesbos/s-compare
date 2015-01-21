@@ -139,7 +139,7 @@ if proType == 'd' :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/MILK.txt', tescoData, 'null', "/100ml", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/MILK.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/fresh-milk', "/100ml", 'null')
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/MILK.txt', waitroseData, 'null', "/100ml", 3)
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/MILK.txt', waitroseData, 'null', "/100ml", 5)
 
 if proType == 'f' :
     print("\nEnter 1 to compare prices for white bread.")
@@ -187,13 +187,13 @@ if proType == 'f' :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/CRISPS.txt', tescoData, 'null', "/100g", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CRISPS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/food-cupboard/crisps-nuts-snacking-fruit', "/100g", 'null')
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/CRISPS.txt', waitroseData, 'null', "/100g", 3)
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/CRISPS.txt', waitroseData, 'null', "/100g", 4)
 
     if product == 6 :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/BUTTER.txt', tescoData, 'null', "/100g", 'null')
         sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/dairy-eggs-chilled/butter-spreads-baking', "/100g", 'null')
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 3)
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 2)
 
 
 # Create aggregate lists
