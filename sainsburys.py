@@ -36,7 +36,7 @@ def sainsburysData(url, titletag, unit, scroll) :
             priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd)
             priceEnd = htmlString.find('<abbr', priceStart)
 
-        # Extract titles
+        # Extract standard titles and promotion titles
         titleList = []
         titleStart = htmlString.find(titletag)
         titleEnd = htmlString.find('<img alt=', titleStart)
@@ -47,9 +47,6 @@ def sainsburysData(url, titletag, unit, scroll) :
             titleStart = htmlString.find(titletag, titleEnd)
             titleEnd = htmlString.find('<img alt=', titleStart)
 
-        titleList = [x for x in titleList if x != '']
-
-        # Extract promotion titles
         proTitleList = []
         proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''')
         proTitleEnd = htmlString.find('<img alt=', proTitleStart)
@@ -59,11 +56,9 @@ def sainsburysData(url, titletag, unit, scroll) :
             proTitleList += [proTitleExtract]
             proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd)
             proTitleEnd = htmlString.find('<img alt=', proTitleStart)
-
-        proTitleList = [x for x in proTitleList if x != '']
-
-        # Merge titles and promotion titles
         if proTitleList != [] : titleList = sorted(titleList + proTitleList)
+
+        titleList = [x for x in titleList if x != '']
 
         # Uncomment for debugging purposes
         # print(len(priceList))
