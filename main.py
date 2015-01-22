@@ -148,7 +148,7 @@ if proType == 'f' :
     print("Enter 4 to compare prices for eggs.")
     print("Enter 5 to compare prices for crisps.")
     print("Enter 6 to compare prices for butter.")
-    print("Enter 7 to compare prices for Ice cream tubs.")
+    print("Enter 7 to compare prices for ice cream tubs.")
 	
     unselect = 1
 
@@ -198,9 +198,9 @@ if proType == 'f' :
         
     if product == 7 :
         print("\nProcessing...")
-        tescoPrices = dataPull('URL_STORE/TESCO/TESCO ICE-CREAM-TUBS.txt', tescoData, 'null', "/100g", 'null')
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SAINSBURYS ICE-CREAM-TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/frozen/ice-cream-tubs', "/100g", 'null')
-        waitrosePrices = dataPull('URL_STORE/WAITROSE/WAITROSE ICE-CREAM-TUBS.txt', waitroseData, 'null', "/100g", 2)    
+        tescoPrices = dataPull('URL_STORE/TESCO/ICE_CREAM_TUBS.txt', tescoData, 'null', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/ICE_CREAM_TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/ice-cream-tubs', "/100g", 'null')
+        waitrosePrices = dataPull('URL_STORE/WAITROSE/ICE_CREAM_TUBS.txt', waitroseData, 'null', "/100g", 6)    
 
 
 # Create aggregate lists
