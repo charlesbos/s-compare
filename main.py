@@ -199,7 +199,7 @@ if proType == 'f' :
     if product == 7 :
         print("\nProcessing...")
         tescoPrices = dataPull('URL_STORE/TESCO/TESCO ICE-CREAM-TUBS.txt', tescoData, 'null', "/100g", 'null')
-        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SAINSBURYS ICE-CREAM-TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/butter', "/100g", 'null')
+        sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SAINSBURYS ICE-CREAM-TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/frozen/ice-cream-tubs', "/100g", 'null')
         waitrosePrices = dataPull('URL_STORE/WAITROSE/WAITROSE ICE-CREAM-TUBS.txt', waitroseData, 'null', "/100g", 2)    
 
 
