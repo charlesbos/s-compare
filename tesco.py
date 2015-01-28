@@ -5,6 +5,8 @@ This modules extracts prices and item titles from a valid Tesco store page
 url and then returns that data.
 """
 from fetcher import simpleFetch
+from extra import errorLog
+import time
 
 def tescoData(url, titletag, unit, scroll) :
     '''
@@ -18,7 +20,7 @@ def tescoData(url, titletag, unit, scroll) :
     htmlString = simpleFetch(url)
 
     if htmlString == 'null' :
-        print("TescoError: failed to retrieve webpage.")
+        errorLog('null', "TescoError: failed to retrieve webpage.", 'null', 'null')
         return 'null'
     else :
         # Extract prices
@@ -52,13 +54,11 @@ def tescoData(url, titletag, unit, scroll) :
 
         titleList = [x for x in titleList if x != '']
 
-        # Uncomment for debugging purposes
-        # print(len(priceList))
-        # print(len(titleList), '\n')
-
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
-            print("TescoError: lengths of prices and item titles do not match.")
+            errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+            listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
+            errorLog(errorTime, "TescoError: lengths of prices and item titles do not match.", listLengths, 'null')
             return 'null'
         else :
             return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]

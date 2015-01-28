@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import requests
 import time
+from extra import errorLog
 
 def simpleFetch(url) :
     '''
@@ -19,7 +20,8 @@ def simpleFetch(url) :
         response = requests.get(url)
         return str(BeautifulSoup(response.content))
     except Exception as e :
-        # print(e)
+        errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+        errorLog(errorTime, 'null', 'null', e)
         return 'null'
 
 def waitroseFetch(url, scroll) :
@@ -48,6 +50,7 @@ def waitroseFetch(url, scroll) :
 
         return str(htmlString)
     except Exception as e :
-        # print(e)
+        errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+        errorLog(errorTime, 'null', 'null', e)
         return 'null'
 

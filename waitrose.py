@@ -5,6 +5,8 @@ This modules extracts prices and item titles from a valid Waitrose store page
 url and then returns that data.
 """
 from fetcher import waitroseFetch
+from extra import errorLog
+import time
 
 def waitroseData(url, titletag, unit, scroll) :
     '''
@@ -18,8 +20,12 @@ def waitroseData(url, titletag, unit, scroll) :
 
     htmlString = waitroseFetch(url, scroll)
 
-    if htmlString == 'null' :
-        print("WaitroseError: failed to retrieve webpage.")
+    if htmlString == '<html><head></head><body></body></html>' :
+        errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+        errorLog(errorTime, "WaitroseError: failed to retrieve webpage.", 'null', 'null')
+        return 'null'
+    elif htmlString == 'null' :
+        errorLog('null', "WaitroseError: unknown error.", 'null', 'null')
         return 'null'
     else :
         # Extract prices
@@ -45,8 +51,8 @@ def waitroseData(url, titletag, unit, scroll) :
                         priceEnd = priceEnd = htmlString.find(' per', priceStart)
                         priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
             except ValueError as e :
-                print("WaitroseError: prices could not successfully be converted to a standard unit")
-                # print(e)
+                errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+                errorLog(errorTime, "WaitroseError: prices could not successfully be converted to a standard unit", 'null', e)
                 return 'null'
             priceList += [priceExtract]
             priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
@@ -69,13 +75,11 @@ def waitroseData(url, titletag, unit, scroll) :
 
         titleList = [x for x in titleList if x != '']
 
-        # Uncomment for debugging purposes
-        # print(len(priceList))
-        # print(len(titleList), '\n')
-
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
-            print("WaitroseError: lengths of prices and item titles do not match.")
+            errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+            listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
+            errorLog(errorTime, "WaitroseError: lengths of prices and item titles do not match.", listLengths, 'null')
             return 'null'
         else :
             return [list(x) for x in zip(titleList, priceList, ["Waitrose"] * len(priceList))]
