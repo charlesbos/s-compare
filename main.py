@@ -180,7 +180,7 @@ def results(prices) :
     button1 = Button(frame2, text = "Close", command = results.destroy)
     button1.pack(side = TOP)
 
-def about() :
+def about(content) :
     about = Toplevel()
     about.title("About")
     frame1 = Frame(about)
@@ -188,16 +188,16 @@ def about() :
     frame1.pack()
     frame2.pack(side = BOTTOM)
     text = Text(frame1)
-    text.insert(END, extra.aboutText())
+    text.insert(END, content)
     text.pack()
-    button1 = Button(frame2, text = "License", command = licenseWin)
+    button1 = Button(frame2, text = "License", command = lambda : contentFetch(licenseWin, 'LICENSE.txt'))
     button1.pack(side = LEFT)
-    button2 = Button(frame2, text = "Changelog", command = changelogWin)
+    button2 = Button(frame2, text = "Changelog", command = lambda : contentFetch(changelogWin, 'CHANGELOG.txt'))
     button2.pack(side = LEFT)
     button3 = Button(frame2, text = "Close", command = about.destroy)
     button3.pack(side = RIGHT)
 
-def licenseWin() :
+def licenseWin(content) :
     licenseWin = Toplevel()
     licenseWin.title("License")
     frame1 = Frame(licenseWin)
@@ -208,12 +208,12 @@ def licenseWin() :
     scrollbar.pack(side = RIGHT, fill = Y)
     text = Text(frame1, height = 40, width = 160, yscrollcommand = scrollbar.set)
     scrollbar.config(command = text.yview)
-    text.insert(END, extra.licenseView())
+    text.insert(END, content)
     text.pack()
     button1 = Button(frame2, text = "Close", command = licenseWin.destroy)
     button1.pack(side = TOP)
 
-def changelogWin() :
+def changelogWin(content) :
     changelogWin = Toplevel()
     changelogWin.title("Changelog")
     frame1 = Frame(changelogWin)
@@ -224,12 +224,12 @@ def changelogWin() :
     scrollbar.pack(side = RIGHT, fill = Y)
     text = Text(frame1, height = 40, width = 160, yscrollcommand = scrollbar.set)
     scrollbar.config(command = text.yview)
-    text.insert(END, extra.changelogView())
+    text.insert(END, content)
     text.pack()
     button1 = Button(frame2, text = "Close", command = changelogWin.destroy)
     button1.pack(side = TOP)
 
-def logViewer(logs) :
+def logViewer(content) :
     logViewer = Toplevel()
     logViewer.title("Logs")
     frame1 = Frame(logViewer)
@@ -240,15 +240,19 @@ def logViewer(logs) :
     scrollbar.pack(side = RIGHT, fill = Y)
     text = Text(frame1, height = 40, width = 160, yscrollcommand = scrollbar.set)
     scrollbar.config(command = text.yview)
-    text.insert(END, logs)
+    text.insert(END, content)
     text.pack()
     button1 = Button(frame2, text = "Close", command = logViewer.destroy)
     button1.pack(side = LEFT)
 
-def logFetch() :
-    logs = extra.viewLogs()
-    if logs == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
-    else : logViewer(logs)
+def contentFetch(funcName, fileName) :
+    content = extra.viewFile(fileName)
+    if funcName == logViewer :
+        if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
+        else : logViewer(content)
+    else :
+        if content == 'null' : messagebox.showerror(title = "Content Failure", message = "Content not found. Please ensure the program has all the necessary files.")
+        else : funcName(content)
 
 button1 = Button(frame1, text = "Bread", command = bread, height = 5, width = 12).grid(row = 1, column = 1)
 button2 = Button(frame1, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 1, column = 2)
@@ -258,8 +262,8 @@ button5 = Button(frame1, text = "Deserts", command = deserts, height = 5, width 
 button6 = Button(frame1, text = "Fruit & Veg", command = fruit_and_veg, height = 5, width = 12, state = DISABLED).grid(row = 2, column = 3)
 button7 = Button(frame2, text = "Quit", command = top.destroy).grid(row = 3, column = 3, pady = 10)
 button8 = Button(frame2, text = "Help", state = DISABLED).grid(row = 3, column = 1, pady = 10)
-button9 = Button(frame2, text = "About", command = about).grid(row = 3, column = 2, pady = 10)
-button10 = Button(frame2, text = "View Logs", command = logFetch).grid(row = 4, column = 1, pady = 5)
+button9 = Button(frame2, text = "About", command = lambda : contentFetch(about, 'ABOUT.txt')).grid(row = 3, column = 2, pady = 10)
+button10 = Button(frame2, text = "View Logs", command = lambda : contentFetch(logViewer, 'ERROR_LOG.txt')).grid(row = 4, column = 1, pady = 5)
 button11 = Button(frame2, text = "Clear Logs", command = extra.clearLogs).grid(row = 4, column = 2, pady = 5)
 
 top.mainloop()
