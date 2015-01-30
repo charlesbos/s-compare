@@ -33,6 +33,11 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     return prices
 
 def call(fileName, unit, titleTagEnd, scroll, windowName) :
+    '''
+    A function for calling dataPull, displaying an error message if there are no results and destroying
+    the current window. The windowName argument argument is the name of the window to destroy. For the
+    other args, see the dataPull documentation.
+    '''
     tescoPrices = dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
     sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
     waitrosePrices = dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
@@ -44,7 +49,7 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
 def aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices) :
     '''
     A function for aggregating the lists that have been returned by the shop modules.
-    No arguments taken.
+    Three arguments taken, the lists of tuples containing the prices for each shop.
     '''
     allPrices = []
     cheapest = []
@@ -52,15 +57,12 @@ def aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices) :
     if tescoPrices != [] :
         allPrices += tescoPrices
         cheapest += lowestPrices(tescoPrices)
-    else : pass
     if sainsburysPrices != [] :
         allPrices += sainsburysPrices
         cheapest += lowestPrices(sainsburysPrices)
-    else : pass
     if waitrosePrices != [] :
         allPrices += waitrosePrices
         cheapest += lowestPrices(waitrosePrices)
-    else : pass
 
     if (allPrices != []) and (cheapest != []) :
         allPrices = createTable(allPrices, "== Prices from all shops ==")
