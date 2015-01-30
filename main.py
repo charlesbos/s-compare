@@ -11,7 +11,7 @@ import extra
 from tkinter import *
 from tkinter import messagebox
 
-# Data processing functions
+# Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     '''
     A function to dynamically call the shop module functions multiple times (for different urls)
@@ -31,6 +31,15 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
         if temp != 'null' : prices += temp
 
     return prices
+
+def call(fileName, unit, titleTagEnd, scroll, windowName) :
+    tescoPrices = dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+    waitrosePrices = dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)
+    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
+    else : results(combinedPrices)
+    Toplevel.destroy(windowName)
 
 def aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices) :
     '''
@@ -121,33 +130,33 @@ frame2 = Frame(top).grid()
 def bread() :
     bread = Toplevel()
     bread.title("Compare - Bread")
-    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : call(prodWholemealBread, bread)).grid(row = 1, column = 1)                
-    button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : call(prodWhiteBread, bread)).grid(row = 1, column = 2)
+    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : call('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)                
+    button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : call('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
     
 def dairy() :
     dairy = Toplevel()
     dairy.title("Compare - Dairy")
-    button1 = Button(dairy, text = "Milk", height = 5, width = 12, command = lambda : call(prodMilk, dairy)).grid(row = 1, column = 1)
-    button2 = Button(dairy, text = "Butter", height = 5, width = 12, command = lambda : call(prodButter, dairy)).grid(row = 1, column = 2)
-    button3 = Button(dairy, text = "Eggs", height = 5, width = 12, command = lambda : call(prodEggs, dairy)).grid(row = 1, column = 3)
+    button1 = Button(dairy, text = "Milk", height = 5, width = 12, command = lambda : call('MILK.txt', '/100ml', 'fresh-milk/', 5, dairy)).grid(row = 1, column = 1)
+    button2 = Button(dairy, text = "Butter", height = 5, width = 12, command = lambda : call('BUTTER.txt', '/100g', 'butter/', 2, dairy)).grid(row = 1, column = 2)
+    button3 = Button(dairy, text = "Eggs", height = 5, width = 12, command = lambda : call('EGGS.txt', '/each', 'eggs/', 1, dairy)).grid(row = 1, column = 3)
 
 def crisps_and_snacks() :
     crisps_and_snacks = Toplevel()
     crisps_and_snacks.title("Compare - Crisps & Snacks")
-    button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : call(prodCrisps, crisps_and_snacks)).grid(row = 1, column = 1)
-    button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : call(prodCerealBars, crisps_and_snacks)).grid(row = 1, column = 2)
+    button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : call('CRISPS.txt', '/100g', 'crisps/', 4, crisps_and_snacks)).grid(row = 1, column = 1)
+    button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : call('CEREAL_BARS.txt', '/100g', 'breakfast-cereal-bars-breakfast-biscuits/', 3, crisps_and_snacks)).grid(row = 1, column = 2)
 
 def drinks() :
     drinks = Toplevel()
     drinks.title("Compare - Drinks")
-    button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : call(prodStillWater, drinks)).grid(row = 1, column = 1)
-    button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : call(prodSparklingWater, drinks)).grid(row = 1, column = 2)
-    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : call(prodEverydayTea, drinks)).grid(row = 1, column = 3)
+    button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : call('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
+    button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : call('SPARKLING_WATER.txt', '100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
+    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : call('EVERYDAY_TEA.txt', '/100g', 'tea/', 3, drinks)).grid(row = 1, column = 3)
 
 def deserts() :
     deserts = Toplevel()
     deserts.title("Compare - Deserts")
-    button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : call(prodIceCreamTubs, deserts)).grid(row = 1, column = 1)
+    button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : call('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, deserts)).grid(row = 1, column = 1)
 
 def fruit_and_veg() :
     fruit_and_veg = Toplevel()
@@ -250,99 +259,6 @@ button8 = Button(frame2, text = "Help", state = DISABLED).grid(row = 3, column =
 button9 = Button(frame2, text = "About", command = about).grid(row = 3, column = 2, pady = 10)
 button10 = Button(frame2, text = "View Logs", command = logFetch).grid(row = 4, column = 1, pady = 5)
 button11 = Button(frame2, text = "Clear Logs", command = extra.clearLogs).grid(row = 4, column = 2, pady = 5)
-
-# Intermediate functions
-def call(prodName, windowName) :
-    prodName()
-    Toplevel.destroy(windowName)
-
-def prodStillWater() :
-    tescoPrices = dataPull('URL_STORE/TESCO/STILL_WATER.txt', tescoData, 'null', "/100ml", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/STILL_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/still-water/', "/100ml", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/STILL_WATER.txt', waitroseData, 'null', "/100ml", 4)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodSparklingWater() :
-    tescoPrices = dataPull('URL_STORE/TESCO/SPARKLING_WATER.txt', tescoData, 'null', "/100ml", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/SPARKLING_WATER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/sparkling-water/', "/100ml", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/SPARKLING_WATER.txt', waitroseData, 'null', "/100ml", 2)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)   
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices) 
-
-def prodEverydayTea() :
-    tescoPrices = dataPull('URL_STORE/TESCO/EVERYDAY_TEA.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EVERYDAY_TEA.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/tea', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/EVERYDAY_TEA.txt', waitroseData, 'null', "/100g", 3)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)    
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-            
-def prodMilk() :
-    tescoPrices = dataPull('URL_STORE/TESCO/MILK.txt', tescoData, 'null', "/100ml", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/MILK.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/fresh-milk', "/100ml", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/MILK.txt', waitroseData, 'null', "/100ml", 5)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)    
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodWhiteBread() :
-    tescoPrices = dataPull('URL_STORE/TESCO/WHITE_BREAD.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/WHITE_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/white-bread/', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/WHITE_BREAD.txt', waitroseData, 'null', "/100g", 2)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)   
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodWholemealBread() :
-    tescoPrices = dataPull('URL_STORE/TESCO/BROWN_BREAD.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BROWN_BREAD.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/wholemeal-brown-bread/', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/BROWN_BREAD.txt', waitroseData, 'null', "/100g", 2)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)   
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodCerealBars() :
-    tescoPrices = dataPull('URL_STORE/TESCO/CEREAL_BARS.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CEREAL_BARS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/breakfast-cereal-bars-breakfast-biscuits', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/CEREAL_BARS.txt', waitroseData, 'null', "/100g", 3)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)    
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-            
-def prodEggs() :
-    tescoPrices = dataPull('URL_STORE/TESCO/EGGS.txt', tescoData, 'null', "/each", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/EGGS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/eggs', "/each", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/EGGS.txt', waitroseData, 'null', "/each", 1)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)   
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodCrisps() :
-    tescoPrices = dataPull('URL_STORE/TESCO/CRISPS.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/CRISPS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/crisps', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/CRISPS.txt', waitroseData, 'null', "/100g", 4)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)    
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-
-def prodButter() :
-    tescoPrices = dataPull('URL_STORE/TESCO/BUTTER.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/BUTTER.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/butter', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/BUTTER.txt', waitroseData, 'null', "/100g", 2)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)    
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
-    
-def prodIceCreamTubs() :
-    tescoPrices = dataPull('URL_STORE/TESCO/ICE_CREAM_TUBS.txt', tescoData, 'null', "/100g", 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/ICE_CREAM_TUBS.txt', sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/ice-cream-tubs', "/100g", 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/ICE_CREAM_TUBS.txt', waitroseData, 'null', "/100g", 6)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)   
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
 
 top.mainloop()
 
