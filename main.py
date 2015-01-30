@@ -173,7 +173,7 @@ def results(prices) :
     frame2.pack(side = BOTTOM)
     scrollbar = Scrollbar(frame1)
     scrollbar.pack(side = RIGHT, fill = Y)
-    text = Text(frame1, height = 40, width = 160, yscrollcommand = scrollbar.set)
+    text = Text(frame1, height = 40, width = 135, yscrollcommand = scrollbar.set)
     scrollbar.config(command = text.yview)
     text.insert(END, prices)
     text.configure(state = DISABLED)
