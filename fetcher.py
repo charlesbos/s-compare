@@ -9,6 +9,7 @@ from selenium import webdriver
 import requests
 import time
 from extra import errorLog
+import os
 
 def simpleFetch(url) :
     '''
@@ -42,6 +43,8 @@ def waitroseFetch(url, scroll) :
             time.sleep(0.6)
 
         browser.quit()
+
+        os.remove('ghostdriver.log')
 
         # Uncomment for debugging purposes
         # file = open('Waitrose_Html.txt', 'w')
