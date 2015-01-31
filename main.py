@@ -130,12 +130,20 @@ frame1 = Frame(top).grid()
 frame2 = Frame(top).grid()
 
 def bread() :
+    '''
+    Defines the window for bread products.
+    No arguments taken.
+    '''
     bread = Toplevel()
     bread.title("Compare - Bread")
     button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : call('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)                
     button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : call('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
     
 def dairy() :
+    '''
+    Defines the window for dairy products.
+    No arguments taken.
+    '''
     dairy = Toplevel()
     dairy.title("Compare - Dairy")
     button1 = Button(dairy, text = "Milk", height = 5, width = 12, command = lambda : call('MILK.txt', '/100ml', 'fresh-milk/', 5, dairy)).grid(row = 1, column = 1)
@@ -143,12 +151,20 @@ def dairy() :
     button3 = Button(dairy, text = "Eggs", height = 5, width = 12, command = lambda : call('EGGS.txt', '/each', 'eggs/', 1, dairy)).grid(row = 1, column = 3)
 
 def crisps_and_snacks() :
+    '''
+    Defines the window for crisps and snacks products.
+    No arguments taken.
+    '''
     crisps_and_snacks = Toplevel()
     crisps_and_snacks.title("Compare - Crisps & Snacks")
     button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : call('CRISPS.txt', '/100g', 'crisps/', 4, crisps_and_snacks)).grid(row = 1, column = 1)
     button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : call('CEREAL_BARS.txt', '/100g', 'breakfast-cereal-bars-breakfast-biscuits/', 3, crisps_and_snacks)).grid(row = 1, column = 2)
 
 def drinks() :
+    '''
+    Defines the window for drinks products.
+    No arguments taken.
+    '''
     drinks = Toplevel()
     drinks.title("Compare - Drinks")
     button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : call('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
@@ -156,15 +172,29 @@ def drinks() :
     button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : call('EVERYDAY_TEA.txt', '/100g', 'tea/', 3, drinks)).grid(row = 1, column = 3)
 
 def deserts() :
+    '''
+    Defines the window for deserts products.
+    No arguments taken.
+    '''
     deserts = Toplevel()
     deserts.title("Compare - Deserts")
     button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : call('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, deserts)).grid(row = 1, column = 1)
 
 def fruit_and_veg() :
+    '''
+    Defines the window for fruit and veg products.
+    No arguments taken.
+    '''
     fruit_and_veg = Toplevel()
     fruit_and_veg.title("Compare - Fruit & Veg")
 
 def results(prices) :
+    '''
+    Defines the window in which to display the results.
+    One argument taken. A string containing the product titles and prices
+    which is formatted to appear like a table. This is displayed in the
+    tkinter text module.
+    '''
     results = Toplevel()
     results.title("Results")
     frame1 = Frame(results)
@@ -182,6 +212,11 @@ def results(prices) :
     button1.pack(side = TOP)
 
 def about(content) :
+    '''
+    Defines the window which displays the about dialogue.
+    One argument taken: a string containing the about text.
+    This is displayed in the tkinter text module.
+    '''
     about = Toplevel()
     about.title("About")
     frame1 = Frame(about)
@@ -200,6 +235,12 @@ def about(content) :
     button3.pack(side = RIGHT)
 
 def licenseWin(content) :
+    '''
+    Defines the window which displays the license (this is accessible from the
+    about window).
+    One argument taken: the string containing the license which is displayed in
+    the tkinter text module.
+    '''
     licenseWin = Toplevel()
     licenseWin.title("License")
     frame1 = Frame(licenseWin)
@@ -217,6 +258,12 @@ def licenseWin(content) :
     button1.pack(side = TOP)
 
 def changelogWin(content) :
+    '''
+    Defines the window which displays the changelog (this is accessible from the
+    about window).
+    One argument taken: the string containing the changelog which is displayed in
+    the tkinter text module.
+    '''
     changelogWin = Toplevel()
     changelogWin.title("Changelog")
     frame1 = Frame(changelogWin)
@@ -234,6 +281,11 @@ def changelogWin(content) :
     button1.pack(side = TOP)
 
 def logViewer(content) :
+    '''
+    Defines the window which displays the error log.
+    One argument taken: the string containing the log which is displayed in
+    the tkinter text module.
+    '''
     logViewer = Toplevel()
     logViewer.title("Logs")
     frame1 = Frame(logViewer)
@@ -251,6 +303,13 @@ def logViewer(content) :
     button1.pack(side = LEFT)
 
 def contentFetch(funcName, fileName) :
+    '''
+    A function to pass content from text files to the function defining the appropriate
+    program window or else display a message in a pop up window if the content cannot
+    be found.
+    Two arguments taken: the name of the function defining the relevant program window
+    and the filename from which to extract the content.
+    '''
     content = extra.viewFile(fileName)
     if funcName == logViewer :
         if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
