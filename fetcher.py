@@ -4,12 +4,17 @@ fetcher.py
 This module contains various functions for fetching the html for a given page
 and returning it.
 """
-from bs4 import BeautifulSoup
-from selenium import webdriver
-import requests
 import time
 from extra import errorLog
 import os
+from tkinter import messagebox
+try :
+    from bs4 import BeautifulSoup
+    from selenium import webdriver
+    import requests
+except ImportError :
+    messagebox.showerror(title = 'Software not installed', message = 'Some of the software required to run this program is not installed. Please ensure you have installed the following: Python-Requests, Python-BeautifulSoup4, Python-Selenium, PhantomJS')
+    os._exit(0)
 
 def simpleFetch(url) :
     '''
