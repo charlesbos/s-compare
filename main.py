@@ -261,7 +261,7 @@ def contentFetch(funcName, fileName) :
 
 button1 = Button(frame1, text = "Bread", command = bread, height = 5, width = 12).grid(row = 1, column = 1)
 button2 = Button(frame1, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 1, column = 2)
-button3 = Button(frame1, text = "Crips and Snacks", command = crisps_and_snacks, height = 5, width = 12).grid(row = 1, column = 3)
+button3 = Button(frame1, text = "Crisps and Snacks", command = crisps_and_snacks, height = 5, width = 12).grid(row = 1, column = 3)
 button4 = Button(frame1, text = "Drinks", command = drinks, height = 5, width = 12).grid(row = 2, column = 1)
 button5 = Button(frame1, text = "Deserts", command = deserts, height = 5, width = 12).grid(row = 2, column = 2)
 button6 = Button(frame1, text = "Fruit & Veg", command = fruit_and_veg, height = 5, width = 12, state = DISABLED).grid(row = 2, column = 3)

@@ -35,7 +35,7 @@ def sainsburysData(url, titletag, unit, scroll) :
             mercCheckB = htmlString.find('<div class="crossSell">', priceStart - 1000, priceStart)
             mCheckStart = htmlString.find('class="pricePerMeasureMeasure">', priceEnd)
             mCheckEnd = htmlString.find('</span></abbr>', mCheckStart)
-            if htmlString[mCheckStart + 31:mCheckEnd] == 'kg' :
+            if (htmlString[mCheckStart + 31:mCheckEnd] == 'kg') or (htmlString[mCheckStart + 31:mCheckEnd] == 'ltr') :
                 priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd]) / 10))) + unit
             if (mercCheckA == -1) and (mercCheckB == -1) :
                 priceList += [priceExtract]
