@@ -98,7 +98,6 @@ def lowestPrices(prices) :
     '''
     This function extracts the minimum prices from a list of tuples. Then it returns a list of tuples
     which contain just those tuples with the minimum values.
-
     One argument is accepted, the list of tuples from which to extract the minimum values.
     '''
     prices = sortPrices(prices)
@@ -110,16 +109,13 @@ def createTable(prices, tableHeader) :
     window.
     Two arguments are taken, the price list and the header for the table.
     '''
-    prices = sortPrices(prices)
-    
+    prices = sortPrices(prices)   
     priceTable = str(tableHeader).center(130, ' ') + '\n' + ('-' * 130) + '\n'
     
-    if prices != [] :
-        for x in range(len(prices)) :
-            temp = '{:85s}'.format(prices[x][0]), prices[x][1].rjust(15, ' '), ' ' * 6, prices[x][2]
-            priceTable += str(temp)
-            priceTable += '\n' + ('-' * 130) + '\n'
-    else : 'No results obtained. Cannot create table.\n'
+    for x in range(len(prices)) :
+        temp = '{:85s}'.format(prices[x][0]), prices[x][1].rjust(15, ' '), ' ' * 6, prices[x][2]
+        priceTable += str(temp)
+        priceTable += '\n' + ('-' * 130) + '\n'
 
     return priceTable.replace('"', ' ').replace("'", ' ').replace(',', ' ').replace('(', ' ').replace(')', ' ')
 
