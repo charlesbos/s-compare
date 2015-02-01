@@ -5,7 +5,6 @@ This module contains various functions for fetching the html for a given page
 and returning it.
 """
 import time
-from extra import errorLog
 import os
 from tkinter import messagebox
 try :
@@ -26,8 +25,6 @@ def simpleFetch(url) :
         response = requests.get(url)
         return str(BeautifulSoup(response.content))
     except Exception as e :
-        errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
-        errorLog(errorTime, 'null', 'null', e)
         return 'null'
 
 def waitroseFetch(url, scroll) :
@@ -49,7 +46,10 @@ def waitroseFetch(url, scroll) :
 
         browser.quit()
 
-        os.remove('ghostdriver.log')
+        try :
+            os.remove('ghostdriver.log')
+        except IOError :
+            pass
 
         # Uncomment for debugging purposes
         # file = open('Waitrose_Html.txt', 'w')
@@ -58,7 +58,5 @@ def waitroseFetch(url, scroll) :
 
         return str(htmlString)
     except Exception as e :
-        errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
-        errorLog(errorTime, 'null', 'null', e)
         return 'null'
 

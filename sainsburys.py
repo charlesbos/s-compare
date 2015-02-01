@@ -5,8 +5,7 @@ This modules extracts prices and item titles from a valid Sainsburys store page
 url and then returns that data.
 """
 from fetcher import simpleFetch
-from extra import errorLog
-import time
+from time import strftime
 
 def sainsburysData(url, titletag, unit, scroll) :
     '''
@@ -21,8 +20,9 @@ def sainsburysData(url, titletag, unit, scroll) :
     htmlString = simpleFetch(url)
 
     if htmlString == 'null' :
-        errorLog('null', "SainsburysError: failed to retrieve webpage.", 'null', 'null')
-        return 'null'
+        errorTime = strftime('%H:%M:%S %Y-%m-%d')
+        errorMessage = "SainsburysError: failed to retrieve webpage."
+        return errorTime + '\n' + errorMessage + '\n' + '-' * 100
     else :
         # Extract prices
         priceList = []
@@ -68,10 +68,10 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         # Merge the two lists into one list of tuples and return it
         if len(priceList) != len(titleList) :
-            errorTime = time.strftime('%H:%M:%S %Y-%m-%d')
+            errorTime = strftime('%H:%M:%S %Y-%m-%d')
+            errorMessage = "SainsburysError: lengths of prices and item titles do not match."
             listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
-            errorLog(errorTime, "SainsburysError: lengths of prices and item titles do not match.", listLengths, 'null')
-            return 'null'
+            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 100
         else :
             return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]
 

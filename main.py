@@ -7,11 +7,11 @@ then outputs the data returned by them.
 from tesco import tescoData
 from sainsburys import sainsburysData
 from waitrose import waitroseData
-import extra
 from tkinter import *
 from tkinter import messagebox
 from _thread import *
 from queue import Queue
+import os
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -312,13 +312,41 @@ def contentFetch(funcName, fileName) :
     Two arguments taken: the name of the function defining the relevant program window
     and the filename from which to extract the content.
     '''
-    content = extra.viewFile(fileName)
+    content = viewFile(fileName)
     if funcName == logViewer :
         if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
         else : logViewer(content)
     else :
         if content == 'null' : messagebox.showerror(title = "Content Failure", message = "Content not found. Please ensure the program has all the necessary files.")
         else : funcName(content)
+
+def viewFile(fileName) :
+    '''
+    A function to read content from files and return either that content
+    or else a keyword to indicate that the procedure failed.
+    One argument taken, the name of the file form which to read the content.
+    '''
+    try :
+        file = open(fileName, 'r')
+        fileText = file.read()
+        file.close()
+        return fileText
+    except IOError :
+         return 'null'
+
+def clearLogs() :
+    '''
+    A function which uses the tkinter messagebox to ask the user if they
+    would like to clear the logs. If the answer is yes, the program will
+    attempt to delete the error log file.
+    No arguments taken.
+    '''
+    choice = messagebox.askyesno(title = "Clear Logs?", message = "Would you like to delete the application's logs?")
+    if choice == True :
+        try :
+            os.remove('ERROR_LOG.txt')
+        except :
+            pass
 
 button1 = Button(frame1, text = "Bread", command = bread, height = 5, width = 12).grid(row = 1, column = 1)
 button2 = Button(frame1, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 1, column = 2)
@@ -330,7 +358,7 @@ button7 = Button(frame2, text = "Quit", command = top.destroy).grid(row = 3, col
 button8 = Button(frame2, text = "Help", state = DISABLED).grid(row = 3, column = 1, pady = 10)
 button9 = Button(frame2, text = "About", command = lambda : contentFetch(about, 'ABOUT.txt')).grid(row = 3, column = 2, pady = 10)
 button10 = Button(frame2, text = "View Logs", command = lambda : contentFetch(logViewer, 'ERROR_LOG.txt')).grid(row = 4, column = 1, pady = 5)
-button11 = Button(frame2, text = "Clear Logs", command = extra.clearLogs).grid(row = 4, column = 2, pady = 5)
+button11 = Button(frame2, text = "Clear Logs", command = clearLogs).grid(row = 4, column = 2, pady = 5)
 
 top.mainloop()
 
