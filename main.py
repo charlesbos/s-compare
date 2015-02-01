@@ -10,6 +10,8 @@ from waitrose import waitroseData
 import extra
 from tkinter import *
 from tkinter import messagebox
+from _thread import *
+from queue import Queue
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -30,7 +32,7 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
         temp = shopFunc(urls[x], titletag, unit, scroll)
         if temp != 'null' : prices += temp
 
-    return prices
+    queue1.put(prices)
 
 def call(fileName, unit, titleTagEnd, scroll, windowName) :
     '''
@@ -38,15 +40,18 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
     the current window. The windowName argument argument is the name of the window to destroy. For the
     other args, see the dataPull documentation.
     '''
-    tescoPrices = dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
-    sainsburysPrices = dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
-    waitrosePrices = dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
-    combinedPrices = aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices)
+    start_new_thread(dataPull, ('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null'))
+    start_new_thread(dataPull, ('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null'))
+    start_new_thread(dataPull, ('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll))
+    items1 = queue1.get()
+    items2 = queue1.get()
+    items3 = queue1.get()
+    combinedPrices = aggregateLists(items1, items2, items3)
     if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
     else : results(combinedPrices)
     Toplevel.destroy(windowName)
 
-def aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices) :
+def aggregateLists(items1, items2, items3) :
     '''
     A function for aggregating the lists that have been returned by the shop modules.
     Three arguments taken, the lists of tuples containing the prices for each shop.
@@ -54,15 +59,15 @@ def aggregateLists(tescoPrices, sainsburysPrices, waitrosePrices) :
     allPrices = []
     cheapest = []
 
-    if tescoPrices != [] :
-        allPrices += tescoPrices
-        cheapest += lowestPrices(tescoPrices)
-    if sainsburysPrices != [] :
-        allPrices += sainsburysPrices
-        cheapest += lowestPrices(sainsburysPrices)
-    if waitrosePrices != [] :
-        allPrices += waitrosePrices
-        cheapest += lowestPrices(waitrosePrices)
+    if items1 != [] :
+        allPrices += items1
+        cheapest += lowestPrices(items1)
+    if items2 != [] :
+        allPrices += items2
+        cheapest += lowestPrices(items2)
+    if items3 != [] :
+        allPrices += items3
+        cheapest += lowestPrices(items3)
 
     if (allPrices != []) and (cheapest != []) :
         allPrices = createTable(allPrices, "== Prices from all shops ==")
@@ -124,6 +129,7 @@ top = Tk()
 top.title("Team S Scrape")
 frame1 = Frame(top).grid()
 frame2 = Frame(top).grid()
+queue1 = Queue()
 
 def bread() :
     '''
