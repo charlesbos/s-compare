@@ -183,3 +183,9 @@ CHANGES: GUI added. Error logging added.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-01-28
+
+VERSION: 6.1.0
+CHANGES: Code refactored to increase concision (particularly main.py). Multithreading added for the sake of efficiency. Error logging cleaned up. Fixed some crashes. Fixed some price extraction and conversion errors. Fixed some out of date documentation. Added .desktop file for better starting in Unix systems.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-02-02
