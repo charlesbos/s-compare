@@ -102,18 +102,17 @@ def sortPrices(prices) :
     x = 0
     y = 1
 
-    if (prices != 'null') and (prices != []) :
-        for x in range(len(prices)) :
-            for y in range(len(prices) -1, x, -1) :
-                tupA = prices[x]
-                tupB = prices[y]
-                priceA = tupA[1]
-                priceB = tupB[1]
-                endA = priceA.find('/')
-                endB = priceB.find('/')
-                if float(priceA[1:endA]) > float(priceB[1:endB]) :
-                    prices[x] = tupB
-                    prices[y] = tupA        
+    for x in range(len(prices)) :
+        for y in range(len(prices) -1, x, -1) :
+            tupA = prices[x]
+            tupB = prices[y]
+            priceA = tupA[1]
+            priceB = tupB[1]
+            endA = priceA.find('/')
+            endB = priceB.find('/')
+            if float(priceA[1:endA]) > float(priceB[1:endB]) :
+                prices[x] = tupB
+                prices[y] = tupA        
 
     return prices
 
