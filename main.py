@@ -83,11 +83,11 @@ def aggregateLists(prices) :
 
     tescoPrices = sainsburysPrices = waitrosePrices = []
         
-    try : tescoPrices = [x for x in prices if x[0][2] == "Tesco"][0]
+    try : tescoPrices = [x for x in allPrices if x[-1] == "Tesco"]
     except IndexError : pass
-    try : sainsburysPrices = [x for x in prices if x[0][2] == "Sainsburys"][0]
+    try : sainsburysPrices = [x for x in allPrices if x[-1] == "Sainsburys"]
     except IndexError : pass
-    try : waitrosePrices = [x for x in prices if x[0][2] == "Waitrose"][0]
+    try : waitrosePrices = [x for x in allPrices if x[-1] == "Waitrose"]
     except IndexError : pass
 
     shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices]
