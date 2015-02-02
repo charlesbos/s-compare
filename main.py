@@ -58,7 +58,11 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
 
     if errors != [] : writeErrors(errors)
 
-    if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. See logs.")
+    if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
+    elif (combinedPrices != []) and (errors != []) :
+        messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
+        priceTable = aggregateLists(combinedPrices)
+        results(priceTable)
     else :
         priceTable = aggregateLists(combinedPrices)
         results(priceTable)
@@ -77,9 +81,14 @@ def aggregateLists(prices) :
     for x in prices :
         allPrices += x
 
-    tescoPrices = [x for x in prices if x[0][2] == "Tesco"][0]
-    sainsburysPrices = [x for x in prices if x[0][2] == "Sainsburys"][0]
-    waitrosePrices = [x for x in prices if x[0][2] == "Waitrose"][0]
+    tescoPrices = sainsburysPrices = waitrosePrices = []
+        
+    try : tescoPrices = [x for x in prices if x[0][2] == "Tesco"][0]
+    except IndexError : pass
+    try : sainsburysPrices = [x for x in prices if x[0][2] == "Sainsburys"][0]
+    except IndexError : pass
+    try : waitrosePrices = [x for x in prices if x[0][2] == "Waitrose"][0]
+    except IndexError : pass
 
     shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices]
 
