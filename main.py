@@ -76,6 +76,14 @@ def aggregateLists(prices) :
 
     for x in prices :
         allPrices += x
+
+    tescoPrices = [x for x in prices if x[0][2] == "Tesco"][0]
+    sainsburysPrices = [x for x in prices if x[0][2] == "Sainsburys"][0]
+    waitrosePrices = [x for x in prices if x[0][2] == "Waitrose"][0]
+
+    shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices]
+
+    for x in shopAggLists :
         cheapest += lowestPrices(x)
 
     allPrices = createTable(allPrices, "== Prices from all shops ==")
