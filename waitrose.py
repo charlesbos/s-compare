@@ -21,7 +21,7 @@ def waitroseData(url, titletag, unit, scroll) :
     if (htmlString == '<html><head></head><body></body></html>') or (htmlString == 'null') :
         errorTime = strftime('%H:%M:%S %Y-%m-%d')
         errorMessage = "WaitroseError: failed to retrieve webpage."
-        return errorTime + '\n' + errorMessage + '\n' + '-' * 100
+        return errorTime + '\n' + errorMessage + '\n' + '-' * 80
     else :
         # Extract prices
         priceList = []
@@ -48,7 +48,7 @@ def waitroseData(url, titletag, unit, scroll) :
             except ValueError as e :
                 errorTime = strftime('%H:%M:%S %Y-%m-%d')
                 errorMessage = "WaitroseError: prices could not successfully be converted to a standard unit"
-                return errorTime + '\n' + errorMessage + '\n' + '-' * 100
+                return errorTime + '\n' + errorMessage + '\n' + '-' * 80
             if unit == '/each' :
                 parityCheck = htmlString[priceEnd + 2:htmlString.find(')', priceEnd)]
                 if parityCheck == unit[1:] : priceList += [priceExtract]
@@ -82,7 +82,7 @@ def waitroseData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "WaitroseError: lengths of prices and item titles do not match."
             listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
-            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 100
+            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 80
         else :
             return [list(x) for x in zip(titleList, priceList, ["Waitrose"] * len(priceList))]
 

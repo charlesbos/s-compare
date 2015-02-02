@@ -9,7 +9,7 @@ from sainsburys import sainsburysData
 from waitrose import waitroseData
 from tkinter import *
 from tkinter import messagebox
-from _thread import *
+from threading import Thread
 from queue import Queue
 import os
 
@@ -23,57 +23,75 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     uses to search for titles (Sainsburys only). The fourth is the unit to attach to the prices. The
     fifth is the number of times the page needs to be scrolled (Waitrose only).
     '''
-    prices = []
+    output = []
     file = open(filePath, 'r')
     urls = str(file.read()).split('\n')
     urls = [x for x in urls if x != '']
 
     for x in range(len(urls)) :
         temp = shopFunc(urls[x], titletag, unit, scroll)
-        if temp != 'null' : prices += temp
-
-    queue1.put(prices)
+        if type(temp) == list : queue1.put(temp)
+        if type(temp) == str : queue2.put([temp])
 
 def call(fileName, unit, titleTagEnd, scroll, windowName) :
     '''
     A function for calling dataPull, displaying an error message if there are no results and destroying
     the current window. The windowName argument argument is the name of the window to destroy. For the
     other args, see the dataPull documentation.
-    '''
-    start_new_thread(dataPull, ('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null'))
-    start_new_thread(dataPull, ('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null'))
-    start_new_thread(dataPull, ('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll))
-    items1 = queue1.get()
-    items2 = queue1.get()
-    items3 = queue1.get()
-    combinedPrices = aggregateLists(items1, items2, items3)
-    if combinedPrices == 'null' : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display.")
-    else : results(combinedPrices)
+    '''    
+    thread1 = Thread(target = dataPull, args = ('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null'))
+    thread2 = Thread(target = dataPull, args = ('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null'))
+    thread3 = Thread(target = dataPull, args = ('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll))
+
+    dataThreads = [thread1, thread2, thread3]
+    for x in dataThreads :
+        x.start()
+        x.join()
+
+    combinedPrices = []
+    while not queue1.empty() :
+        combinedPrices.append(queue1.get())
+
+    errors = []
+    while not queue2.empty() :
+        errors += queue2.get()
+
+    if errors != [] : writeErrors(errors)
+
+    if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. See logs.")
+    else :
+        priceTable = aggregateLists(combinedPrices)
+        results(priceTable)
+
     Toplevel.destroy(windowName)
 
-def aggregateLists(items1, items2, items3) :
+def aggregateLists(prices) :
     '''
     A function for aggregating the lists that have been returned by the shop modules.
-    Three arguments taken, the lists of tuples containing the prices for each shop.
+    One argument accepted: the list that was created from the lists placed in the queue
+    by the threads started in the call function.
     '''
     allPrices = []
     cheapest = []
 
-    if items1 != [] :
-        allPrices += items1
-        cheapest += lowestPrices(items1)
-    if items2 != [] :
-        allPrices += items2
-        cheapest += lowestPrices(items2)
-    if items3 != [] :
-        allPrices += items3
-        cheapest += lowestPrices(items3)
+    for x in prices :
+        allPrices += x
+        cheapest += lowestPrices(x)
 
-    if (allPrices != []) and (cheapest != []) :
-        allPrices = createTable(allPrices, "== Prices from all shops ==")
-        cheapest = createTable(cheapest, "== Lowest prices from each shop ==")
-        return str(cheapest + '\n' + allPrices)
-    else : return 'null'
+    allPrices = createTable(allPrices, "== Prices from all shops ==")
+    cheapest = createTable(cheapest, "== Lowest prices from each shop ==")
+
+    return str(cheapest + '\n' + allPrices)
+
+def writeErrors(errors) :
+    '''
+    A funtion to write the errors collected in queue2 and then extracted to the
+    error log file.
+    '''
+    file = open('ERROR_LOG.txt', 'w')
+    
+    for x in errors :
+        print(x, file = file)
 
 def sortPrices(prices) :
     '''
@@ -130,6 +148,7 @@ top.title("Team S Scrape")
 frame1 = Frame(top).grid()
 frame2 = Frame(top).grid()
 queue1 = Queue()
+queue2 = Queue()
 
 def bread() :
     '''
@@ -296,7 +315,7 @@ def logViewer(content) :
     frame2.pack(side = BOTTOM)
     scrollbar = Scrollbar(frame1)
     scrollbar.pack(side = RIGHT, fill = Y)
-    text = Text(frame1, height = 40, width = 160, yscrollcommand = scrollbar.set)
+    text = Text(frame1, height = 40, width = 80, yscrollcommand = scrollbar.set)
     scrollbar.config(command = text.yview)
     text.insert(END, content)
     text.configure(state = DISABLED)

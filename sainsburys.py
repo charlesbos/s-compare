@@ -22,7 +22,7 @@ def sainsburysData(url, titletag, unit, scroll) :
     if htmlString == 'null' :
         errorTime = strftime('%H:%M:%S %Y-%m-%d')
         errorMessage = "SainsburysError: failed to retrieve webpage."
-        return errorTime + '\n' + errorMessage + '\n' + '-' * 100
+        return errorTime + '\n' + errorMessage + '\n' + '-' * 80
     else :
         # Extract prices
         priceList = []
@@ -71,7 +71,7 @@ def sainsburysData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "SainsburysError: lengths of prices and item titles do not match."
             listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
-            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 100
+            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 80
         else :
             return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]
 

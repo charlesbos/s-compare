@@ -42,7 +42,7 @@ def waitroseFetch(url, scroll) :
         for x in range(scroll) :
             htmlString = BeautifulSoup(browser.page_source)
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(0.6)
+            time.sleep(0.7)
 
         browser.quit()
 
