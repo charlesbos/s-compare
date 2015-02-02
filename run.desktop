@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=run
+Exec=python main.py
+Terminal=false
+Type=Application
