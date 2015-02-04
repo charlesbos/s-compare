@@ -1,9 +1,9 @@
       This program compares prices for common groceries across a number of
                             different UK retailers.                       
 
-                                Team S Scrape
+                                  S-Compare
 
-                                    6.1.0
+                                    6.1.1
 
                            Copyright (c) 2015 Team S
 

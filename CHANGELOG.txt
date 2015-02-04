@@ -189,3 +189,9 @@ CHANGES: Code refactored to increase concision (particularly main.py). Multithre
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-02-02
+
+VERSION: 6.1.1
+CHANGES: Software renamed to S-Compare. Results window resized to match content. Some functions re-ordered for greater consistency. Ensured that log file is closed after writing to it.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-02-04

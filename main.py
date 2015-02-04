@@ -205,7 +205,7 @@ def writeErrors(errors) :
 
 # Initialise windows
 top = Tk()
-top.title("Team S Scrape")
+top.title("S-Compare")
 frame1 = Frame(top).grid()
 frame2 = Frame(top).grid()
 queue1 = Queue()
