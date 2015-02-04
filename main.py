@@ -199,9 +199,9 @@ def writeErrors(errors) :
     error log file.
     '''
     file = open('ERROR_LOG.txt', 'w')
-    
     for x in errors :
         print(x, file = file)
+    file.close()
 
 # Initialise windows
 top = Tk()
