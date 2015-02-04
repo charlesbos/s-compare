@@ -100,16 +100,6 @@ def aggregateLists(prices) :
 
     return str(cheapest + '\n' + allPrices)
 
-def writeErrors(errors) :
-    '''
-    A funtion to write the errors collected in queue2 and then extracted to the
-    error log file.
-    '''
-    file = open('ERROR_LOG.txt', 'w')
-    
-    for x in errors :
-        print(x, file = file)
-
 def sortPrices(prices) :
     '''
     A function to correctly sort the lists of tuples by price. Using the sorted function does not
@@ -157,6 +147,61 @@ def createTable(prices, tableHeader) :
         priceTable += '\n' + ('-' * 130) + '\n'
 
     return priceTable.replace('"', ' ').replace("'", ' ').replace(',', ' ').replace('(', ' ').replace(')', ' ')
+
+# Utility functions
+def contentFetch(funcName, fileName) :
+    '''
+    A function to pass content from text files to the function defining the appropriate
+    program window or else display a message in a pop up window if the content cannot
+    be found.
+    Two arguments taken: the name of the function defining the relevant program window
+    and the filename from which to extract the content.
+    '''
+    content = viewFile(fileName)
+    if funcName == logViewer :
+        if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
+        else : logViewer(content)
+    else :
+        if content == 'null' : messagebox.showerror(title = "Content Failure", message = "Content not found. Please ensure the program has all the necessary files.")
+        else : funcName(content)
+
+def viewFile(fileName) :
+    '''
+    A function to read content from files and return either that content
+    or else a keyword to indicate that the procedure failed.
+    One argument taken, the name of the file form which to read the content.
+    '''
+    try :
+        file = open(fileName, 'r')
+        fileText = file.read()
+        file.close()
+        return fileText
+    except IOError :
+         return 'null'
+
+def clearLogs() :
+    '''
+    A function which uses the tkinter messagebox to ask the user if they
+    would like to clear the logs. If the answer is yes, the program will
+    attempt to delete the error log file.
+    No arguments taken.
+    '''
+    choice = messagebox.askyesno(title = "Clear Logs?", message = "Would you like to delete the application's logs?")
+    if choice == True :
+        try :
+            os.remove('ERROR_LOG.txt')
+        except :
+            pass
+
+def writeErrors(errors) :
+    '''
+    A funtion to write the errors collected in queue2 and then extracted to the
+    error log file.
+    '''
+    file = open('ERROR_LOG.txt', 'w')
+    
+    for x in errors :
+        print(x, file = file)
 
 # Initialise windows
 top = Tk()
@@ -338,50 +383,6 @@ def logViewer(content) :
     text.pack()
     button1 = Button(frame2, text = "Close", command = logViewer.destroy)
     button1.pack(side = LEFT)
-
-def contentFetch(funcName, fileName) :
-    '''
-    A function to pass content from text files to the function defining the appropriate
-    program window or else display a message in a pop up window if the content cannot
-    be found.
-    Two arguments taken: the name of the function defining the relevant program window
-    and the filename from which to extract the content.
-    '''
-    content = viewFile(fileName)
-    if funcName == logViewer :
-        if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
-        else : logViewer(content)
-    else :
-        if content == 'null' : messagebox.showerror(title = "Content Failure", message = "Content not found. Please ensure the program has all the necessary files.")
-        else : funcName(content)
-
-def viewFile(fileName) :
-    '''
-    A function to read content from files and return either that content
-    or else a keyword to indicate that the procedure failed.
-    One argument taken, the name of the file form which to read the content.
-    '''
-    try :
-        file = open(fileName, 'r')
-        fileText = file.read()
-        file.close()
-        return fileText
-    except IOError :
-         return 'null'
-
-def clearLogs() :
-    '''
-    A function which uses the tkinter messagebox to ask the user if they
-    would like to clear the logs. If the answer is yes, the program will
-    attempt to delete the error log file.
-    No arguments taken.
-    '''
-    choice = messagebox.askyesno(title = "Clear Logs?", message = "Would you like to delete the application's logs?")
-    if choice == True :
-        try :
-            os.remove('ERROR_LOG.txt')
-        except :
-            pass
 
 button1 = Button(frame1, text = "Bread", command = bread, height = 5, width = 12).grid(row = 1, column = 1)
 button2 = Button(frame1, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 1, column = 2)
