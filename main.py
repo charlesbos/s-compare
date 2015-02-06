@@ -48,12 +48,10 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
         x.join()
 
     combinedPrices = []
-    while not queue1.empty() :
-        combinedPrices.append(queue1.get())
+    while not queue1.empty() : combinedPrices.append(queue1.get())
 
     errors = []
-    while not queue2.empty() :
-        errors += queue2.get()
+    while not queue2.empty() :errors += queue2.get()
 
     if errors != [] : writeErrors(errors)
 
@@ -77,11 +75,9 @@ def aggregateLists(prices) :
     allPrices = []
     cheapest = []
 
-    for x in prices :
-        allPrices += x
+    for x in prices : allPrices += x
 
-    tescoPrices = sainsburysPrices = waitrosePrices = []
-        
+    tescoPrices = sainsburysPrices = waitrosePrices = []       
     try : tescoPrices = [x for x in allPrices if x[-1] == "Tesco"]
     except IndexError : pass
     try : sainsburysPrices = [x for x in allPrices if x[-1] == "Sainsburys"]
@@ -91,8 +87,7 @@ def aggregateLists(prices) :
 
     shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices]
 
-    for x in shopAggLists :
-        cheapest += lowestPrices(x)
+    for x in shopAggLists : cheapest += lowestPrices(x)
 
     allPrices = createTable(allPrices, "== Prices from all shops ==")
     cheapest = createTable(cheapest, "== Lowest prices from each shop ==")
@@ -198,8 +193,7 @@ def writeErrors(errors) :
     error log file.
     '''
     file = open('ERROR_LOG.txt', 'w')
-    for x in errors :
-        print(x, file = file)
+    for x in errors : print(x, file = file)
     file.close()
 
 # Initialise windows
