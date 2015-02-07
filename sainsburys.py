@@ -16,7 +16,6 @@ def sainsburysData(url, titletag, unit, scroll) :
     of an item title. The fourth is not needed by this function and is specified
     for compatibility reasons only.
     '''
-
     htmlString = simpleFetch(url)
 
     if htmlString == 'null' :

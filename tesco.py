@@ -15,7 +15,6 @@ def tescoData(url, titletag, unit, scroll) :
     from the fetcher module. The third and fourth are not used in this function
     at all and are specified for compatibility reasons only.
     '''
-
     htmlString = simpleFetch(url)
 
     if htmlString == 'null' :
