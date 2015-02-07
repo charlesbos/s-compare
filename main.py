@@ -51,7 +51,7 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
     while not queue1.empty() : combinedPrices.append(queue1.get())
 
     errors = []
-    while not queue2.empty() :errors += queue2.get()
+    while not queue2.empty() : errors += queue2.get()
 
     if errors != [] : writeErrors(errors)
 
@@ -180,7 +180,7 @@ def clearLogs() :
     if choice == True :
         try :
             os.remove('ERROR_LOG.txt')
-        except :
+        except IOError :
             pass
 
 def writeErrors(errors) :
