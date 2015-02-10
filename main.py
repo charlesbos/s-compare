@@ -388,7 +388,13 @@ def runningWin() :
     global runningWinObj
     runningWinObj = Toplevel()
     runningWinObj.title("Processing")
-    progressbar = ttk.Progressbar(runningWinObj, mode = 'indeterminate', length = 350)
+    frame1 = Frame(runningWinObj)
+    frame2 = Frame(runningWinObj)
+    frame1.pack()
+    frame2.pack(side = BOTTOM)
+    label = Label(frame1, text = "Please wait a moment for the results...", pady = 30)
+    label.pack()
+    progressbar = ttk.Progressbar(frame2, mode = 'indeterminate', length = 350)
     progressbar.pack()
     progressbar.start()
 
