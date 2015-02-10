@@ -12,6 +12,7 @@ from tkinter import messagebox
 from threading import Thread
 from queue import Queue
 import os
+import tkinter.ttk as ttk
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -32,20 +33,14 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
         if type(temp) == list : queue1.put(temp)
         if type(temp) == str : queue2.put([temp])
 
-def call(fileName, unit, titleTagEnd, scroll, windowName) :
+def call(fileName, unit, titleTagEnd, scroll) :
     '''
     A function for calling dataPull, displaying an error message if there are no results and destroying
-    the current window. The windowName argument argument is the name of the window to destroy. For the
-    other args, see the dataPull documentation.
+    the current window. See the dataPull documentation.
     '''    
-    thread1 = Thread(target = dataPull, args = ('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null'))
-    thread2 = Thread(target = dataPull, args = ('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null'))
-    thread3 = Thread(target = dataPull, args = ('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll))
-
-    dataThreads = [thread1, thread2, thread3]
-    for x in dataThreads :
-        x.start()
-        x.join()
+    dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+    dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+    dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
 
     combinedPrices = []
     while not queue1.empty() : combinedPrices.append(queue1.get())
@@ -64,7 +59,7 @@ def call(fileName, unit, titleTagEnd, scroll, windowName) :
         priceTable = aggregateLists(combinedPrices)
         results(priceTable)
 
-    Toplevel.destroy(windowName)
+    Toplevel.destroy(runningWinObj)
 
 def aggregateLists(prices) :
     '''
@@ -138,6 +133,18 @@ def createTable(prices, tableHeader) :
 
     return priceTable.replace('"', ' ').replace("'", ' ').replace(',', ' ').replace('(', ' ').replace(')', ' ')
 
+def manager(fileName, unit, titleTagEnd, scroll, windowName) :
+    '''
+    A function which starts the progress bar window and then concurrently
+    starts the call function which handles the fetching and processing of the required data.
+    The last argument is the name of the product category window to destroy. For the other
+    four arguments, see the dataPull fuction.
+    '''
+    runningWin()
+    callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
+    callThread.start()
+    Toplevel.destroy(windowName)
+
 # Utility functions
 def contentFetch(funcName, fileName) :
     '''
@@ -208,8 +215,8 @@ def bread() :
     '''
     bread = Toplevel()
     bread.title("Compare - Bread")
-    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : call('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)                
-    button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : call('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
+    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
+    button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : manager('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
     
 def dairy() :
     '''
@@ -218,9 +225,9 @@ def dairy() :
     '''
     dairy = Toplevel()
     dairy.title("Compare - Dairy")
-    button1 = Button(dairy, text = "Milk", height = 5, width = 12, command = lambda : call('MILK.txt', '/100ml', 'fresh-milk/', 5, dairy)).grid(row = 1, column = 1)
-    button2 = Button(dairy, text = "Butter", height = 5, width = 12, command = lambda : call('BUTTER.txt', '/100g', 'butter/', 2, dairy)).grid(row = 1, column = 2)
-    button3 = Button(dairy, text = "Eggs", height = 5, width = 12, command = lambda : call('EGGS.txt', '/each', 'eggs/', 1, dairy)).grid(row = 1, column = 3)
+    button1 = Button(dairy, text = "Milk", height = 5, width = 12, command = lambda : manager('MILK.txt', '/100ml', 'fresh-milk/', 5, dairy)).grid(row = 1, column = 1)
+    button2 = Button(dairy, text = "Butter", height = 5, width = 12, command = lambda : manager('BUTTER.txt', '/100g', 'butter/', 2, dairy)).grid(row = 1, column = 2)
+    button3 = Button(dairy, text = "Eggs", height = 5, width = 12, command = lambda : manager('EGGS.txt', '/each', 'eggs/', 1, dairy)).grid(row = 1, column = 3)
 
 def crisps_and_snacks() :
     '''
@@ -229,8 +236,8 @@ def crisps_and_snacks() :
     '''
     crisps_and_snacks = Toplevel()
     crisps_and_snacks.title("Compare - Crisps & Snacks")
-    button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : call('CRISPS.txt', '/100g', 'crisps/', 4, crisps_and_snacks)).grid(row = 1, column = 1)
-    button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : call('CEREAL_BARS.txt', '/100g', 'breakfast-cereal-bars-breakfast-biscuits/', 3, crisps_and_snacks)).grid(row = 1, column = 2)
+    button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : manager('CRISPS.txt', '/100g', 'crisps/', 4, crisps_and_snacks)).grid(row = 1, column = 1)
+    button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : manager('CEREAL_BARS.txt', '/100g', 'breakfast-cereal-bars-breakfast-biscuits/', 3, crisps_and_snacks)).grid(row = 1, column = 2)
 
 def drinks() :
     '''
@@ -239,9 +246,9 @@ def drinks() :
     '''
     drinks = Toplevel()
     drinks.title("Compare - Drinks")
-    button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : call('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
-    button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : call('SPARKLING_WATER.txt', '/100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
-    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : call('EVERYDAY_TEA.txt', '/100g', 'tea/', 3, drinks)).grid(row = 1, column = 3)
+    button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : manager('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
+    button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : manager('SPARKLING_WATER.txt', '/100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
+    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : manager('EVERYDAY_TEA.txt', '/100g', 'tea/', 3, drinks)).grid(row = 1, column = 3)
 
 def deserts() :
     '''
@@ -250,7 +257,7 @@ def deserts() :
     '''
     deserts = Toplevel()
     deserts.title("Compare - Deserts")
-    button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : call('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, deserts)).grid(row = 1, column = 1)
+    button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : manager('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, deserts)).grid(row = 1, column = 1)
 
 def fruit_and_veg() :
     '''
@@ -374,9 +381,20 @@ def logViewer(content) :
     button1 = Button(frame2, text = "Close", command = logViewer.destroy)
     button1.pack(side = LEFT)
 
+def runningWin() :
+    '''
+    A function which defines a window with an indeterminate progressbar.
+    '''    
+    global runningWinObj
+    runningWinObj = Toplevel()
+    runningWinObj.title("Processing")
+    progressbar = ttk.Progressbar(runningWinObj, mode = 'indeterminate', length = 350)
+    progressbar.pack()
+    progressbar.start()
+
 text = Text(frame1, height = 3, width = 55)
 text.grid(row = 1, column = 1, columnspan = 3)
-text.insert(END, ''' This program compares prices for a number of common
+text.insert(END, '''  This program compares prices for a number of common
   groceries. Please select a product category below.''')
 text.configure(state = DISABLED)
 
