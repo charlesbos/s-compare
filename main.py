@@ -398,11 +398,8 @@ def runningWin() :
     progressbar.pack()
     progressbar.start()
 
-text = Text(frame1, height = 3, width = 55)
-text.grid(row = 1, column = 1, columnspan = 3)
-text.insert(END, '''  This program compares prices for a number of common
-  groceries. Please select a product category below.''')
-text.configure(state = DISABLED)
+label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 400, pady = 5, padx = 10, relief = RAISED)
+label.grid(row = 1, column = 1, columnspan = 3)
 
 button1 = Button(frame2, text = "Bread", command = bread, height = 5, width = 12).grid(row = 2, column = 1)
 button2 = Button(frame2, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 2, column = 2)
