@@ -13,7 +13,6 @@ from threading import Thread
 from queue import Queue
 import os
 import tkinter.ttk as ttk
-import time
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -38,34 +37,27 @@ def call(fileName, unit, titleTagEnd, scroll) :
     '''
     A function for calling dataPull, displaying an error message if there are no results and destroying
     the current window. See the dataPull documentation.
-    '''
-    try :
-        while True :
-            if queue3.get() == 'stop' :
-                raise TimeoutError
-            
-        dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
-        dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
-        dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+    '''    
+    dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+    dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+    dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
 
-        combinedPrices = []
-        while not queue1.empty() : combinedPrices.append(queue1.get())
+    combinedPrices = []
+    while not queue1.empty() : combinedPrices.append(queue1.get())
 
-        errors = []
-        while not queue2.empty() : errors += queue2.get()
+    errors = []
+    while not queue2.empty() : errors += queue2.get()
 
-        if errors != [] : writeErrors(errors)
+    if errors != [] : writeErrors(errors)
 
-        if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
-        elif (combinedPrices != []) and (errors != []) :
-            messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
-            priceTable = aggregateLists(combinedPrices)
-            results(priceTable)
-        else :
-            priceTable = aggregateLists(combinedPrices)
-            results(priceTable)
-    except :
-        pass
+    if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
+    elif (combinedPrices != []) and (errors != []) :
+        messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
+        priceTable = aggregateLists(combinedPrices)
+        results(priceTable)
+    else :
+        priceTable = aggregateLists(combinedPrices)
+        results(priceTable)
 
     Toplevel.destroy(runningWinObj)
 
@@ -147,29 +139,12 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     starts the call function which handles the fetching and processing of the required data.
     The last argument is the name of the product category window to destroy. For the other
     four arguments, see the dataPull fuction.
-    '''            
+    '''
     runningWin()
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
-    timeoutThread = Thread(target = timeout, args = ())
     callThread.start()
-    timeoutThread.start()
     Toplevel.destroy(windowName)
 
-def timeout() :
-    '''
-    A function which increments a counter at 1 second intervals. When a pre-defined limit is reached,
-    it will send a singal which will halt the data operation. It will then show an error message.
-    No arguments taken.
-    '''
-    counter = 0
-    while True :
-        time.sleep(1)
-        counter += 1
-        if counter >= 30 :
-            queue3.put('stop')
-            messagebox.showerror(title = "Timeout reached", message = "Operation has timed out. Please try running the operation again.")
-            break
-            
 # Utility functions
 def contentFetch(funcName, fileName) :
     '''
@@ -232,7 +207,6 @@ frame2 = Frame(top).grid()
 frame3 = Frame(top).grid()
 queue1 = Queue()
 queue2 = Queue()
-queue3 = Queue()
 
 def bread() :
     '''
