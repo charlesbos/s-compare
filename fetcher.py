@@ -24,7 +24,7 @@ def simpleFetch(url) :
     try :
         response = requests.get(url)
         return str(BeautifulSoup(response.content))
-    except Exception as e :
+    except :
         return 'null'
 
 def waitroseFetch(url, scroll) :
@@ -57,6 +57,6 @@ def waitroseFetch(url, scroll) :
         # file.close()
 
         return str(htmlString)
-    except Exception as e :
+    except :
         return 'null'
 
