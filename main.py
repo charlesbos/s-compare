@@ -64,7 +64,7 @@ def call(fileName, unit, titleTagEnd, scroll) :
         else :
             priceTable = aggregateLists(combinedPrices)
             results(priceTable)
-    except :
+    except TimeoutError :
         pass
 
     Toplevel.destroy(runningWinObj)
