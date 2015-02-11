@@ -13,6 +13,7 @@ from threading import Thread
 from queue import Queue
 import os
 import tkinter.ttk as ttk
+import time
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -141,9 +142,28 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     four arguments, see the dataPull fuction.
     '''
     runningWin()
+    global callThread
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
     callThread.start()
+    timeWarningThread = Thread(target = timeWarning, args = ())
+    timeWarningThread.start()
     Toplevel.destroy(windowName)
+
+def timeWarning() :
+    '''
+    A function that offers to close the program if an operation takes 30 seconds to complete.
+    If the user answers no and the operation still hangs, the user will be prompted every 15
+    seconds thereafter.
+    '''
+    counter = 0
+    period = 30
+    while callThread.isAlive() :
+        time.sleep(1)
+        counter += 1
+        if counter == period :
+            choice = messagebox.askyesno(title = "Slow running operation", message = "Operation is taking too long. Would you like to close the program and try again?") 
+            if choice == True : os._exit(0)
+            else : period += 15
 
 # Utility functions
 def contentFetch(funcName, fileName) :
