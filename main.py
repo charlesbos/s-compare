@@ -268,7 +268,7 @@ def drinks() :
     drinks.title("Compare - Drinks")
     button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : manager('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
     button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : manager('SPARKLING_WATER.txt', '/100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
-    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : manager('EVERYDAY_TEA.txt', '/100g', 'tea/', 3, drinks)).grid(row = 1, column = 3)
+    button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : manager('EVERYDAY_TEA.txt', '/100g', 'everyday-tea/', 3, drinks)).grid(row = 1, column = 3)
 
 def deserts() :
     '''
