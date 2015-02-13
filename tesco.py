@@ -34,7 +34,8 @@ def tescoData(url, titletag, unit, scroll) :
                 priceExtract = '£' + str('{:.2f}'.format(((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 30) * 4))) + unit
             if (measureCheck == '/l)</') or (measureCheck == '/kg)<') :
                 priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd].strip('()')[1:]) / 10))) + unit
-            priceList += [priceExtract]
+            parityCheck = (unit != '/each') and (measureCheck == '/each')
+            if not parityCheck : priceList += [priceExtract]
             priceStart = htmlString.find('<span class="linePriceAbbr">', priceEnd)
             priceEnd = htmlString.find('/', priceStart)
 
@@ -46,8 +47,8 @@ def tescoData(url, titletag, unit, scroll) :
         while (0 <= titleStart <= len(htmlString)) is True :
             titleExtract = htmlString[titleStart + 24:titleEnd].partition('&gt;')[0]
             itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, titleEnd + 500)
-            if itemExistCheck == -1 :
-                titleList += [titleExtract]
+            parityCheck = (unit != '/each') and (htmlString.find('/each', titleEnd, titleEnd + 600) != -1)
+            if (itemExistCheck == -1) and (parityCheck == False) : titleList += [titleExtract]
             titleStart = htmlString.find('<span data-title="true">', titleEnd)
             titleEnd = htmlString.find('</span></a></h2>', titleStart)
 
