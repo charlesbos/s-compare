@@ -6,6 +6,7 @@ url and then returns that data.
 """
 from fetcher import simpleFetch
 from time import strftime
+import copy
 
 def sainsburysData(url, titletag, unit, scroll) :
     '''
@@ -27,17 +28,19 @@ def sainsburysData(url, titletag, unit, scroll) :
         priceList = []
         priceStart = htmlString.find('<p class="pricePerMeasure">')
         priceEnd = htmlString.find('<abbr', priceStart)
+        prevItem = 0
         
         while (0 <= priceStart <= len(htmlString)) is True :
             priceExtract = htmlString[priceStart + 27:priceEnd] + unit
-            mercCheckA = htmlString.find('merchandising_associations', priceStart - 1000, priceStart)
-            mercCheckB = htmlString.find('<div class="crossSell">', priceStart - 1000, priceStart)
+            mercCheckA = htmlString.find('merchandising_associations', prevItem, priceStart)
+            mercCheckB = htmlString.find('<div class="crossSell">', prevItem, priceStart)
             mCheckStart = htmlString.find('class="pricePerMeasureMeasure">', priceEnd)
             mCheckEnd = htmlString.find('</span></abbr>', mCheckStart)
             if (htmlString[mCheckStart + 31:mCheckEnd] == 'kg') or (htmlString[mCheckStart + 31:mCheckEnd] == 'ltr') :
                 priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd]) / 10))) + unit
             if (mercCheckA == -1) and (mercCheckB == -1) :
                 priceList += [priceExtract]
+            prevItem = copy.deepcopy(priceEnd)
             priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd)
             priceEnd = htmlString.find('<abbr', priceStart)
 
@@ -45,11 +48,13 @@ def sainsburysData(url, titletag, unit, scroll) :
         titleList = []
         titleStart = htmlString.find(titletag)
         titleEnd = htmlString.find('<img alt=', titleStart)
+        prevItem = 0
 
         while (0 <= titleStart <= len(htmlString)) is True :
             titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            mercCheckA = htmlString.find('merchandising_associations', titleStart - 1200, titleStart)
+            mercCheckA = htmlString.find('merchandising_associations', prevItem, titleStart)
             if mercCheckA == -1 : titleList += [titleExtract]
+            prevItem = copy.deepcopy(titleEnd)
             titleStart = htmlString.find(titletag, titleEnd)
             titleEnd = htmlString.find('<img alt=', titleStart)
 
