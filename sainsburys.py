@@ -48,7 +48,8 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         while (0 <= titleStart <= len(htmlString)) is True :
             titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            titleList += [titleExtract]
+            mercCheckA = htmlString.find('merchandising_associations', titleStart - 1200, titleStart)
+            if mercCheckA == -1 : titleList += [titleExtract]
             titleStart = htmlString.find(titletag, titleEnd)
             titleEnd = htmlString.find('<img alt=', titleStart)
 
