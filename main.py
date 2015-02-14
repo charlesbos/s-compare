@@ -189,7 +189,7 @@ def viewFile(fileName) :
     One argument taken, the name of the file form which to read the content.
     '''
     try :
-        file = open(fileName, 'r')
+        file = open(fileName, 'r', encoding = 'utf-8')
         fileText = file.read()
         file.close()
         return fileText
