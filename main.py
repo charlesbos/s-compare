@@ -235,7 +235,7 @@ def bread() :
     '''
     bread = Toplevel()
     bread.title("Compare - Bread")
-    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, command = lambda : manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
+    button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, wraplength = 80, command = lambda : manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
     button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : manager('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
     
 def dairy() :
@@ -418,15 +418,15 @@ def runningWin() :
     progressbar.pack()
     progressbar.start()
 
-label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 400, pady = 5, padx = 10, relief = RAISED)
+label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
 label.grid(row = 1, column = 1, columnspan = 3)
 
-button1 = Button(frame2, text = "Bread", command = bread, height = 5, width = 12).grid(row = 2, column = 1)
-button2 = Button(frame2, text = "Dairy", command = dairy, height = 5, width = 12).grid(row = 2, column = 2)
-button3 = Button(frame2, text = "Crisps and Snacks", command = crisps_and_snacks, height = 5, width = 12).grid(row = 2, column = 3)
-button4 = Button(frame2, text = "Drinks", command = drinks, height = 5, width = 12).grid(row = 3, column = 1)
-button5 = Button(frame2, text = "Deserts", command = deserts, height = 5, width = 12).grid(row = 3, column = 2)
-button6 = Button(frame2, text = "Fruit & Veg", command = fruit_and_veg, height = 5, width = 12, state = DISABLED).grid(row = 3, column = 3)
+button1 = Button(frame2, text = "Bread", command = bread, height = 5, width = 10).grid(row = 2, column = 1)
+button2 = Button(frame2, text = "Dairy", command = dairy, height = 5, width = 10).grid(row = 2, column = 2)
+button3 = Button(frame2, text = "Crisps and Snacks", command = crisps_and_snacks, height = 5, width = 10, wraplength = 80).grid(row = 2, column = 3)
+button4 = Button(frame2, text = "Drinks", command = drinks, height = 5, width = 10).grid(row = 3, column = 1)
+button5 = Button(frame2, text = "Deserts", command = deserts, height = 5, width = 10).grid(row = 3, column = 2)
+button6 = Button(frame2, text = "Fruit & Veg", command = fruit_and_veg, height = 5, width = 10, state = DISABLED).grid(row = 3, column = 3)
 button7 = Button(frame3, text = "Quit", command = top.destroy).grid(row = 4, column = 3, pady = 10)
 button8 = Button(frame3, text = "Help", state = DISABLED).grid(row = 4, column = 1, pady = 10)
 button9 = Button(frame3, text = "About", command = lambda : contentFetch(about, 'ABOUT.txt')).grid(row = 4, column = 2, pady = 10)
