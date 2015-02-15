@@ -50,9 +50,7 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         while (0 <= titleStart <= len(htmlString)) is True :
             titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            mercCheck = htmlString.find('merchandising_associations', prevItem, titleStart) == -1
-            if mercCheck : titleList += [titleExtract]
-            prevItem = copy(titleEnd)
+            titleList += [titleExtract]
             titleStart = htmlString.find(titletag, titleEnd)
             titleEnd = htmlString.find('<img alt=', titleStart)
 
@@ -62,9 +60,11 @@ def sainsburysData(url, titletag, unit, scroll) :
 
         while (0 <= proTitleStart <= len(htmlString)) is True :
             proTitleExtract = htmlString[proTitleStart + 57:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
-            proTitleList += [proTitleExtract]
+            mercCheck = htmlString.find('merchandising_associations', proTitleStart - 3000, proTitleStart) == -1
+            if mercCheck : proTitleList += [proTitleExtract]
             proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd)
             proTitleEnd = htmlString.find('<img alt=', proTitleStart)
+            
         if proTitleList != [] : titleList = sorted(titleList + proTitleList)
 
         titleList = [x for x in titleList if x != '']
