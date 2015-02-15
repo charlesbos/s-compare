@@ -20,7 +20,7 @@ def tescoData(url, titletag, unit, scroll) :
     if htmlString == 'null' :
         errorTime = strftime('%H:%M:%S %Y-%m-%d')
         errorMessage = "TescoError: failed to retrieve webpage."
-        return errorTime + '\n' + errorMessage + '\n' + '-' * 80
+        return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
     else :
         # Extract prices
         priceList = []
@@ -61,11 +61,11 @@ def tescoData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "TescoError: lengths of prices and item titles do not match."
             listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
-            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + '-' * 80
+            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + url + '\n' + '-' * 80
         elif priceList == titleList == [] :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "TescoError: no results found. Check the page URL and HTML."
-            return errorTime + '\n' + errorMessage + '\n' + '-' * 80
+            return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
         else :
             return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]
 
