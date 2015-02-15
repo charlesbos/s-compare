@@ -68,11 +68,3 @@ def tescoData(url, titletag, unit, scroll) :
             return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
         else :
             return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]
-
-
-                            
-
-
-                    
-
-

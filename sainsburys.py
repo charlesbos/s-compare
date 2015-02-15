@@ -46,7 +46,7 @@ def sainsburysData(url, titletag, unit, scroll) :
         titleEnd = htmlString.find('<img alt=', titleStart)
 
         while (0 <= titleStart <= len(htmlString)) is True :
-            titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
+            titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('amp;', '')
             titleList += [titleExtract]
             titleStart = htmlString.find(titletag, titleEnd)
             titleEnd = htmlString.find('<img alt=', titleStart)
@@ -56,7 +56,7 @@ def sainsburysData(url, titletag, unit, scroll) :
         proTitleEnd = htmlString.find('<img alt=', proTitleStart)
 
         while (0 <= proTitleStart <= len(htmlString)) is True :
-            proTitleExtract = htmlString[proTitleStart + 57:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
+            proTitleExtract = htmlString[proTitleStart + 57:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('amp;', '')
             mercCheck = htmlString.find('merchandising_associations', proTitleStart - 3000, proTitleStart) == -1
             if mercCheck : proTitleList += [proTitleExtract]
             proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''', proTitleEnd)
