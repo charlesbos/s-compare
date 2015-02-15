@@ -6,7 +6,6 @@ url and then returns that data.
 """
 from fetcher import simpleFetch
 from time import strftime
-from copy import copy
 
 def sainsburysData(url, titletag, unit, scroll) :
     '''
@@ -36,9 +35,8 @@ def sainsburysData(url, titletag, unit, scroll) :
             if (htmlString[mCheckStart + 31:mCheckEnd] == 'kg') or (htmlString[mCheckStart + 31:mCheckEnd] == 'ltr') :
                 priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 28:priceEnd]) / 10))) + unit
             else : priceExtract = htmlString[priceStart + 27:priceEnd] + unit
-            mercCheck = (htmlString.find('merchandising_associations', prevItem, priceStart) == -1) and (htmlString.find('<div class="crossSell">', prevItem, priceStart) == -1)
+            mercCheck = (htmlString.find('merchandising_associations', priceStart - 1000, priceStart) == -1) and (htmlString.find('<div class="crossSell">', priceStart - 1000, priceStart) == -1)
             if mercCheck : priceList += [priceExtract]
-            prevItem = copy(priceEnd)
             priceStart = htmlString.find('<p class="pricePerMeasure">', priceEnd)
             priceEnd = htmlString.find('<abbr', priceStart)
 
@@ -46,7 +44,6 @@ def sainsburysData(url, titletag, unit, scroll) :
         titleList = []
         titleStart = htmlString.find(titletag)
         titleEnd = htmlString.find('<img alt=', titleStart)
-        prevItem = 0
 
         while (0 <= titleStart <= len(htmlString)) is True :
             titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('&amp;', '&')
@@ -81,11 +78,3 @@ def sainsburysData(url, titletag, unit, scroll) :
             return errorTime + '\n' + errorMessage + '\n' + '-' * 80
         else :
             return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]
-
-
-                            
-
-
-                    
-
-
