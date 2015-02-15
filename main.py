@@ -38,29 +38,32 @@ def call(fileName, unit, titleTagEnd, scroll) :
     '''
     A function for calling dataPull, displaying an error message if there are no results and destroying
     the current window. See the dataPull documentation.
-    '''    
-    dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
-    dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
-    dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+    '''
+    try :
+        dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+        dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+        dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
 
-    combinedPrices = []
-    while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
+        combinedPrices = []
+        while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
 
-    errors = []
-    while not errorQueue.empty() : errors += errorQueue.get()
+        errors = []
+        while not errorQueue.empty() : errors += errorQueue.get()
 
-    if errors != [] : writeErrors(errors)
+        if errors != [] : writeErrors(errors)
 
-    if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
-    elif (combinedPrices != []) and (errors != []) :
-        messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
-        priceTable = aggregateLists(combinedPrices)
-        results(priceTable)
-    else :
-        priceTable = aggregateLists(combinedPrices)
-        results(priceTable)
-
-    Toplevel.destroy(runningWinObj)
+        if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
+        elif (combinedPrices != []) and (errors != []) :
+            messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
+            priceTable = aggregateLists(combinedPrices)
+            results(priceTable)
+        else :
+            priceTable = aggregateLists(combinedPrices)
+            results(priceTable)
+    except :
+        failMessageQueue.put('fail')
+    finally :
+        Toplevel.destroy(runningWinObj)
 
 def aggregateLists(prices) :
     '''
@@ -142,11 +145,15 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     four arguments, see the dataPull fuction.
     '''
     runningWin()
+    
     global callThread
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
-    callThread.start()
     timeWarningThread = Thread(target = timeWarning, args = ())
-    timeWarningThread.start()
+    failCheckThread = Thread(target = failCheck, args = ())
+
+    threads = [callThread, timeWarningThread, failCheckThread]
+    for x in threads : x.start()
+    
     Toplevel.destroy(windowName)
 
 def timeWarning() :
@@ -164,6 +171,15 @@ def timeWarning() :
             choice = messagebox.askyesno(title = "Slow running operation", message = "Operation is taking too long. Would you like to close the program and try again?") 
             if choice == True : os._exit(0)
             else : period += 15
+
+def failCheck() :
+    '''
+    A function that checks a queue for failure messages. If it finds one, it will
+    display an error message.
+    '''
+    while True :
+        if failMessageQueue.get() == 'fail' :
+            messagebox.showerror(title = "Runtime error", message = "Runtime error encountered. Please contact the maintainers at github.com/charlesbos/team_s_scrape")
 
 # Utility functions
 def contentFetch(funcName, fileName) :
@@ -222,6 +238,7 @@ def writeErrors(errors) :
 # Queues
 resultsQueue = Queue()
 errorQueue = Queue()
+failMessageQueue = Queue()
 
 # Initialise windows
 top = Tk()
