@@ -31,8 +31,8 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     
     for x in range(len(urls)) :
         temp = shopFunc(urls[x], titletag, unit, scroll)
-        if type(temp) == list : queue1.put(temp)
-        if type(temp) == str : queue2.put([temp])
+        if type(temp) == list : resultsQueue.put(temp)
+        if type(temp) == str : errorQueue.put([temp])
 
 def call(fileName, unit, titleTagEnd, scroll) :
     '''
@@ -44,10 +44,10 @@ def call(fileName, unit, titleTagEnd, scroll) :
     dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
 
     combinedPrices = []
-    while not queue1.empty() : combinedPrices.append(queue1.get())
+    while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
 
     errors = []
-    while not queue2.empty() : errors += queue2.get()
+    while not errorQueue.empty() : errors += errorQueue.get()
 
     if errors != [] : writeErrors(errors)
 
@@ -212,12 +212,16 @@ def clearLogs() :
 
 def writeErrors(errors) :
     '''
-    A funtion to write the errors collected in queue2 and then extracted to the
+    A funtion to write the errors collected in errorQueue and then extracted to the
     error log file.
     '''
     file = open('ERROR_LOG.txt', 'w')
     for x in errors : print(x, file = file)
     file.close()
+
+# Queues
+resultsQueue = Queue()
+errorQueue = Queue()
 
 # Initialise windows
 top = Tk()
@@ -225,8 +229,6 @@ top.title("Team S Scrape")
 frame1 = Frame(top).grid()
 frame2 = Frame(top).grid()
 frame3 = Frame(top).grid()
-queue1 = Queue()
-queue2 = Queue()
 
 def bread() :
     '''
