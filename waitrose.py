@@ -18,9 +18,13 @@ def waitroseData(url, titletag, unit, scroll) :
     '''
     htmlString = waitroseFetch(url, scroll)
 
-    if (htmlString == '<html><head></head><body></body></html>') or (htmlString == 'null') :
+    if htmlString == '<html><head></head><body></body></html>' :
         errorTime = strftime('%H:%M:%S %Y-%m-%d')
         errorMessage = "WaitroseError: failed to retrieve webpage."
+        return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
+    elif htmlString == 'null' :
+        errorTime = strftime('%H:%M:%S %Y-%m-%d')
+        errorMessage = "WaitroseError: browser operation failed. Please check your browser config."
         return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
     else :
         # Extract prices

@@ -46,11 +46,6 @@ def waitroseFetch(url, scroll) :
 
         browser.quit()
 
-        try :
-            os.remove('ghostdriver.log')
-        except IOError :
-            pass
-
         # Uncomment for debugging purposes
         # file = open('Waitrose_Html.txt', 'w')
         # print(htmlString, file = file)
@@ -59,4 +54,9 @@ def waitroseFetch(url, scroll) :
         return str(htmlString)
     except :
         return 'null'
+    finally :
+        try :
+            os.remove('ghostdriver.log')
+        except IOError :
+            pass
 
