@@ -1,4 +1,5 @@
-This program compares prices for common groceries across a number of different UK retailers.
+This program compares prices for common groceries across a number of 
+different UK retailers.
 
 Team S Scrape
 
