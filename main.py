@@ -7,6 +7,7 @@ then outputs the data returned by them.
 from tesco import tescoData
 from sainsburys import sainsburysData
 from waitrose import waitroseData
+from morrisons import morriData
 from tkinter import *
 from tkinter import messagebox
 from threading import Thread
@@ -43,6 +44,7 @@ def call(fileName, unit, titleTagEnd, scroll) :
         dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
         dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
         dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+        dataPull('URL_STORE/MORRISONS/' + filename, morriData, 'null', unit, 'null')
 
         combinedPrices = []
         while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
@@ -76,12 +78,13 @@ def aggregateLists(prices) :
 
     for x in prices : allPrices += x
 
-    tescoPrices = sainsburysPrices = waitrosePrices = []       
+    tescoPrices = sainsburysPrices = waitrosePrices = morrisonsPrices = []       
     tescoPrices = [x for x in allPrices if x[-1] == "Tesco"]
     sainsburysPrices = [x for x in allPrices if x[-1] == "Sainsburys"]
     waitrosePrices = [x for x in allPrices if x[-1] == "Waitrose"]
+    morrisonsPrices = [x for x in allPrices if x[-1] == "Morrisons"]
 
-    shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices]
+    shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices, morrisonsPrices]
     for x in shopAggLists : cheapest += lowestPrices(x)
 
     allPrices = createTable(allPrices, "== Prices from all shops ==")
