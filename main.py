@@ -44,7 +44,7 @@ def call(fileName, unit, titleTagEnd, scroll) :
         dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
         dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
         dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
-        dataPull('URL_STORE/MORRISONS/' + filename, morriData, 'null', unit, 'null')
+        dataPull('URL_STORE/MORRISONS/' + fileName, morriData, 'null', unit, 'null')
 
         combinedPrices = []
         while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
