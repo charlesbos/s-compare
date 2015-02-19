@@ -1,5 +1,5 @@
 @echo off
 
-start pythonw main.py
+python main.py
 
-exit
+pause
