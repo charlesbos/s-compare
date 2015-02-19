@@ -37,35 +37,35 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
 
 def call(fileName, unit, titleTagEnd, scroll) :
     '''
-    A function for calling dataPull, displaying an error message if there are no results and destroying
-    the current window. See the dataPull documentation.
+    A function for calling dataPull, extracting the results from the relevant
+    queues, calling the functions to process the data and placing the output into
+    the output queue. See the dataPull documentation for details on the arguments.
     '''
-    try :
-        dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
-        dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
-        dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
-        dataPull('URL_STORE/MORRISONS/' + fileName, morriData, 'null', unit, 'null')
+    outputQueue.put("UnfinishedOperation")
+    
+    dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+    dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+    dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+    dataPull('URL_STORE/MORRISONS/' + fileName, morriData, 'null', unit, 'null')
 
-        combinedPrices = []
-        while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
+    combinedPrices = []
+    while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
 
-        errors = []
-        while not errorQueue.empty() : errors += errorQueue.get()
+    errors = []
+    while not errorQueue.empty() : errors += errorQueue.get()
 
-        if errors != [] : writeErrors(errors)
+    if errors != [] : writeErrors(errors)
 
-        if combinedPrices == [] : messagebox.showerror(title = "Extraction Failure", message = "All operations failed. No results to display. Check the logs.")
-        elif (combinedPrices != []) and (errors != []) :
-            messagebox.showerror(title = "Extraction Failure", message = "Some operations failed. Not all results can be displayed. Check the logs.")
-            priceTable = aggregateLists(combinedPrices)
-            results(priceTable)
-        else :
-            priceTable = aggregateLists(combinedPrices)
-            results(priceTable)
-    except :
-        failMessageQueue.put('fail')
-    finally :
-        Toplevel.destroy(runningWinObj)
+    outputQueue.get()
+
+    if combinedPrices == [] : outputQueue.put("FullOperationsFailure")
+    elif (combinedPrices != []) and (errors != []) :
+        outputQueue.put("PartialOperationsFailure")
+        priceTable = aggregateLists(combinedPrices)
+        outputQueue.put(priceTable)
+    else :
+        priceTable = aggregateLists(combinedPrices)
+        outputQueue.put(priceTable)
 
 def aggregateLists(prices) :
     '''
@@ -147,42 +147,27 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     The last argument is the name of the product category window to destroy. For the other
     four arguments, see the dataPull fuction.
     '''
+    top.after(20000, outputHandler)
     runningWin()
-    
-    global callThread
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
-    timeWarningThread = Thread(target = timeWarning, args = ())
-    failCheckThread = Thread(target = failCheck, args = ())
-
-    threads = [callThread, timeWarningThread, failCheckThread]
-    for x in threads : x.start()
-    
+    callThread.start() 
     Toplevel.destroy(windowName)
 
-def timeWarning() :
+def outputHandler() :
     '''
-    A function that offers to close the program if an operation takes 30 seconds to complete.
-    If the user answers no and the operation still hangs, the user will be prompted every 15
-    seconds thereafter.
+    A function to extract output from the output queue. If there are valid results, they will
+    be displayed. If there are errors to report, error messages will be shown.
+    No arguments taken.
     '''
-    counter = 0
-    period = 30
-    while callThread.isAlive() :
-        time.sleep(1)
-        counter += 1
-        if counter == period :
-            choice = messagebox.askyesno(title = "Slow running operation", message = "Operation is taking too long. Would you like to close the program and try again?") 
-            if choice == True : os._exit(0)
-            else : period += 15
-
-def failCheck() :
-    '''
-    A function that checks a queue for failure messages. If it finds one, it will
-    display an error message.
-    '''
-    while True :
-        if failMessageQueue.get() == 'fail' :
-            messagebox.showerror(title = "Runtime error", message = "Runtime error encountered. Please contact the maintainers at github.com/charlesbos/team_s_scrape")
+    Toplevel.destroy(runningWinObj)
+    output = outputQueue.get()
+    if output == "UnfinishedOperation" : messagebox.showerror(title = "Timeout reached", message = "Operation took too long. Please try running the operation again.")
+    elif output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
+    elif output == "PartialOperationsFailure" :
+        messagebox.showerror(title = "Some errors encountered", message = "Some operations failed. Not all results can be displayed. Check the logs for errors.")
+        output = outputQueue.get()
+        results(output)
+    else : results(output)
 
 # Utility functions
 def contentFetch(funcName, fileName) :
@@ -241,7 +226,7 @@ def writeErrors(errors) :
 # Queues
 resultsQueue = Queue()
 errorQueue = Queue()
-failMessageQueue = Queue()
+outputQueue = Queue()
 
 # Initialise windows
 top = Tk()
