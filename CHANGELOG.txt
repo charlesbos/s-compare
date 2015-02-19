@@ -195,3 +195,9 @@ CHANGES: Software renamed to S-Compare. Results window resized to match content.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-02-04
+
+VERSION: 6.2.0
+CHANGES: Morrisons support added. All Microsoft Windows related issues (including but not limited to: poor styling and freezes) are fixed. Added progress bar. Added timeout functionality. Ensured greater visual consistency on all platforms. Minor refactoring.
+CONTRIBUTORS: Charles Bos, Daniel Bedingfield
+RELEASED BY: Charles Bos
+DATE: 2015-02-19
