@@ -158,7 +158,6 @@ def outputHandler() :
     be displayed. If there are errors to report, error messages will be shown.
     No arguments taken.
     '''
-    Toplevel.destroy(runningWinObj)
     output = outputQueue.get()
     if output == "UnfinishedOperation" : messagebox.showerror(title = "Timeout reached", message = "Operation took too long. Please try running the operation again.")
     elif output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
@@ -410,11 +409,10 @@ def runningWin(timer) :
     A function which defines a window with an indeterminate progressbar.
     The timer argument is the maximum value of the progressbar.
     '''    
-    global runningWinObj
-    runningWinObj = Toplevel()
-    runningWinObj.title("Processing")
-    frame1 = Frame(runningWinObj)
-    frame2 = Frame(runningWinObj)
+    runningWin = Toplevel()
+    runningWin.title("Processing")
+    frame1 = Frame(runningWin)
+    frame2 = Frame(runningWin)
     frame1.pack()
     frame2.pack(side = BOTTOM)
     label = Label(frame1, text = "Please wait a moment for the results...", pady = 30)
@@ -422,6 +420,7 @@ def runningWin(timer) :
     progressbar = ttk.Progressbar(frame2, mode = 'determinate', length = 350, maximum = ((timer/100) * 2))
     progressbar.pack()
     progressbar.start()
+    top.after(timer, runningWin.destroy)
 
 label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
 label.grid(row = 1, column = 1, columnspan = 3)
