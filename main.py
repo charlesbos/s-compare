@@ -14,7 +14,6 @@ from threading import Thread
 from queue import Queue
 import os
 import tkinter.ttk as ttk
-import time
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
