@@ -4,16 +4,12 @@ fetcher.py
 This module contains various functions for fetching the html for a given page
 and returning it.
 """
-import time
-import os
+from time import sleep
 from tkinter import messagebox
-try :
-    from bs4 import BeautifulSoup
-    from selenium import webdriver
-    import requests
-except ImportError :
-    messagebox.showerror(title = 'Software not installed', message = 'Some of the software required to run this program is not installed. Please ensure you have installed the following: Python-Requests, Python-BeautifulSoup4, Python-Selenium, PhantomJS')
-    os._exit(0)
+from bs4 import BeautifulSoup
+from selenium import webdriver
+import requests
+import os
 
 def simpleFetch(url) :
     '''
@@ -42,7 +38,7 @@ def waitroseFetch(url, scroll) :
         for x in range(scroll) :
             htmlString = BeautifulSoup(browser.page_source)
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(0.7)
+            sleep(0.7)
 
         browser.quit()
 
