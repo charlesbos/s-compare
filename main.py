@@ -147,7 +147,7 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     four arguments, see the dataPull fuction.
     '''
     top.after(20000, outputHandler)
-    runningWin()
+    runningWin(20000)
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
     callThread.start() 
     Toplevel.destroy(windowName)
@@ -405,9 +405,10 @@ def logViewer(content) :
     button1 = Button(frame2, text = "Close", command = logViewer.destroy)
     button1.pack(side = LEFT)
 
-def runningWin() :
+def runningWin(timer) :
     '''
     A function which defines a window with an indeterminate progressbar.
+    The timer argument is the maximum value of the progressbar.
     '''    
     global runningWinObj
     runningWinObj = Toplevel()
@@ -418,7 +419,7 @@ def runningWin() :
     frame2.pack(side = BOTTOM)
     label = Label(frame1, text = "Please wait a moment for the results...", pady = 30)
     label.pack()
-    progressbar = ttk.Progressbar(frame2, mode = 'indeterminate', length = 350)
+    progressbar = ttk.Progressbar(frame2, mode = 'determinate', length = 350, maximum = ((timer/100) * 2))
     progressbar.pack()
     progressbar.start()
 
