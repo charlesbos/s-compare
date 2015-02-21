@@ -49,42 +49,16 @@ def morriData(url, titletag, unit, scroll) :
         titleList = []
         titleStart = htmlString.find('<strong itemprop="name">')
         titleEnd = htmlString.find('</strong>', titleStart)
-        measureStart = titleEnd + 9
-        measureEnd = measureStart + 10
 
         while (0<= titleStart <= len(htmlString)) is True :
-            titleExtract = htmlString[titleStart + 24:titleEnd]
-            titleExist = htmlString[titleEnd: titleEnd + 1500]
-            doesTitleExist = titleExist.find('Out of stock')
-            ampLoc = titleExtract.find('&amp;')
-            if ampLoc != -1 : titleExtract = titleExtract[:ampLoc] + 'and' + titleExtract[ampLoc + 5:]
-            abbrLoc = titleExtract.find('<')
-            if abbrLoc != -1 : titleExtract = titleExtract[13:]
-            abbrLoc2 = titleExtract.find('">')
-            if abbrLoc2 != -1 : titleExtract = titleExtract[:abbrLoc2]
-            totalWeightStart = htmlString.find('', titleEnd) + 24
-            totalWeightEnd = htmlString.find('</a>', totalWeightStart)
-            totalWeightExtract = htmlString[totalWeightStart:totalWeightEnd]
-            slashRLoc = totalWeightExtract.find('\r')
-            totalWeightExtract = totalWeightExtract[:slashRLoc]
-            titleExtract = titleExtract + ' ' + totalWeightExtract
-            valid = titleExtract.find('class=')
-            if valid != -1 : titleExtract = titleExtract[:valid]
-            if doesTitleExist == -1 : titleList += [titleExtract]
+            measureEnd = htmlString.find('</a>', titleEnd)
+            measure = htmlString[titleEnd:measureEnd].partition('\n')[-1].partition('             ')[-1].partition('\r\n')[0]
+            titleExtract = htmlString[titleStart + 24:titleEnd].replace('amp;', '').lstrip('<abbr title= ').partition('>')[0].strip('''"''')
+            titleExtract = titleExtract + ' ' + measure
+            titleExist = htmlString.find('Out of stock', titleEnd, titleEnd + 1500)
+            if titleExist == -1 : titleList += [titleExtract]
             titleStart = htmlString.find('<strong itemprop="name">', titleEnd)
             titleEnd = htmlString.find('</strong>', titleStart)
-
-        for i in priceList :
-            findError = (i[:7].find('c') != -1)
-            if findError != -1 :
-                del titleList[findError]
-                del priceList[findError]
-            if (i[1] == 'a'):
-                findProblem = priceList.index(i)
-                try :
-                    del titleList[findProblem]
-                    del priceList[findProblem]
-                except : pass
 
         if len(priceList) != len(titleList) :
                 errorTime = strftime('%H:%M:%S %Y-%m-%d')
