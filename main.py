@@ -159,7 +159,7 @@ def outputHandler() :
     No arguments taken.
     '''
     output = outputQueue.get()
-    if output == "UnfinishedOperation" : messagebox.showerror(title = "Timeout reached", message = "Operation took too long. Please try running the operation again.")
+    if output == "UnfinishedOperation" : messagebox.showerror(title = "Timeout reached", message = "Operation did not complete in the alloted time. If this persists, please contact the maintainers at github.com/charlesbos/s-compare")
     elif output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
     elif output == "PartialOperationsFailure" :
         messagebox.showerror(title = "Some errors encountered", message = "Some operations failed. Not all results can be displayed. Check the logs for errors.")
