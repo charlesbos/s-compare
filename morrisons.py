@@ -36,9 +36,9 @@ def morriData(url, titletag, unit, scroll) :
             if priceExtract[-1] == 'p' :
                 priceExtract = priceExtract[:-1]
                 priceExtract = '{:.2f}'.format(float(priceExtract) / 100)
-            if (priceMeasure == "per litre: ") or (priceMeasure == "per kg: ") :
+            if (priceMeasure == "Price per litre") or (priceMeasure == "Price per kg") :
                 priceExtract = '{:.2f}'.format(float(priceExtract) / 10)
-            if priceMeasure == "per 75cl: " :
+            if priceMeasure == "Price per 75cl" :
                 priceExtract = '{:.2f}'.format((float(priceExtract) / 30) * 4)
             priceExtract = '£' + priceExtract + unit
             if priceExist == -1 : priceList += [priceExtract]
