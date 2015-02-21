@@ -59,54 +59,54 @@ def morriData(url, titletag, unit, scroll) :
             priceMiddle = htmlString.find(':', priceStart) + 2
             priceEnd = htmlString.find('<', priceMiddle)
 
-    # get the name of the product
-    titleList = []
-    titleStart = htmlString.find('<strong itemprop="name">')
-    titleEnd = htmlString.find('</strong>', titleStart)
-    measureStart = titleEnd + 9
-    measureEnd = measureStart + 10
-
-    while (0<= titleStart <= len(htmlString)) is True :
-        titleExtract = htmlString[titleStart + 24:titleEnd]
-        titleExist = htmlString[titleEnd: titleEnd + 1500]
-        doesTitleExist = titleExist.find('Out of stock')
-        ampLoc = titleExtract.find('&amp;')
-        if ampLoc != -1 : titleExtract = titleExtract[:ampLoc] + 'and' + titleExtract[ampLoc + 5:]
-        abbrLoc = titleExtract.find('<')
-        if abbrLoc != -1 : titleExtract = titleExtract[13:]
-        abbrLoc2 = titleExtract.find('">')
-        if abbrLoc2 != -1 : titleExtract = titleExtract[:abbrLoc2]
-        totalWeightStart = htmlString.find('', titleEnd) + 24
-        totalWeightEnd = htmlString.find('</a>', totalWeightStart)
-        totalWeightExtract = htmlString[totalWeightStart:totalWeightEnd]
-        slashRLoc = totalWeightExtract.find('\r')
-        totalWeightExtract = totalWeightExtract[:slashRLoc]
-        titleExtract = titleExtract + ' ' + totalWeightExtract
-        valid = titleExtract.find('class=')
-        if valid != -1 : titleExtract = titleExtract[:valid]
-        if doesTitleExist == -1 : titleList += [titleExtract]
-        titleStart = htmlString.find('<strong itemprop="name">', titleEnd)
+        # Extract titles
+        titleList = []
+        titleStart = htmlString.find('<strong itemprop="name">')
         titleEnd = htmlString.find('</strong>', titleStart)
+        measureStart = titleEnd + 9
+        measureEnd = measureStart + 10
 
-    for i in priceList :
-        findError = (i[:7].find('c') != -1)
-        if findError != -1 :
-            del titleList[findError]
-            del priceList[findError]
-        if (i[1] == 'a'):
-            findProblem = priceList.index(i)
-            try :
-                del titleList[findProblem]
-                del priceList[findProblem]
-            except : pass
+        while (0<= titleStart <= len(htmlString)) is True :
+            titleExtract = htmlString[titleStart + 24:titleEnd]
+            titleExist = htmlString[titleEnd: titleEnd + 1500]
+            doesTitleExist = titleExist.find('Out of stock')
+            ampLoc = titleExtract.find('&amp;')
+            if ampLoc != -1 : titleExtract = titleExtract[:ampLoc] + 'and' + titleExtract[ampLoc + 5:]
+            abbrLoc = titleExtract.find('<')
+            if abbrLoc != -1 : titleExtract = titleExtract[13:]
+            abbrLoc2 = titleExtract.find('">')
+            if abbrLoc2 != -1 : titleExtract = titleExtract[:abbrLoc2]
+            totalWeightStart = htmlString.find('', titleEnd) + 24
+            totalWeightEnd = htmlString.find('</a>', totalWeightStart)
+            totalWeightExtract = htmlString[totalWeightStart:totalWeightEnd]
+            slashRLoc = totalWeightExtract.find('\r')
+            totalWeightExtract = totalWeightExtract[:slashRLoc]
+            titleExtract = titleExtract + ' ' + totalWeightExtract
+            valid = titleExtract.find('class=')
+            if valid != -1 : titleExtract = titleExtract[:valid]
+            if doesTitleExist == -1 : titleList += [titleExtract]
+            titleStart = htmlString.find('<strong itemprop="name">', titleEnd)
+            titleEnd = htmlString.find('</strong>', titleStart)
 
-    if len(priceList) != len(titleList) :
-            errorTime = strftime('%H:%M:%S %Y-%m-%d')
-            errorMessage = "MorrisonsError: lengths of prices and item titles do not match."
-            listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
-            return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + url + '\n' + '-' * 80
-    elif priceList == titleList == [] :
-            errorTime = strftime('%H:%M:%S %Y-%m-%d')
-            errorMessage = "MorrisonsError: no results found. Check the page URL and HTML."
-            return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
-    else : return [list(x) for x in zip(titleList, priceList, ["Morrisons"] * len(priceList))]
+        for i in priceList :
+            findError = (i[:7].find('c') != -1)
+            if findError != -1 :
+                del titleList[findError]
+                del priceList[findError]
+            if (i[1] == 'a'):
+                findProblem = priceList.index(i)
+                try :
+                    del titleList[findProblem]
+                    del priceList[findProblem]
+                except : pass
+
+        if len(priceList) != len(titleList) :
+                errorTime = strftime('%H:%M:%S %Y-%m-%d')
+                errorMessage = "MorrisonsError: lengths of prices and item titles do not match."
+                listLengths = 'priceList length = ' + str(len(priceList)) + '\n' + 'titleList length = ' + str(len(titleList))
+                return errorTime + '\n' + errorMessage + '\n' + listLengths + '\n' + url + '\n' + '-' * 80
+        elif priceList == titleList == [] :
+                errorTime = strftime('%H:%M:%S %Y-%m-%d')
+                errorMessage = "MorrisonsError: no results found. Check the page URL and HTML."
+                return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
+        else : return [list(x) for x in zip(titleList, priceList, ["Morrisons"] * len(priceList))]
