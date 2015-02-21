@@ -15,7 +15,6 @@ def morriData(url, titletag, unit, scroll) :
     from the fetcher module. The third and fourth are not used in this function
     at all and are specified for compatibility reasons only.
     '''
-
     htmlString = simpleFetch(url)
     
     if htmlString == "null" :
@@ -25,39 +24,26 @@ def morriData(url, titletag, unit, scroll) :
     else :
         # Extract prices
         priceList = []
-        priceStart = htmlString.find('<p class="pricePerWeight">') + 32
-        priceMiddle = htmlString.find(':', priceStart) + 2
-        priceEnd = htmlString.find('<', priceMiddle)
+        priceStart = htmlString.find('<p class="pricePerWeight">')
+        priceEnd = htmlString.find('</p>', priceStart)
 
         while (0 <= priceStart <= len(htmlString)) is True :
-            priceExtract = htmlString[priceMiddle:priceEnd]
-            priceExist = htmlString[priceEnd: priceEnd + 500]
-            doesPriceExist = priceExist.find('Out of stock')
-            priceMeas = htmlString[priceStart:priceMiddle]
-            priceExtract = priceExtract[:-1]
-            if priceExtract[0] == "£" : priceExtract = priceExtract[1:]
-            if priceExtract[-1] == "p" :
+            priceExtract = htmlString[priceStart + 26:priceEnd].partition('\n')[0].partition(': ')[-1]
+            priceExist = htmlString.find('Out of stock', priceEnd, priceEnd + 500)
+            priceMeasureEnd = htmlString.find(':', priceStart)
+            priceMeasure = htmlString[priceStart + 26:priceMeasureEnd]
+            if priceExtract[0] == '£' : priceExtract = priceExtract[1:]
+            if priceExtract[-1] == 'p' :
                 priceExtract = priceExtract[:-1]
-                penceToPerfect = priceExtract.find('.')
-                if penceToPerfect != -1 : priceExtract = priceExtract[:penceToPerfect]
-                priceExtract = '0.0' + priceExtract
-                if len(priceExtract) == 5 : priceExtract = priceExtract[:2] + priceExtract[3:]
-                if priceExtract == '0.00' : priceExtract = '0.01'
-            if (priceMeas == "per litre: ") or (priceMeas == "per kg: ") :
-                priceExtract = float(priceExtract)
-                priceExtract = priceExtract / 10
-                priceExtract = str('{:.2f}'.format(priceExtract))
-            if priceMeas == "per 75cl: " :
-                priceExtract = float(priceExtract)
-                priceExtract = (priceExtract / 30) * 4
-                priceExtract = str('{:.2f}'.format(priceExtract))
+                priceExtract = '{:.2f}'.format(float(priceExtract) / 100)
+            if (priceMeasure == "per litre: ") or (priceMeasure == "per kg: ") :
+                priceExtract = '{:.2f}'.format(float(priceExtract) / 10)
+            if priceMeasure == "per 75cl: " :
+                priceExtract = '{:.2f}'.format((float(priceExtract) / 30) * 4)
             priceExtract = '£' + priceExtract + unit
-            if (priceExtract[1] == 'a') : break
-            elif(priceExtract[1] == '\n') : del priceExtract
-            elif doesPriceExist == -1 : priceList += [priceExtract]
-            priceStart = htmlString.find('<p class="pricePerWeight">', priceEnd) + 32
-            priceMiddle = htmlString.find(':', priceStart) + 2
-            priceEnd = htmlString.find('<', priceMiddle)
+            if priceExist == -1 : priceList += [priceExtract]
+            priceStart = htmlString.find('<p class="pricePerWeight">', priceEnd)
+            priceEnd = htmlString.find('</p>', priceStart)
 
         # Extract titles
         titleList = []
