@@ -27,7 +27,7 @@ def tescoData(url, titletag, unit, scroll) :
         priceStart = htmlString.find('<span class="linePriceAbbr">')
         priceEnd = htmlString.find('/', priceStart)
         
-        while (0 <= priceStart <= len(htmlString)) is True :
+        while 0 <= priceStart <= len(htmlString) :
             priceExtract = htmlString[priceStart + 28:priceEnd].strip('()') + unit
             measureCheck = htmlString[priceEnd:priceEnd + 5]
             if measureCheck == '/75cl' :
@@ -45,7 +45,7 @@ def tescoData(url, titletag, unit, scroll) :
         titleEnd = htmlString.find('</span>')
         nextItem = htmlString.find('<span data-title="true">', titleEnd)
 
-        while (0 <= titleStart <= len(htmlString)) is True :
+        while 0 <= titleStart <= len(htmlString) :
             titleExtract = htmlString[titleStart + 24:titleEnd].partition('&gt;')[0]
             itemExistCheck = htmlString.find('Sorry, this product is currently not available.', titleEnd, nextItem)
             parityCheck = (unit != '/each') and (htmlString.find('/each', titleEnd, nextItem) != -1)
@@ -66,5 +66,4 @@ def tescoData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "TescoError: no results found. Check the page URL and HTML."
             return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
-        else :
-            return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]
+        else : return [list(x) for x in zip(titleList, priceList, ["Tesco"] * len(priceList))]

@@ -29,7 +29,7 @@ def sainsburysData(url, titletag, unit, scroll) :
         priceEnd = htmlString.find('<abbr', priceStart)
         prevItem = 0
         
-        while (0 <= priceStart <= len(htmlString)) is True :
+        while 0 <= priceStart <= len(htmlString) :
             mCheckStart = htmlString.find('class="pricePerMeasureMeasure">', priceEnd)
             mCheckEnd = htmlString.find('</span></abbr>', mCheckStart)
             if (htmlString[mCheckStart + 31:mCheckEnd] == 'kg') or (htmlString[mCheckStart + 31:mCheckEnd] == 'ltr') :
@@ -45,7 +45,7 @@ def sainsburysData(url, titletag, unit, scroll) :
         titleStart = htmlString.find(titletag)
         titleEnd = htmlString.find('<img alt=', titleStart)
 
-        while (0 <= titleStart <= len(htmlString)) is True :
+        while 0 <= titleStart <= len(htmlString) :
             titleExtract = htmlString[titleStart + len(titletag):titleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('amp;', '')
             titleList += [titleExtract]
             titleStart = htmlString.find(titletag, titleEnd)
@@ -55,7 +55,7 @@ def sainsburysData(url, titletag, unit, scroll) :
         proTitleStart = htmlString.find('''<a href="http://www.sainsburys.co.uk/shop/ProductDisplay?''')
         proTitleEnd = htmlString.find('<img alt=', proTitleStart)
 
-        while (0 <= proTitleStart <= len(htmlString)) is True :
+        while 0 <= proTitleStart <= len(htmlString) :
             proTitleExtract = htmlString[proTitleStart + 57:proTitleEnd].partition(' ')[-1].partition('\r\n')[0].strip(' ').replace('amp;', '')
             mercCheck = htmlString.find('merchandising_associations', proTitleStart - 3000, proTitleStart) == -1
             if mercCheck : proTitleList += [proTitleExtract]
@@ -76,5 +76,4 @@ def sainsburysData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "SainsburysError: no results found. Check the page URL and HTML."
             return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
-        else :
-            return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]
+        else : return [list(x) for x in zip(titleList, priceList, ["Sainsburys"] * len(priceList))]

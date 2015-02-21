@@ -32,7 +32,7 @@ def waitroseData(url, titletag, unit, scroll) :
         priceStart = htmlString.find('<span class="fine-print">(')
         priceEnd = htmlString.find('p ', priceStart)
         
-        while (0 <= priceStart <= len(htmlString)) is True :
+        while 0 <= priceStart <= len(htmlString) :
             litreCheck = htmlString.find('per litre', priceStart, priceStart + 100)
             kiloCheck = htmlString.find('per kg', priceStart, priceStart + 100)
             try :
@@ -65,7 +65,7 @@ def waitroseData(url, titletag, unit, scroll) :
         titleStart = htmlString.find('<div alt="')
         titleEnd = htmlString.find('" ', titleStart)
 
-        while (0 <= titleStart <= len(htmlString)) is True :
+        while 0 <= titleStart <= len(htmlString) :
             addMeasureStart = htmlString.find('<div class="m-product-volume">', titleEnd) + 30
             addMeasureEnd = htmlString.find('</div>', addMeasureStart)
             titleExtract = str(htmlString[titleStart + 10:titleEnd] + ' ' + htmlString[addMeasureStart:addMeasureEnd]).replace('amp;', '').replace('&#039;', "'")
@@ -91,5 +91,4 @@ def waitroseData(url, titletag, unit, scroll) :
             errorTime = strftime('%H:%M:%S %Y-%m-%d')
             errorMessage = "WaitroseError: no results found. Check the page URL and HTML."
             return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
-        else :
-            return [list(x) for x in zip(titleList, priceList, ["Waitrose"] * len(priceList))]
+        else : return [list(x) for x in zip(titleList, priceList, ["Waitrose"] * len(priceList))]
