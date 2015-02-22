@@ -40,6 +40,8 @@ def call(fileName, unit, titleTagEnd, scroll) :
     queues, calling the functions to process the data and placing the output into
     the output queue. See the dataPull documentation for details on the arguments.
     '''
+    clearQueues()
+    
     outputQueue.put("UnfinishedOperation")
     
     dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
@@ -189,6 +191,16 @@ def estimateTime(fileName, scroll) :
 
     time = int(((1.2 * urls) + (0.8 * scroll) + 5) * 1000)
     return time
+
+def clearQueues() :
+    '''
+    A function to ensure that, in the event of a crash or other issue, the queues
+    will always be clear at the start of a new operation.
+    '''
+    queues = [resultsQueue, errorQueue, outputQueue]
+    for x in queues :
+        while not x.empty() :
+            x.get()
 
 # Utility functions
 def contentFetch(funcName, fileName) :
