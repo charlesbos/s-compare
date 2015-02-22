@@ -146,8 +146,8 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     The last argument is the name of the product category window to destroy. For the other
     four arguments, see the dataPull fuction.
     '''
-    top.after(20000, outputHandler)
-    runningWin(20000)
+    top.after(estimateTime(fileName, scroll), outputHandler)
+    runningWin(estimateTime(fileName, scroll))
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
     callThread.start() 
     Toplevel.destroy(windowName)
@@ -166,6 +166,29 @@ def outputHandler() :
         output = outputQueue.get()
         results(output)
     else : results(output)
+
+def estimateTime(fileName, scroll) :
+    '''
+    A function to estimate the amount of time an operation will take to complete.
+    The first argument is the filename from which to read the urls. The second is the
+    Waitrose scroll.
+    '''
+    tescoUrls = open('URL_STORE/TESCO/' + fileName, 'r')
+    sainsburysUrls = open('URL_STORE/SAINSBURYS/' + fileName, 'r')
+    morrisonsUrls = open('URL_STORE/MORRISONS/' + fileName, 'r')
+ 
+    files = [tescoUrls, sainsburysUrls, morrisonsUrls]
+    urls = 0
+    
+    for x in files :
+        temp = x.read()
+        temp = temp.split('\n')
+        temp = [x for x in temp if x != '']
+        urls += len(temp)
+        x.close()
+
+    time = int(((1.2 * urls) + (0.8 * scroll) + 5) * 1000)
+    return time
 
 # Utility functions
 def contentFetch(funcName, fileName) :
