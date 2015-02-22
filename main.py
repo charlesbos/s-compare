@@ -289,14 +289,14 @@ def drinks() :
     button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : manager('SPARKLING_WATER.txt', '/100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
     button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : manager('EVERYDAY_TEA.txt', '/100g', 'everyday-tea/', 3, drinks)).grid(row = 1, column = 3)
 
-def deserts() :
+def desserts() :
     '''
-    Defines the window for deserts products.
+    Defines the window for desserts products.
     No arguments taken.
     '''
-    deserts = Toplevel()
-    deserts.title("Compare - Deserts")
-    button1 = Button(deserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : manager('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, deserts)).grid(row = 1, column = 1)
+    desserts = Toplevel()
+    desserts.title("Compare - Desserts")
+    button1 = Button(desserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : manager('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, desserts)).grid(row = 1, column = 1)
 
 def fruit_and_veg() :
     '''
@@ -443,7 +443,7 @@ button1 = Button(frame2, text = "Bread", command = bread, height = 5, width = 10
 button2 = Button(frame2, text = "Dairy", command = dairy, height = 5, width = 10).grid(row = 2, column = 2)
 button3 = Button(frame2, text = "Crisps and Snacks", command = crisps_and_snacks, height = 5, width = 10, wraplength = 80).grid(row = 2, column = 3)
 button4 = Button(frame2, text = "Drinks", command = drinks, height = 5, width = 10).grid(row = 3, column = 1)
-button5 = Button(frame2, text = "Deserts", command = deserts, height = 5, width = 10).grid(row = 3, column = 2)
+button5 = Button(frame2, text = "Desserts", command = desserts, height = 5, width = 10).grid(row = 3, column = 2)
 button6 = Button(frame2, text = "Fruit & Veg", command = fruit_and_veg, height = 5, width = 10, state = DISABLED).grid(row = 3, column = 3)
 button7 = Button(frame3, text = "Quit", command = top.destroy).grid(row = 4, column = 3, pady = 10)
 button8 = Button(frame3, text = "Help", state = DISABLED).grid(row = 4, column = 1, pady = 10)
