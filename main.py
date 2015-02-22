@@ -14,6 +14,7 @@ from threading import Thread
 from queue import Queue
 import os
 import tkinter.ttk as ttk
+import time
 
 # Data fetching and processing functions
 def dataPull(filePath, shopFunc, titletag, unit, scroll) :
@@ -42,8 +43,6 @@ def call(fileName, unit, titleTagEnd, scroll) :
     '''
     clearQueues()
     
-    outputQueue.put("UnfinishedOperation")
-    
     dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
     dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
     dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
@@ -56,8 +55,6 @@ def call(fileName, unit, titleTagEnd, scroll) :
     while not errorQueue.empty() : errors += errorQueue.get()
 
     if errors != [] : writeErrors(errors)
-
-    outputQueue.get()
 
     if combinedPrices == [] : outputQueue.put("FullOperationsFailure")
     elif (combinedPrices != []) and (errors != []) :
@@ -148,11 +145,17 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     The last argument is the name of the product category window to destroy. For the other
     four arguments, see the dataPull fuction.
     '''
-    top.after(estimateTime(fileName, scroll), outputHandler)
-    runningWin(estimateTime(fileName, scroll))
+    runningWin()
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
     callThread.start() 
     Toplevel.destroy(windowName)
+
+    # This is an ugly hack. Suggestions for better solutions are welcome.
+    while True :
+        if not callThread.isAlive() :
+            outputHandler()
+            break
+        top.update()
 
 def outputHandler() :
     '''
@@ -160,37 +163,14 @@ def outputHandler() :
     be displayed. If there are errors to report, error messages will be shown.
     No arguments taken.
     '''
-    output = outputQueue.get()
-    if output == "UnfinishedOperation" : messagebox.showerror(title = "Timeout reached", message = "Operation did not complete in the alloted time. If this persists, please contact the maintainers at github.com/charlesbos/s-compare")
-    elif output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
+    Toplevel.destroy(runningWinObj)
+    output = outputQueue.get() 
+    if output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
     elif output == "PartialOperationsFailure" :
         messagebox.showerror(title = "Some errors encountered", message = "Some operations failed. Not all results can be displayed. Check the logs for errors.")
         output = outputQueue.get()
         results(output)
     else : results(output)
-
-def estimateTime(fileName, scroll) :
-    '''
-    A function to estimate the amount of time an operation will take to complete.
-    The first argument is the filename from which to read the urls. The second is the
-    Waitrose scroll.
-    '''
-    tescoUrls = open('URL_STORE/TESCO/' + fileName, 'r')
-    sainsburysUrls = open('URL_STORE/SAINSBURYS/' + fileName, 'r')
-    morrisonsUrls = open('URL_STORE/MORRISONS/' + fileName, 'r')
- 
-    files = [tescoUrls, sainsburysUrls, morrisonsUrls]
-    urls = 0
-    
-    for x in files :
-        temp = x.read()
-        temp = temp.split('\n')
-        temp = [x for x in temp if x != '']
-        urls += len(temp)
-        x.close()
-
-    time = int(((1.2 * urls) + (0.8 * scroll) + 5) * 1000)
-    return time
 
 def clearQueues() :
     '''
@@ -439,23 +419,23 @@ def logViewer(content) :
     button1 = Button(frame2, text = "Close", command = logViewer.destroy)
     button1.pack(side = LEFT)
 
-def runningWin(timer) :
+def runningWin() :
     '''
     A function which defines a window with an indeterminate progressbar.
-    The timer argument is the maximum value of the progressbar.
-    '''    
-    runningWin = Toplevel()
-    runningWin.title("Processing")
-    frame1 = Frame(runningWin)
-    frame2 = Frame(runningWin)
+    No arguments taken.
+    '''
+    global runningWinObj # So that the window can be killed from another function. I know global vars are poor practice.
+    runningWinObj = Toplevel()
+    runningWinObj.title("Processing")
+    frame1 = Frame(runningWinObj)
+    frame2 = Frame(runningWinObj)
     frame1.pack()
     frame2.pack(side = BOTTOM)
     label = Label(frame1, text = "Please wait a moment for the results...", pady = 30)
     label.pack()
-    progressbar = ttk.Progressbar(frame2, mode = 'determinate', length = 350, maximum = ((timer/100) * 2))
+    progressbar = ttk.Progressbar(frame2, mode = 'indeterminate', length = 350)
     progressbar.pack()
     progressbar.start()
-    top.after(timer, runningWin.destroy)
 
 label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
 label.grid(row = 1, column = 1, columnspan = 3)
