@@ -125,7 +125,13 @@ def manager(fileName, unit, titleTagEnd, scroll, windowName) :
     The last argument is the name of the product category window to destroy. For the other
     four arguments, see the dataPull fuction.
     '''
-    runningWin()
+    # Ensure that only one progressbar window is started for parallel operations.
+    # Try except is needed because the object won't be defined on first run.
+    try :
+        if not runningWinObj.winfo_exists() : runningWin()
+    except :
+        runningWin()
+    
     callThread = Thread(target = call, args = (fileName, unit, titleTagEnd, scroll))
     callThread.start() 
     Toplevel.destroy(windowName)
