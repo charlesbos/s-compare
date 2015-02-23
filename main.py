@@ -28,11 +28,16 @@ def dataPull(filePath, shopFunc, titletag, unit, scroll) :
     file = open(filePath, 'r')
     urls = str(file.read()).split('\n')
     urls = [x for x in urls if x != '']
+
+    errors = []
+    prices = []
     
     for x in range(len(urls)) :
         temp = shopFunc(urls[x], titletag, unit, scroll)
-        if type(temp) == list : resultsQueue.put(temp)
-        if type(temp) == str : errorQueue.put([temp])
+        if type(temp) == list : prices += temp
+        if type(temp) == str : errors += [temp]
+
+    return (errors, prices)
 
 def call(fileName, unit, titleTagEnd, scroll) :
     '''
@@ -40,54 +45,30 @@ def call(fileName, unit, titleTagEnd, scroll) :
     queues, calling the functions to process the data and placing the output into
     the output queue. See the dataPull documentation for details on the arguments.
     '''
-    clearQueues()
-    
-    dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
-    dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
-    dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
-    dataPull('URL_STORE/MORRISONS/' + fileName, morriData, 'null', unit, 'null')
+    tescoResults = dataPull('URL_STORE/TESCO/' + fileName, tescoData, 'null', unit, 'null')
+    sainsburysResults = dataPull('URL_STORE/SAINSBURYS/' + fileName, sainsburysData, '<a href="http://www.sainsburys.co.uk/shop/gb/groceries/' + titleTagEnd, unit, 'null')
+    waitroseResults = dataPull('URL_STORE/WAITROSE/' + fileName, waitroseData, 'null', unit, scroll)
+    morrisonsResults = dataPull('URL_STORE/MORRISONS/' + fileName, morriData, 'null', unit, 'null')
 
-    combinedPrices = []
-    while not resultsQueue.empty() : combinedPrices.append(resultsQueue.get())
-
+    results = [tescoResults, sainsburysResults, waitroseResults, morrisonsResults]
     errors = []
-    while not errorQueue.empty() : errors += errorQueue.get()
+    cheapest = []
+    allPrices = []
+
+    for x in results :
+        if x[0] != [] : errors += x[0]
+        if x[1] != [] :
+            cheapest += lowestPrices(x[1])
+            allPrices += x[1]
+
+    allPricesFormatted = createTable(allPrices, "== Prices from all shops ==")
+    cheapestFormatted = createTable(cheapest, "== Lowest prices from each shop ==")
+    priceTable = cheapestFormatted + '\n' + allPricesFormatted
 
     if errors != [] : writeErrors(errors)
-
-    if combinedPrices == [] : outputQueue.put("FullOperationsFailure")
-    elif (combinedPrices != []) and (errors != []) :
-        outputQueue.put("PartialOperationsFailure")
-        priceTable = aggregateLists(combinedPrices)
-        outputQueue.put(priceTable)
-    else :
-        priceTable = aggregateLists(combinedPrices)
-        outputQueue.put(priceTable)
-
-def aggregateLists(prices) :
-    '''
-    A function for aggregating the lists that have been returned by the shop modules.
-    One argument accepted: the list that was created from the lists placed in the queue
-    by the threads started in the call function.
-    '''
-    allPrices = []
-    cheapest = []
-
-    for x in prices : allPrices += x
-
-    tescoPrices = sainsburysPrices = waitrosePrices = morrisonsPrices = []       
-    tescoPrices = [x for x in allPrices if x[-1] == "Tesco"]
-    sainsburysPrices = [x for x in allPrices if x[-1] == "Sainsburys"]
-    waitrosePrices = [x for x in allPrices if x[-1] == "Waitrose"]
-    morrisonsPrices = [x for x in allPrices if x[-1] == "Morrisons"]
-
-    shopAggLists = [tescoPrices, sainsburysPrices, waitrosePrices, morrisonsPrices]
-    for x in shopAggLists : cheapest += lowestPrices(x)
-
-    allPrices = createTable(allPrices, "== Prices from all shops ==")
-    cheapest = createTable(cheapest, "== Lowest prices from each shop ==")
-
-    return str(cheapest + '\n' + allPrices)
+    if allPrices == [] : outputQueue.put(("FullOperationsFailure",))
+    elif (allPrices != []) and (errors != []) : outputQueue.put(("PartialOperationsFailure", priceTable))
+    else : outputQueue.put((priceTable,))
 
 def sortPrices(prices) :
     '''
@@ -164,22 +145,11 @@ def outputHandler() :
     '''
     Toplevel.destroy(runningWinObj)
     output = outputQueue.get() 
-    if output == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
-    elif output == "PartialOperationsFailure" :
+    if output[0] == "FullOperationsFailure" : messagebox.showerror(title = "Operation failure", message = "All operations failed. No results to display. Check the logs for errors.")
+    elif output[0] == "PartialOperationsFailure" :
         messagebox.showerror(title = "Some errors encountered", message = "Some operations failed. Not all results can be displayed. Check the logs for errors.")
-        output = outputQueue.get()
-        results(output)
-    else : results(output)
-
-def clearQueues() :
-    '''
-    A function to ensure that, in the event of a crash or other issue, the queues
-    will always be clear at the start of a new operation.
-    '''
-    queues = [resultsQueue, errorQueue, outputQueue]
-    for x in queues :
-        while not x.empty() :
-            x.get()
+        results(output[1])
+    else : results(output[0])
 
 # Utility functions
 def contentFetch(funcName, fileName) :
@@ -236,8 +206,6 @@ def writeErrors(errors) :
     file.close()
 
 # Queues
-resultsQueue = Queue()
-errorQueue = Queue()
 outputQueue = Queue()
 
 # Initialise windows
@@ -423,7 +391,7 @@ def runningWin() :
     A function which defines a window with an indeterminate progressbar.
     No arguments taken.
     '''
-    global runningWinObj # So that the window can be killed from another function. I know global vars are poor practice.
+    global runningWinObj
     runningWinObj = Toplevel()
     runningWinObj.title("Processing")
     frame1 = Frame(runningWinObj)
