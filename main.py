@@ -400,6 +400,7 @@ def runningWin() :
     global runningWinObj
     runningWinObj = Toplevel()
     runningWinObj.title("Processing")
+    runningWinObj.wm_attributes("-topmost", 1)
     frame1 = Frame(runningWinObj)
     frame2 = Frame(runningWinObj)
     frame1.pack()
