@@ -13,9 +13,7 @@ import os
 
 def simpleFetch(url) :
     '''
-    This function fetches the html for a given webpage using the requests module,
-    parses it using BeautifulSoup and then returns it.
-    One argument accepted, the url.
+    Fetch html for a webpage, parse it with BeautifulSoup and then return it.
     '''
     try :
         response = requests.get(url)
@@ -25,11 +23,8 @@ def simpleFetch(url) :
 
 def waitroseFetch(url, scroll) :
     '''
-    A function for fetching the html for Waitrose store pages. The pages are
-    fetched and processed using the PhantomJS browser controlled by the
-    selenium module. The html is then parsed by BeautifulSoup and returned.
-    Two arguments accepted: the url and the number of times the page needs to
-    be scrolled.
+    Visit a webpage with the PhantomJS browser, generate the html by ensuring that
+    the relevant javascript is executed and then return that html.
     '''
     try :
         browser = webdriver.PhantomJS()
