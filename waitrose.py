@@ -9,12 +9,9 @@ from time import strftime
 
 def waitroseData(url, titletag, unit, scroll) :
     '''
-    Extract Waitrose prices per measure and item titles.
-    Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
-    The second is a unit to append to the extracted prices.
-    from the fetcher module. The third is not used in this function
-    at all and is specified for compatibility reasons only. The fourth is the number of times that
-    the page needs to be scrolled in order for the html to be generated.
+    Extracts a list of item prices and a list of item titles. Will try and return a
+    tuple containing the aforementioned lists plus a list containing the shop name.
+    Titletag arg is not used and is specified for compatibilty reasons only.
     '''
     htmlString = waitroseFetch(url, scroll)
 

@@ -9,11 +9,9 @@ from time import strftime
 
 def tescoData(url, titletag, unit, scroll) :
     '''
-    Extract Tesco prices per measure and item titles.
-    Three arguments are accepted. The first is a url which can be passed to the htmlFetch function.
-    The second is a unit to append to the extracted prices.
-    from the fetcher module. The third and fourth are not used in this function
-    at all and are specified for compatibility reasons only.
+    Extracts a list of item prices and a list of item titles. Will try and return a
+    tuple containing the aforementioned lists plus a list containing the shop name.
+    Titletag and scroll args are not used and are specified for compatibilty reasons only.
     '''
     htmlString = simpleFetch(url)
 
