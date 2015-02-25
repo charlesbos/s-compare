@@ -201,3 +201,9 @@ CHANGES: Morrisons support added. All Microsoft Windows related issues (includin
 CONTRIBUTORS: Charles Bos, Daniel Bedingfield
 RELEASED BY: Charles Bos
 DATE: 2015-02-19
+
+VERSION: 6.3.0
+CHANGES: Fixed some Morrisons extraction errors. Add support for parallel operations. Re-add program's ability to display results as soon as they're ready (this feature was lost in 6.2.0). Ensure that progressbar window is always on top (sometimes it gets buried). Re-organise the functions in main.py into classes. Increased concision of the documentation. Fixed deserts - desserts typo! 
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-02-25

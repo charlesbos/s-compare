@@ -3,7 +3,7 @@ different UK retailers.
 
 S-Compare
 
-6.2.0
+6.3.0
 
 Copyright (c) 2015 Team S
 
