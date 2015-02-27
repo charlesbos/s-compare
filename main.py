@@ -147,7 +147,7 @@ class utility() :
         content = utility.viewFile(fileName)
         if funcName == UI.logViewer :
             if content == 'null' : messagebox.showinfo(title = "Logs", message = "No logs to display.")
-            else : logViewer(content)
+            else : UI.logViewer(content)
         else :
             if content == 'null' : messagebox.showerror(title = "Content Failure", message = "Content not found. Please ensure the program has all the necessary files.")
             else : funcName(content)
@@ -302,7 +302,7 @@ class UI() :
         button1 = Button(frame2, text = "Close", command = changelogWin.destroy)
         button1.pack(side = TOP)
 
-    def logViewer(self, content) :
+    def logViewer(content) :
         logViewer = Toplevel()
         logViewer.title("Logs")
         frame1 = Frame(logViewer)
