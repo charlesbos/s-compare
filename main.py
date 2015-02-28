@@ -181,7 +181,7 @@ class utility() :
 class UI() :
     # Main window
     def __init__(self, parent) :
-        label = Label(parent, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
+        label = Label(parent, text = 'This program compares prices for a number of common groceries. Please select a product category.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
         label.grid(row = 1, column = 1, columnspan = 3)
         button1 = Button(parent, text = "Bread", command = self.bread, height = 5, width = 10).grid(row = 2, column = 1)
         button2 = Button(parent, text = "Dairy", command = self.dairy, height = 5, width = 10).grid(row = 2, column = 2)
