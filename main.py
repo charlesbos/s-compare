@@ -10,6 +10,7 @@ from waitrose import waitroseData
 from morrisons import morriData
 from tkinter import *
 from tkinter import messagebox
+from tkinter import filedialog
 from threading import Thread
 from queue import Queue
 import os
@@ -178,6 +179,15 @@ class utility() :
         for x in errors : print(x, file = file)
         file.close()
 
+    def saveFile(content) :
+        '''
+        Use a Tkinter file dialog to allow the user to save content to a file.
+        This is used for the results window in the UI.
+        '''
+        file = filedialog.asksaveasfile(mode = 'w', defaultextension = '.txt', initialfile = "results")
+        print(content, file = file)
+        file.close()
+
 class UI() :
     # Main window
     def __init__(self, parent) :
@@ -247,7 +257,9 @@ class UI() :
         text.configure(state = DISABLED)
         text.pack(fill = BOTH, expand = YES)
         button1 = Button(frame2, text = "Close", command = results.destroy)
-        button1.pack(side = TOP)
+        button1.pack(side = RIGHT)
+        button2 = Button(frame2, text = "Save", command = lambda : utility.saveFile(prices))
+        button2.pack(side = LEFT)
 
     def about(self, content) :
         about = Toplevel()
