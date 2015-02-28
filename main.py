@@ -211,7 +211,7 @@ class UI() :
         bread.title("Compare - Bread")
         button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, wraplength = 80, command = lambda : data.manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
         button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : data.manager('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
-        button3 = Button(bread, text = "Baguette", height = 5, width = 12, command = lambda : manager('BAGUETTES.txt', '/100g', 'baguettes-part-baked-bread/', 2, bread)).grid(row = 1, column = 3)
+        button3 = Button(bread, text = "Baguette", height = 5, width = 12, command = lambda : data.manager('BAGUETTES.txt', '/100g', 'baguettes-part-baked-bread/', 2, bread)).grid(row = 1, column = 3)
         
     def dairy(self) :
         dairy = Toplevel()
@@ -225,7 +225,7 @@ class UI() :
         crisps_and_snacks.title("Compare - Crisps & Snacks")
         button1 = Button(crisps_and_snacks, text = "Crisps", height = 5, width = 12, command = lambda : data.manager('CRISPS.txt', '/100g', 'crisps/', 4, crisps_and_snacks)).grid(row = 1, column = 1)
         button2 = Button(crisps_and_snacks, text = "Cereal Bars", height = 5, width = 12, command = lambda : data.manager('CEREAL_BARS.txt', '/100g', 'breakfast-cereal-bars-breakfast-biscuits/', 3, crisps_and_snacks)).grid(row = 1, column = 2)
-        button3 = Button(crisps_and_snacks, text = "Popcorn", height = 5, width = 12, command = lambda : manager('POPCORN.txt', '/100g', 'popcorn/', 5, crisps_and_snacks)).grid(row = 1, column = 3)
+        button3 = Button(crisps_and_snacks, text = "Popcorn", height = 5, width = 12, command = lambda : data.manager('POPCORN.txt', '/100g', 'popcorn/', 5, crisps_and_snacks)).grid(row = 1, column = 3)
 
     def drinks(self) :
         drinks = Toplevel()
@@ -233,23 +233,23 @@ class UI() :
         button1 = Button(drinks, text = "Still Water", height = 5, width = 12, command = lambda : data.manager('STILL_WATER.txt', '/100ml', 'still-water/', 4, drinks)).grid(row = 1, column = 1)
         button2 = Button(drinks, text = "Sparkling Water", height = 5, width = 12, command = lambda : data.manager('SPARKLING_WATER.txt', '/100ml', 'sparkling-water', 2, drinks)).grid(row = 1, column = 2)
         button3 = Button(drinks, text = "Everyday Tea", height = 5, width = 12, command = lambda : data.manager('EVERYDAY_TEA.txt', '/100g', 'everyday-tea/', 3, drinks)).grid(row = 1, column = 3)
-        button4 = Button(drinks, text = "Cola", height = 5, width = 12, command = lambda : manager('COLA.txt', '/100ml', 'cola/', 4, drinks)).grid(row = 2, column = 1)
-        button5 = Button(drinks, text = "Lager", height = 5, width = 12, command = lambda : manager('LAGER.txt', '/100ml', 'lager/', 6, drinks)).grid(row = 2, column = 2)
-        button6 = Button(drinks, text = "Energy Drink", height = 5, width = 12, command = lambda : manager('ENERGY_DRINK.txt', '/100ml', 'energy-drinks/', 3, drinks)).grid(row = 2, column = 3)
+        button4 = Button(drinks, text = "Cola", height = 5, width = 12, command = lambda : data.manager('COLA.txt', '/100ml', 'cola/', 4, drinks)).grid(row = 2, column = 1)
+        button5 = Button(drinks, text = "Lager", height = 5, width = 12, command = lambda : data.manager('LAGER.txt', '/100ml', 'lager/', 6, drinks)).grid(row = 2, column = 2)
+        button6 = Button(drinks, text = "Energy Drink", height = 5, width = 12, command = lambda : data.manager('ENERGY_DRINK.txt', '/100ml', 'energy-drinks/', 3, drinks)).grid(row = 2, column = 3)
 
     def desserts(self) :
         desserts = Toplevel()
         desserts.title("Compare - Desserts")
         button1 = Button(desserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : data.manager('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, desserts)).grid(row = 1, column = 1)
-        button2 = Button(desserts, text = "Ice Cream Cones", height = 5, width = 12, command = lambda : manager('ICE_CREAM_CONES_AND_STICKS.txt', '/100ml', 'lollies-bars-cones/', 4, desserts)).grid(row = 1, column = 2)
-        button3 = Button(desserts, text = "Cakes and Tarts", height = 5, width = 12, command = lambda : manager('CAKES_AND_TARTS.txt', '/100g', 'frozen-cold-desserts/', 3, desserts)).grid(row = 1, column = 3)
+        button2 = Button(desserts, text = "Ice Cream Cones", height = 5, width = 12, command = lambda : data.manager('ICE_CREAM_CONES_AND_STICKS.txt', '/100ml', 'lollies-bars-cones/', 4, desserts)).grid(row = 1, column = 2)
+        button3 = Button(desserts, text = "Cakes and Tarts", height = 5, width = 12, command = lambda : data.manager('CAKES_AND_TARTS.txt', '/100g', 'frozen-cold-desserts/', 3, desserts)).grid(row = 1, column = 3)
 
     def fruit_and_veg(self) :
         fruit_and_veg = Toplevel()
         fruit_and_veg.title("Compare - Fruit & Veg")
-        button1 = Button(fruit_and_veg, text = "Grapes", height = 5, width = 12, command = lambda : manager('GRAPES.txt', '/100g', 'bananas-grapes/', 4, fruit_and_veg)).grid(row = 1, column = 1)
-        button2 = Button(fruit_and_veg, text = "Apples", height = 5, width = 12, command = lambda : manager('APPLES.txt', '/each', 'apples-pears-rhubarb/', 4, fruit_and_veg)).grid(row = 1, column = 2)
-        button3 = Button(fruit_and_veg, text = "Salads", height = 5, width = 12, command = lambda : manager('SALADS.txt', '/100g', 'prepared-salad-herbs/', 4, fruit_and_veg)).grid(row = 1, column = 3)
+        button1 = Button(fruit_and_veg, text = "Grapes", height = 5, width = 12, command = lambda : data.manager('GRAPES.txt', '/100g', 'bananas-grapes/', 4, fruit_and_veg)).grid(row = 1, column = 1)
+        button2 = Button(fruit_and_veg, text = "Apples", height = 5, width = 12, command = lambda : data.manager('APPLES.txt', '/each', 'apples-pears-rhubarb/', 4, fruit_and_veg)).grid(row = 1, column = 2)
+        button3 = Button(fruit_and_veg, text = "Salads", height = 5, width = 12, command = lambda : data.manager('SALADS.txt', '/100g', 'prepared-salad-herbs/', 4, fruit_and_veg)).grid(row = 1, column = 3)
         
     # Other windows
     def results(prices) :
