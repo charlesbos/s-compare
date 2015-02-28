@@ -74,8 +74,8 @@ class data() :
         This fuction will call the shop module function for each url in a file and then
         return a tuple containing the results.
         '''
-        file = open(filePath, 'r')
-        urls = str(file.read()).split('\n')
+        urls = utility.viewFile(filePath)
+        urls = urls.split('\n')
         urls = [x for x in urls if x != '']
 
         errors = []
