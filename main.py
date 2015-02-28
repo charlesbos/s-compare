@@ -174,7 +174,7 @@ class utility() :
                 pass
 
     def writeErrors(errors) :
-        file = open('ERROR_LOG.txt', 'w')
+        file = open('ERROR_LOG.txt', 'a')
         for x in errors : print(x, file = file)
         file.close()
 
