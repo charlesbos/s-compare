@@ -181,22 +181,19 @@ class utility() :
 class UI() :
     # Main window
     def __init__(self, parent) :
-        frame1 = Frame(parent).grid()
-        frame2 = Frame(parent).grid()
-        frame3 = Frame(parent).grid()
-        label = Label(frame1, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
+        label = Label(parent, text = 'This program compares prices for a number of common groceries. Please select a product category below.', wraplength = 345, pady = 5, padx = 5, relief = SUNKEN)
         label.grid(row = 1, column = 1, columnspan = 3)
-        button1 = Button(frame2, text = "Bread", command = self.bread, height = 5, width = 10).grid(row = 2, column = 1)
-        button2 = Button(frame2, text = "Dairy", command = self.dairy, height = 5, width = 10).grid(row = 2, column = 2)
-        button3 = Button(frame2, text = "Crisps and Snacks", command = self.crisps_and_snacks, height = 5, width = 10, wraplength = 80).grid(row = 2, column = 3)
-        button4 = Button(frame2, text = "Drinks", command = self.drinks, height = 5, width = 10).grid(row = 3, column = 1)
-        button5 = Button(frame2, text = "Desserts", command = self.desserts, height = 5, width = 10).grid(row = 3, column = 2)
-        button6 = Button(frame2, text = "Fruit & Veg", command = self.fruit_and_veg, height = 5, width = 10, state = DISABLED).grid(row = 3, column = 3)
-        button7 = Button(frame3, text = "Quit", command = parent.destroy).grid(row = 4, column = 3, pady = 10)
-        button8 = Button(frame3, text = "Help", state = DISABLED).grid(row = 4, column = 1, pady = 10)
-        button9 = Button(frame3, text = "About", command = lambda : utility.contentFetch(self.about, 'ABOUT.txt')).grid(row = 4, column = 2, pady = 10)
-        button10 = Button(frame3, text = "View Logs", command = lambda : utility.contentFetch(UI.logViewer, 'ERROR_LOG.txt')).grid(row = 5, column = 1, pady = 5)
-        button11 = Button(frame3, text = "Clear Logs", command = utility.clearLogs).grid(row = 5, column = 2, pady = 5)
+        button1 = Button(parent, text = "Bread", command = self.bread, height = 5, width = 10).grid(row = 2, column = 1)
+        button2 = Button(parent, text = "Dairy", command = self.dairy, height = 5, width = 10).grid(row = 2, column = 2)
+        button3 = Button(parent, text = "Crisps and Snacks", command = self.crisps_and_snacks, height = 5, width = 10, wraplength = 80).grid(row = 2, column = 3)
+        button4 = Button(parent, text = "Drinks", command = self.drinks, height = 5, width = 10).grid(row = 3, column = 1)
+        button5 = Button(parent, text = "Desserts", command = self.desserts, height = 5, width = 10).grid(row = 3, column = 2)
+        button6 = Button(parent, text = "Fruit & Veg", command = self.fruit_and_veg, height = 5, width = 10, state = DISABLED).grid(row = 3, column = 3)
+        button7 = Button(parent, text = "Quit", command = parent.destroy).grid(row = 4, column = 3, pady = 10)
+        button8 = Button(parent, text = "Help", state = DISABLED).grid(row = 4, column = 1, pady = 10)
+        button9 = Button(parent, text = "About", command = lambda : utility.contentFetch(self.about, 'ABOUT.txt')).grid(row = 4, column = 2, pady = 10)
+        button10 = Button(parent, text = "View Logs", command = lambda : utility.contentFetch(UI.logViewer, 'ERROR_LOG.txt')).grid(row = 5, column = 1, pady = 5)
+        button11 = Button(parent, text = "Clear Logs", command = utility.clearLogs).grid(row = 5, column = 2, pady = 5)
 
     # Product category windows
     def bread(self) :
