@@ -267,7 +267,7 @@ class UI() :
         text.pack(fill = BOTH, expand = YES)
         button1 = Button(frame2, text = "Close", command = results.destroy)
         button1.pack(side = RIGHT)
-        button2 = Button(frame2, text = "Save", command = lambda : utility.saveFile(prices))
+        button2 = Button(frame2, text = "Save to file", command = lambda : utility.saveFile(prices))
         button2.pack(side = LEFT)
 
     def about(self, content) :
