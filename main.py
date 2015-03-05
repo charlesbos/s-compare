@@ -185,8 +185,7 @@ class utility() :
         This is used for the results window in the UI.
         '''
         file = filedialog.asksaveasfile(mode = 'w', defaultextension = '.txt', initialfile = "results")
-        print(content, file = file)
-        file.close()
+        if file != None : print(content, file = file)
 
 class UI() :
     # Main window
