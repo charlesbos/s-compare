@@ -15,6 +15,7 @@ from threading import Thread
 from queue import Queue
 import os
 import tkinter.ttk as ttk
+import webbrowser
 
 class data() :
     def manager(fileName, unit, titleTagEnd, scroll, windowName) :
@@ -199,7 +200,7 @@ class UI() :
         button5 = Button(parent, text = "Desserts", command = self.desserts, height = 5, width = 10).grid(row = 3, column = 2)
         button6 = Button(parent, text = "Fruit & Veg", command = self.fruit_and_veg, height = 5, width = 10).grid(row = 3, column = 3)
         button7 = Button(parent, text = "Quit", command = parent.destroy).grid(row = 4, column = 3, pady = 10)
-        button8 = Button(parent, text = "Help", state = DISABLED).grid(row = 4, column = 1, pady = 10)
+        button8 = Button(parent, text = "Homepage", command = lambda : webbrowser.open("https://github.com/charlesbos/s-compare")).grid(row = 4, column = 1, pady = 10)
         button9 = Button(parent, text = "About", command = lambda : utility.contentFetch(self.about, 'ABOUT.txt')).grid(row = 4, column = 2, pady = 10)
         button10 = Button(parent, text = "View Logs", command = lambda : utility.contentFetch(UI.logViewer, 'ERROR_LOG.txt')).grid(row = 5, column = 1, pady = 5)
         button11 = Button(parent, text = "Clear Logs", command = utility.clearLogs).grid(row = 5, column = 2, pady = 5)
