@@ -117,8 +117,9 @@ class data() :
         return [list(x) for x in prices if x[1] == prices[0][1]]
 
     def createTable(prices, tableHeader) :
-        prices = data.sortPrices(prices)   
-        priceTable = str(tableHeader).center(130, ' ') + '\n' + ('-' * 130) + '\n'
+        prices = data.sortPrices(prices)
+        colHeaders = '{:96s}'.format("  Item title") + "Price per unit".ljust(15, ' ') + (' ' * 9) + "Retailer"
+        priceTable = str(tableHeader).center(130, ' ') + '\n' + colHeaders + '\n' + ('-' * 130) + '\n'
         
         for x in range(len(prices)) :
             temp = '{:85s}'.format(prices[x][0]), prices[x][1].rjust(15, ' '), ' ' * 6, prices[x][2]
