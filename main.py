@@ -237,6 +237,7 @@ class UI() :
         button4 = Button(drinks, text = "Cola", height = 5, width = 12, command = lambda : data.manager('COLA.txt', '/100ml', 'cola/', 4, drinks)).grid(row = 2, column = 1)
         button5 = Button(drinks, text = "Lager", height = 5, width = 12, command = lambda : data.manager('LAGER.txt', '/100ml', 'lager/', 6, drinks)).grid(row = 2, column = 2)
         button6 = Button(drinks, text = "Energy Drink", height = 5, width = 12, command = lambda : data.manager('ENERGY_DRINK.txt', '/100ml', 'energy-drinks/', 3, drinks)).grid(row = 2, column = 3)
+        button6 = Button(drinks, text = "Instant Coffee", height = 5, width = 12, command = lambda : data.manager('INSTANT_COFFEE.txt', '/100g', 'instant-coffee/', 5, drinks)).grid(row = 3, column = 1)
 
     def desserts(self) :
         desserts = Toplevel()
