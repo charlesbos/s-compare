@@ -62,8 +62,8 @@ class data() :
                 cheapest += data.lowestPrices(x[1])
                 allPrices += x[1]
 
-        allPricesFormatted = data.createTable(allPrices, "== Prices from all shops ==")
-        cheapestFormatted = data.createTable(cheapest, "== Lowest prices from each shop ==")
+        allPricesFormatted = data.createTable(allPrices, "Prices from all shops")
+        cheapestFormatted = data.createTable(cheapest, "Lowest prices from each shop")
         priceTable = cheapestFormatted + '\n' + allPricesFormatted
 
         if errors != [] : utility.writeErrors(errors)
@@ -119,7 +119,7 @@ class data() :
     def createTable(prices, tableHeader) :
         prices = data.sortPrices(prices)
         colHeaders = '{:96s}'.format("  Item title") + "Price per unit".ljust(15, ' ') + (' ' * 9) + "Retailer"
-        priceTable = str(tableHeader).center(130, ' ') + '\n' + colHeaders + '\n' + ('-' * 130) + '\n'
+        priceTable = str(tableHeader).center(130, ' ') + '\n' + ('=' * len(tableHeader)).center(130, ' ') + '\n' + colHeaders + '\n' + ('-' * 130) + '\n'
         
         for x in range(len(prices)) :
             temp = '{:85s}'.format(prices[x][0]), prices[x][1].rjust(15, ' '), ' ' * 6, prices[x][2]
