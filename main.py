@@ -213,6 +213,7 @@ class UI() :
         button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, wraplength = 80, command = lambda : data.manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
         button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : data.manager('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
         button3 = Button(bread, text = "Baguette", height = 5, width = 12, command = lambda : data.manager('BAGUETTES.txt', '/100g', 'baguettes-part-baked-bread/', 2, bread)).grid(row = 1, column = 3)
+        button3 = Button(bread, text = "Rolls", height = 5, width = 12, command = lambda : data.manager('ROLLS.txt', '/each', 'rolls/', 1, bread)).grid(row = 2, column = 1)
         
     def dairy(self) :
         dairy = Toplevel()
