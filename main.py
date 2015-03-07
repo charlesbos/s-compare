@@ -242,7 +242,7 @@ class UI() :
     def desserts(self) :
         desserts = Toplevel()
         desserts.title("Compare - Desserts")
-        button1 = Button(desserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : data.manager('ICE_CREAM_TUBS.txt', '/100g', 'ice-cream-tubs/', 6, desserts)).grid(row = 1, column = 1)
+        button1 = Button(desserts, text = "Ice Cream Tubs", height = 5, width = 12, command = lambda : data.manager('ICE_CREAM_TUBS.txt', '/100ml', 'ice-cream-tubs/', 6, desserts)).grid(row = 1, column = 1)
         button2 = Button(desserts, text = "Ice Cream Cones", height = 5, width = 12, command = lambda : data.manager('ICE_CREAM_CONES_AND_STICKS.txt', '/100ml', 'lollies-bars-cones/', 4, desserts)).grid(row = 1, column = 2)
         button3 = Button(desserts, text = "Cakes and Tarts", height = 5, width = 12, command = lambda : data.manager('CAKES_AND_TARTS.txt', '/100g', 'frozen-cold-desserts/', 3, desserts)).grid(row = 1, column = 3)
 
