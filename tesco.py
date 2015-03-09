@@ -1,8 +1,29 @@
 """
-tesco.py
-
-This modules extracts prices and item titles from a valid Tesco store page
+This program extracts prices and item titles from a valid Tesco store page
 url and then returns that data.
+
+Copyright (C) 2015 Team S
+
+Team S comprises of :
+* Charles Bos
+* Daniel Bedingfield
+* Joshua Coyle
+* Oyinpreye Onita
+* Sebastian Jakobsen
+* Thomas Harris
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 from fetcher import simpleFetch
 from time import strftime
