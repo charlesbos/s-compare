@@ -207,3 +207,9 @@ CHANGES: Fixed some Morrisons extraction errors. Add support for parallel operat
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-02-25
+
+VERSION: 6.4.0
+CHANGES: Fix minor error log issues. Add ability to save results to a file. Improve results table formatting. Fix errors for empty pages (Tesco). Add link to program homepage. Add more products.
+CONTRIBUTORS: Charles Bos, Daniel Bedingfield
+RELEASED BY: Charles Bos
+DATE: 2015-03-09
