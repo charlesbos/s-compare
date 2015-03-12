@@ -234,7 +234,7 @@ class UI() :
         button1 = Button(bread, text = "Wholemeal Bread", height = 5, width = 12, wraplength = 80, command = lambda : data.manager('BROWN_BREAD.txt', '/100g', 'wholemeal-brown-bread/', 2, bread)).grid(row = 1, column = 1)
         button2 = Button(bread, text = "White Bread", height = 5, width = 12, command = lambda : data.manager('WHITE_BREAD.txt', "/100g", 'white-bread/', 2, bread)).grid(row = 1, column = 2)
         button3 = Button(bread, text = "Baguette", height = 5, width = 12, command = lambda : data.manager('BAGUETTES.txt', '/100g', 'baguettes-part-baked-bread/', 2, bread)).grid(row = 1, column = 3)
-        button3 = Button(bread, text = "Rolls", height = 5, width = 12, command = lambda : data.manager('ROLLS.txt', '/each', 'rolls/', 1, bread)).grid(row = 2, column = 1)
+        button4 = Button(bread, text = "Rolls", height = 5, width = 12, command = lambda : data.manager('ROLLS.txt', '/each', 'rolls/', 1, bread)).grid(row = 2, column = 1)
         
     def dairy(self) :
         dairy = Toplevel()
@@ -259,7 +259,7 @@ class UI() :
         button4 = Button(drinks, text = "Cola", height = 5, width = 12, command = lambda : data.manager('COLA.txt', '/100ml', 'cola/', 4, drinks)).grid(row = 2, column = 1)
         button5 = Button(drinks, text = "Lager", height = 5, width = 12, command = lambda : data.manager('LAGER.txt', '/100ml', 'lager/', 6, drinks)).grid(row = 2, column = 2)
         button6 = Button(drinks, text = "Energy Drink", height = 5, width = 12, command = lambda : data.manager('ENERGY_DRINK.txt', '/100ml', 'energy-drinks/', 3, drinks)).grid(row = 2, column = 3)
-        button6 = Button(drinks, text = "Instant Coffee", height = 5, width = 12, command = lambda : data.manager('INSTANT_COFFEE.txt', '/100g', 'instant-coffee/', 5, drinks)).grid(row = 3, column = 1)
+        button7 = Button(drinks, text = "Instant Coffee", height = 5, width = 12, command = lambda : data.manager('INSTANT_COFFEE.txt', '/100g', 'instant-coffee/', 5, drinks)).grid(row = 3, column = 1)
 
     def desserts(self) :
         desserts = Toplevel()
