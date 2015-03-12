@@ -213,3 +213,9 @@ CHANGES: Fix minor error log issues. Add ability to save results to a file. Impr
 CONTRIBUTORS: Charles Bos, Daniel Bedingfield
 RELEASED BY: Charles Bos
 DATE: 2015-03-09
+
+VERSION: 6.4.1
+CHANGES: Very minor fix to remove a couple of duplicate variables.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-03-12
