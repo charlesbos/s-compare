@@ -51,6 +51,7 @@ def waitroseFetch(url, scroll) :
         browser = webdriver.PhantomJS()
         browser.get(url)
 
+        if scroll == 1 : scroll += 1
         for x in range(scroll) :
             htmlString = BeautifulSoup(browser.page_source)
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
