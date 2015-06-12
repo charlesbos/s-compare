@@ -68,9 +68,11 @@ def waitroseData(url, titletag, unit, scroll) :
                         priceEnd = htmlString.find(' per', priceStart)
                         priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
             except ValueError :
-                errorTime = strftime('%H:%M:%S %Y-%m-%d')
-                errorMessage = "WaitroseError: prices could not successfully be converted to a standard unit"
-                return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
+                if unit == '/each' : pass
+                else :
+                    errorTime = strftime('%H:%M:%S %Y-%m-%d')
+                    errorMessage = "WaitroseError: prices could not successfully be converted to a standard unit"
+                    return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
             if unit == '/each' :
                 parityCheck = htmlString[priceEnd + 2:htmlString.find(')', priceEnd)]
                 if parityCheck == unit[1:] : priceList += [priceExtract]
