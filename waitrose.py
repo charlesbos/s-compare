@@ -51,32 +51,39 @@ def waitroseData(url, titletag, unit, scroll) :
         priceEnd = htmlString.find('p ', priceStart)
         
         while 0 <= priceStart <= len(htmlString) :
-            litreCheck = htmlString.find('per litre', priceStart, priceStart + 100)
-            kiloCheck = htmlString.find('per kg', priceStart, priceStart + 100)
-            try :
-                if (litreCheck == -1) and (kiloCheck == -1) :
-                    try :
-                        priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 100), 2)) + unit
-                    except ValueError :
-                        priceEnd = htmlString.find(' per', priceStart)
-                        priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
-                else :
-                    try :
-                        priceEnd = htmlString.find('p ', priceStart)
-                        priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 1000), 2)) + unit
-                    except ValueError :
-                        priceEnd = htmlString.find(' per', priceStart)
-                        priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
-            except ValueError :
-                if unit == '/each' : pass
-                else :
+            if unit != '/each' :
+                litreCheck = htmlString.find('per litre', priceStart, priceStart + 100)
+                kiloCheck = htmlString.find('per kg', priceStart, priceStart + 100)
+                try :
+                    if (litreCheck == -1) and (kiloCheck == -1) :
+                        try :
+                            priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 100), 2)) + unit
+                        except ValueError :
+                            priceEnd = htmlString.find(' per', priceStart)
+                            priceExtract = '£' + str('{:.2f}'.format(float(htmlString[priceStart + 26:priceEnd][1:]), 2)) + unit
+                    else :
+                        try :
+                            priceEnd = htmlString.find('p ', priceStart)
+                            priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd]) / 1000), 2)) + unit
+                        except ValueError :
+                            priceEnd = htmlString.find(' per', priceStart)
+                            priceExtract = '£' + str('{:.2f}'.format((float(htmlString[priceStart + 26:priceEnd][1:]) / 10), 2)) + unit
+                    priceList += [priceExtract]        
+                except ValueError :
                     errorTime = strftime('%H:%M:%S %Y-%m-%d')
                     errorMessage = "WaitroseError: prices could not successfully be converted to a standard unit"
                     return errorTime + '\n' + errorMessage + '\n' + url + '\n' + '-' * 80
-            if unit == '/each' :
+            else :
+                if htmlString[priceStart + 26] == '£' : priceEnd = htmlString.find(' each', priceStart)
+                priceExtract = htmlString[priceStart + 26:priceEnd]
                 parityCheck = htmlString[priceEnd + 2:htmlString.find(')', priceEnd)]
-                if parityCheck == unit[1:] : priceList += [priceExtract]
-            else : priceList += [priceExtract]
+                try :
+                    if priceExtract[0] == '£' : priceExtract = '£' + '{:.2f}'.format((float(priceExtract[1:]) / 100)) + unit
+                    else : priceExtract = '£' + '{:.2f}'.format((float(priceExtract) / 100)) + unit  
+                    sanityCheck = True
+                except ValueError :
+                    sanityCheck = False
+                if (parityCheck == unit[1:]) and (sanityCheck == True) : priceList += [priceExtract]
             priceStart = htmlString.find('<span class="fine-print">(', priceEnd)
             priceEnd = htmlString.find('p ', priceStart)
 
@@ -97,7 +104,7 @@ def waitroseData(url, titletag, unit, scroll) :
                 if (priceExistCheck == -1) and (parityCheck == unit[1:]) : titleList += [titleExtract]
             elif priceExistCheck == -1 : titleList += [titleExtract]
             titleStart = htmlString.find('<div alt="', titleEnd)
-            titleEnd = htmlString.find('" ', titleStart)
+            titleEnd = htmlString.find('" ', titleStart)   
 
         titleList = [x for x in titleList if x != '']
 
