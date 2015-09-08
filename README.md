@@ -1,6 +1,8 @@
 S-Compare
 =============
 
+NOTE: THIS IS CURRENTLY UNMAINTAINED. EXPECT BUGS.
+
 Python Web Scraping Project - Team S @ University of Essex
 
 S-Compare is a program that collects grocery prices from a number
