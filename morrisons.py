@@ -47,19 +47,19 @@ def morriData(url, titletag, unit, scroll) :
         priceEnd = htmlString.find('</p>', priceStart)
 
         while 0 <= priceStart <= len(htmlString) :
-            priceExtract = htmlString[priceStart + 26:priceEnd].partition('\n')[0].partition(': ')[-1]
+            priceExtract = htmlString[priceStart + 26:priceEnd]
             if len(priceExtract) > 0 :
                 priceExist = htmlString.find('Out of stock', priceEnd, priceEnd + 500)
-                priceMeasureEnd = htmlString.find(':', priceStart)
-                priceMeasure = htmlString[priceStart + 26:priceMeasureEnd]
+                if priceExtract.find('p ') != -1 : priceMeasureStart = priceExtract.find('p ')
+                elif priceExtract.find(' p') != -1 : priceMeasureStart = priceExtract.find(' p')
+                priceMeasure = priceExtract[priceMeasureStart:priceEnd]
                 if priceExtract[0] == '£' : priceExtract = priceExtract[1:]
-                if priceExtract[-1] == 'p' :
-                    priceExtract = priceExtract[:-1]
-                    priceExtract = '{:.2f}'.format(float(priceExtract) / 100)
-                if (priceMeasure == "Price per litre") or (priceMeasure == "Price per kg") :
-                    priceExtract = '{:.2f}'.format(float(priceExtract) / 10)
-                if priceMeasure == "Price per 75cl" :
-                    priceExtract = '{:.2f}'.format((float(priceExtract) / 30) * 4)
+                if priceMeasure.find('p ') != -1 :
+                    priceExtract = '{:.2f}'.format(float(priceExtract[:priceMeasureStart]) / 100)
+                if (priceMeasure.find("litre") != -1) or (priceMeasure.find("kg") != -1) :
+                    priceExtract = '{:.2f}'.format(float(priceExtract[:priceMeasureStart]) / 10)
+                if priceMeasure.find("75cl") != -1 :
+                    priceExtract = '{:.2f}'.format((float(priceExtract[:priceMeasureStart]) / 30) * 4)
                 priceExtract = '£' + priceExtract + unit
                 if priceExist == -1 : priceList += [priceExtract]
             priceStart = htmlString.find('<p class="pricePerWeight">', priceEnd)
