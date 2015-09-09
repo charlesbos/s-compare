@@ -219,3 +219,9 @@ CHANGES: Very minor fix to remove a couple of duplicate variables.
 CONTRIBUTORS: Charles Bos
 RELEASED BY: Charles Bos
 DATE: 2015-03-12
+
+VERSION: 6.4.2
+CHANGES: Add (partially tested) fixes for Morrisons and Waitrose price handling. Fix for new version of BeautifulSoup4. Add notice that program is now unmaintained.
+CONTRIBUTORS: Charles Bos
+RELEASED BY: Charles Bos
+DATE: 2015-09-09
