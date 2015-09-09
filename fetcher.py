@@ -38,7 +38,7 @@ def simpleFetch(url) :
     '''
     try :
         response = requests.get(url)
-        return str(BeautifulSoup(response.content))
+        return str(BeautifulSoup(response.content, "html.parser"))
     except :
         return 'null'
 
@@ -53,7 +53,7 @@ def waitroseFetch(url, scroll) :
 
         if scroll == 1 : scroll += 1
         for x in range(scroll) :
-            htmlString = BeautifulSoup(browser.page_source)
+            htmlString = BeautifulSoup(browser.page_source, "html.parser")
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             sleep(0.7)
 
